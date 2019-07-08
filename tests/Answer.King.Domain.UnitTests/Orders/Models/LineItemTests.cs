@@ -58,18 +58,20 @@ namespace Answer.King.Domain.UnitTests.Orders.Models
             Assert.Throws<LineItemException>(() => lineItem.AddQuantity(quantity));
         }
 
-        [Fact]
-        public void RemoveQuantity_ValidQuantity_DecrementsByCorrectAmount()
+        [Theory]
+        [InlineData(5, 3)]
+        [InlineData(10, 9)]
+        [InlineData(3, 3)]
+        public void RemoveQuantity_ValidQuantity_DecrementsByCorrectAmount(int initialQuantity, int quantityToRemove)
         {
             // Arrange
             var product = this.GetProduct();
             var lineItem = new LineItem(product);
-            var quantityToAdd = 5;
-            var quantityToRemove = 3;
-            var expected = quantityToAdd - quantityToRemove;
+
+            var expected = initialQuantity - quantityToRemove;
 
             // Act
-            lineItem.AddQuantity(quantityToAdd);
+            lineItem.AddQuantity(initialQuantity);
             lineItem.RemoveQuantity(quantityToRemove);
 
             // Assert

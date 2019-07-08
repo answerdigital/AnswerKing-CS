@@ -23,6 +23,7 @@ namespace Answer.King.Domain.Orders.Models
             {
                 throw new LineItemException("Cannot add less than 1 to the quantity.");
             }
+
             this.Quantity += quantity;
         }
 

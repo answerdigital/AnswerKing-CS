@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,4 +22,5 @@
     <ProjectReference Include="..\Answer.King.Test.Common\Answer.King.Test.Common.csproj" />
     <ProjectReference Include="..\..\src\Answer.King.Domain\Answer.King.Domain.csproj" />
   </ItemGroup>
+
 </Project>

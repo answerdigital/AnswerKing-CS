@@ -21,23 +21,22 @@ namespace Answer.King.Domain.UnitTests.Orders
             Assert.Equal(totalStreamNamesTested, totalConstants);
         }
 
+        #region Constructor
+
         [Fact]
-        public void CompleteOrder_OrderStatusCancelled_ThrowsOrderLifecycleException()
+        public void Constructor_NoArguments_CreatesNewEmptyOrder()
         {
             var order = new Order();
-            order.CancelOrder();
-            
-            Assert.Throws<OrderLifeCycleException>(() => order.CompleteOrder());
+            var now = DateTime.UtcNow;
+
+            Assert.NotEqual(Guid.Empty, order.Id);
+            Assert.NotEqual(DateTime.MinValue, order.CreatedOn);
+            Assert.InRange(order.CreatedOn, now.AddSeconds(-1), now);
+            Assert.Equal(order.CreatedOn, order.LastUpdated);
+            Assert.Equal(OrderStatus.Created, order.OrderStatus);
         }
-        
-        [Fact]
-        public void CancelOrder_OrderStatusCompleted_ThrowsOrderLifecycleException()
-        {
-            var order = new Order();
-            order.CompleteOrder();
-            
-            Assert.Throws<OrderLifeCycleException>(() => order.CancelOrder());
-        }
+
+        #endregion
 
         #region AddLineItem
 
@@ -149,6 +148,36 @@ namespace Answer.King.Domain.UnitTests.Orders
             Assert.Equal(lineItem.Product.Price, price);
         }
 
+        [Fact]
+        public void AddLineItem_ValidArgumentsWithExistingLineItem_UpdatesExistingLineItemQuantity()
+        {
+            // Arrange
+            var order = new Order();
+            var id = Guid.NewGuid();
+            var name = "name";
+            var description = "description";
+            var category = new Category(Guid.NewGuid(), "name", "description");
+            var price = 1.24;
+            var quantity = 2;
+
+            var expectedQuantity = 10;
+
+            // Act
+            order.AddLineItem(id, name, description, price, category, quantity);
+            order.AddLineItem(id, name, description, price, category, 8);
+
+            var lineItem = order.LineItems.FirstOrDefault();
+
+            // Assert
+            Assert.NotNull(lineItem);
+            Assert.NotNull(lineItem.Product);
+            Assert.Equal(lineItem.Product.Name, name);
+            Assert.Equal(lineItem.Product.Description, description);
+            Assert.Equal(lineItem.Product.Category, category);
+            Assert.Equal(lineItem.Product.Price, price);
+            Assert.Equal(lineItem.Quantity, expectedQuantity);
+        }
+
         #endregion AddLineItem
 
         #region RemoveLineItem
@@ -255,6 +284,58 @@ namespace Answer.King.Domain.UnitTests.Orders
         }
 
         #endregion RemoveLineItem
+
+        #region CompleteOrder
+
+        [Fact]
+        public void CompleteOrder_OrderStatusCancelled_ThrowsOrderLifecycleException()
+        {
+            var order = new Order();
+            order.CancelOrder();
+
+            Assert.Throws<OrderLifeCycleException>(() => order.CompleteOrder());
+        }
+
+        #endregion
+
+        #region CancelOrder
+
+        [Fact]
+        public void CancelOrder_OrderStatusCompleted_ThrowsOrderLifecycleException()
+        {
+            var order = new Order();
+            order.CompleteOrder();
+
+            Assert.Throws<OrderLifeCycleException>(() => order.CancelOrder());
+        }
+
+        #endregion
+
+        #region OrderTotal
+
+        [Fact]
+        public void OrderTotal_WhenOrderHasLineItems_ReturnsSumOfOrdersLineItemPrice()
+        {
+            // Arrange
+            var order = new Order();
+            var category = new Category(Guid.NewGuid(), "name", "description");
+
+            var itemPrice1 = 1.50;
+            var itemPrice2 = 4.75;
+
+            var itemQuantity1 = 2;
+            var itemQuantity2 = 6;
+
+            var expectedTotal = itemPrice1 * itemQuantity1 + itemPrice2 * itemQuantity2;
+
+            // Act
+            order.AddLineItem(Guid.NewGuid(), "name1", "description1", 1.50, category, 2);
+            order.AddLineItem(Guid.NewGuid(), "name2", "description2", 4.75, category, 6);
+
+            Assert.Equal(expectedTotal, order.OrderTotal);
+        }
+
+        #endregion
 
         #region Helpers
 
