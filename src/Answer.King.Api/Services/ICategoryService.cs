@@ -1,5 +1,5 @@
 ﻿using Answer.King.Domain.Inventory;
-using RequestCategory = Answer.King.Api.RequestModels.Category;
+using RequestCategory = Answer.King.Api.RequestModels.CategoryDto;
 
 namespace Answer.King.Api.Services;
 

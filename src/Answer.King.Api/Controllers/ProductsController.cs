@@ -62,7 +62,7 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Product), 201)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
-    public async Task<IActionResult> Post([FromBody] RequestModels.Product createProduct)
+    public async Task<IActionResult> Post([FromBody] RequestModels.ProductDto createProduct)
     {
         try
         {
@@ -90,7 +90,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(Product), 200)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] RequestModels.Product updateProduct)
+    public async Task<IActionResult> Put(Guid id, [FromBody] RequestModels.ProductDto updateProduct)
     {
         try
         {

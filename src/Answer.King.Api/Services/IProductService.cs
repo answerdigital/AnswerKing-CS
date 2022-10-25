@@ -1,6 +1,6 @@
 ﻿using Answer.King.Domain.Repositories.Models;
 
-using RequestProduct = Answer.King.Api.RequestModels.Product;
+using RequestProduct = Answer.King.Api.RequestModels.ProductDto;
 
 namespace Answer.King.Api.Services;
 

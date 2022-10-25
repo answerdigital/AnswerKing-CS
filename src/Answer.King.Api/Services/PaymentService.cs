@@ -55,7 +55,7 @@ public class PaymentService : IPaymentService
         }
         catch (OrderLifeCycleException ex)
         {
-            var msg = ex.Message.ToLower().Contains("paid")
+            var msg = ex.Message.Contains("paid", StringComparison.OrdinalIgnoreCase)
                 ? "Cannot make payment as order has already been paid."
                 : "Cannot make payment as order is cancelled.";
 
@@ -72,6 +72,10 @@ internal class PaymentServiceException : Exception
     }
 
     public PaymentServiceException(string message, Exception innerException) : base(message, innerException)
+    {
+    }
+
+    public PaymentServiceException () : base()
     {
     }
 }

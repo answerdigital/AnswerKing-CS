@@ -6,7 +6,7 @@ namespace Answer.King.Api.Services.Extensions;
 
 public static class OrderExtensions
 {
-    public static void AddOrRemoveLineItems(this Order order, RequestModels.Order orderChanges, IList<Product> domainProducts)
+    public static void AddOrRemoveLineItems(this Order order, RequestModels.OrderDto orderChanges, IList<Product> domainProducts)
     {
         var actions = new List<AddRemoveAction>();
         actions.AddRange(GetLineItemsToAdd(order, orderChanges));
@@ -35,7 +35,7 @@ public static class OrderExtensions
         }
     }
 
-    private static IEnumerable<AddRemoveAction> GetLineItemsToRemove(Order order, RequestModels.Order orderChanges)
+    private static IEnumerable<AddRemoveAction> GetLineItemsToRemove(Order order, RequestModels.OrderDto orderChanges)
     {
         var newProductIds = orderChanges.LineItems.Select(li => li.Product.Id);
 
@@ -45,7 +45,7 @@ public static class OrderExtensions
                 .ToList();
 
         var removeActions =
-            lineItemsToRemove.Select(lineItem => 
+            lineItemsToRemove.Select(lineItem =>
                 new AddRemoveAction
                 {
                     ProductId = lineItem.Product.Id,
@@ -56,7 +56,7 @@ public static class OrderExtensions
         return removeActions;
     }
 
-    private static IEnumerable<AddRemoveAction> GetLineItemsToAdd(Order order, RequestModels.Order orderChanges)
+    private static IEnumerable<AddRemoveAction> GetLineItemsToAdd(Order order, RequestModels.OrderDto orderChanges)
     {
         var oldProductIds = order.LineItems.Select(li => li.Product.Id);
 
@@ -77,7 +77,7 @@ public static class OrderExtensions
         return addActions;
     }
 
-    private static IEnumerable<AddRemoveAction> GetLineItemQuantityActions(Order order, RequestModels.Order orderChanges)
+    private static IEnumerable<AddRemoveAction> GetLineItemQuantityActions(Order order, RequestModels.OrderDto orderChanges)
     {
         var quantityAddRemoveActions = order.LineItems.Select(lineItem =>
         {

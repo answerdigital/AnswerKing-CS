@@ -17,7 +17,7 @@ public class ProductServiceTests
     public async void CreateProduct_InvalidCategoryIdInProduct_ThrowsException()
     {
         // Arrange
-        var productRequest = new Product
+        var productRequest = new ProductDto
         {
             Name = "Laptop",
             Description = "desc",
@@ -85,7 +85,7 @@ public class ProductServiceTests
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
-        Assert.Null(await sut.UpdateProduct(Guid.NewGuid(), new Product()));
+        Assert.Null(await sut.UpdateProduct(Guid.NewGuid(), new ProductDto()));
     }
 
     [Fact]
@@ -101,7 +101,7 @@ public class ProductServiceTests
         // Act / Assert
         var sut = this.GetServiceUnderTest();
         await Assert.ThrowsAsync<ProductServiceException>(() =>
-            sut.UpdateProduct(product.Id, new Product()));
+            sut.UpdateProduct(product.Id, new ProductDto()));
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class ProductServiceTests
         this.CategoryRepository.GetByProductId(product.Id).Returns(oldCategory);
         this.CategoryRepository.Get(updatedCategory.Id).Returns(null as Category);
 
-        var updatedProduct = new Product {Category = new CategoryId {Id = updatedCategory.Id}};
+        var updatedProduct = new ProductDto {Category = new CategoryId {Id = updatedCategory.Id}};
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();

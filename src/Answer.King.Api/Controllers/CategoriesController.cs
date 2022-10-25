@@ -1,6 +1,6 @@
 ﻿using Answer.King.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using Category = Answer.King.Api.RequestModels.Category;
+using CategoryDto = Answer.King.Api.RequestModels.CategoryDto;
 using Product = Answer.King.Domain.Orders.Models.Product;
 
 namespace Answer.King.Api.Controllers;
@@ -65,7 +65,7 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Domain.Inventory.Category), 201)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
-    public async Task<IActionResult> Post([FromBody] Category createCategory)
+    public async Task<IActionResult> Post([FromBody] CategoryDto createCategory)
     {
         var category = await this.Categories.CreateCategory(createCategory);
 
@@ -85,7 +85,7 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(Domain.Inventory.Category), 200)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] Category updateCategory)
+    public async Task<IActionResult> Put(Guid id, [FromBody] CategoryDto updateCategory)
     {
         var category = await this.Categories.UpdateCategory(id, updateCategory);
         if (category == null)

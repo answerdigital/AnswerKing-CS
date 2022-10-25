@@ -1,6 +1,6 @@
 ﻿using Answer.King.Domain.Orders;
 
-using RequestOrder = Answer.King.Api.RequestModels.Order;
+using RequestOrder = Answer.King.Api.RequestModels.OrderDto;
 
 namespace Answer.King.Api.Services;
 

@@ -1,4 +1,4 @@
-namespace Answer.King.Domain;
+﻿namespace Answer.King.Domain;
 
 public interface IAggregateRepository<T> where T : IAggregateRoot
 {

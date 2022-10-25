@@ -140,7 +140,7 @@ public class CategoriesControllerTests
     {
         // Arrange
         var id = Guid.Parse("E5853F4F-FCE7-4A81-B02D-729AF333328C");
-        var categoryRequestModel = new RequestModels.Category
+        var categoryRequestModel = new RequestModels.CategoryDto
         {
             Name = "CATEGORY_NAME",
             Description = "CATEGORY_DESCRIPTION"
@@ -175,7 +175,7 @@ public class CategoriesControllerTests
     public async void Retire_NullCategory_ReturnsNotFound()
     {
         // Arrange
-        var category = (null as RequestModels.Category);
+        var category = (null as RequestModels.CategoryDto);
 
         // Act
         var result = await GetSubjectUnderTest.Retire(Arg.Any<Guid>());

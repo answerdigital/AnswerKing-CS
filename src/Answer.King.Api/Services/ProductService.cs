@@ -33,7 +33,7 @@ public class ProductService : IProductService
         return await this.Products.Get(productId);
     }
 
-    public async Task<Product> CreateProduct(RequestModels.Product createProduct)
+    public async Task<Product> CreateProduct(RequestModels.ProductDto createProduct)
     {
         var category = await this.Categories.Get(createProduct.Category.Id);
 
@@ -57,7 +57,7 @@ public class ProductService : IProductService
         return product;
     }
 
-    public async Task<Product?> UpdateProduct(Guid productId, RequestModels.Product updateProduct)
+    public async Task<Product?> UpdateProduct(Guid productId, RequestModels.ProductDto updateProduct)
     {
         var product = await this.Products.Get(productId);
 
@@ -131,6 +131,14 @@ public class ProductService : IProductService
 internal class ProductServiceException : Exception
 {
     public ProductServiceException(string message) : base(message)
+    {
+    }
+
+    public ProductServiceException () : base()
+    {
+    }
+
+    public ProductServiceException (string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

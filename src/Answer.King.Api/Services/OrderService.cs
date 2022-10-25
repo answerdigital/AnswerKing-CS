@@ -29,7 +29,7 @@ public class OrderService : IOrderService
         return await this.Orders.Get();
     }
 
-    public async Task<Order> CreateOrder(RequestModels.Order createOrder)
+    public async Task<Order> CreateOrder(RequestModels.OrderDto createOrder)
     {
         var submittedProductIds = createOrder.LineItems.Select(l => l.Product.Id).ToList();
 
@@ -54,7 +54,7 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public async Task<Order?> UpdateOrder(Guid orderId, RequestModels.Order updateOrder)
+    public async Task<Order?> UpdateOrder(Guid orderId, RequestModels.OrderDto updateOrder)
     {
         var order = await this.Orders.Get(orderId);
 
@@ -99,11 +99,12 @@ public class OrderService : IOrderService
             order.CancelOrder();
             await this.Orders.Save(order);
         }
+#pragma warning disable RCS1075
         catch (Exception)
         {
             // ignored
         }
-
+#pragma warning restore RCS1075
         return order;
     }
 }
@@ -112,6 +113,14 @@ public class OrderService : IOrderService
 internal class ProductInvalidException : Exception
 {
     public ProductInvalidException(string message) : base(message)
+    {
+    }
+
+    public ProductInvalidException () : base()
+    {
+    }
+
+    public ProductInvalidException (string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Answer.King.Api.Services;
 using Answer.King.Domain.Orders;
 using Microsoft.AspNetCore.Mvc;
-using Order = Answer.King.Api.RequestModels.Order;
+using OrderDto = Answer.King.Api.RequestModels.OrderDto;
 
 namespace Answer.King.Api.Controllers;
 
@@ -62,7 +62,7 @@ public class OrdersController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Domain.Orders.Order), 201)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
-    public async Task<IActionResult> Post([FromBody] Order createOrder)
+    public async Task<IActionResult> Post([FromBody] OrderDto createOrder)
     {
         try
         {
@@ -90,7 +90,7 @@ public class OrdersController : ControllerBase
     [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] Order updateOrder)
+    public async Task<IActionResult> Put(Guid id, [FromBody] OrderDto updateOrder)
     {
         try
         {

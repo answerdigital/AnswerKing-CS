@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,5 +17,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Answer.King.Domain\Answer.King.Domain.csproj" />
   </ItemGroup>
-
+  
 </Project>

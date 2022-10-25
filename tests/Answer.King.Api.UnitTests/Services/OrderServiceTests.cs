@@ -20,21 +20,21 @@ public class OrderServiceTests
     public async void CreateOrder_InvalidProductsSubmitted_ThrowsException()
     {
         // Arrange
-        var lineItem1 = new LineItem
+        var lineItem1 = new LineItemDto
         {
             Product = new ProductId {Id = Guid.NewGuid()},
             Quantity = 1
         };
 
-        var lineItem2 = new LineItem
+        var lineItem2 = new LineItemDto
         {
             Product = new ProductId {Id = Guid.NewGuid()},
             Quantity = 1
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new RequestModels.OrderDto
         {
-            LineItems = new List<LineItem>(new[] {lineItem1, lineItem2})
+            LineItems = new List<LineItemDto>(new[] {lineItem1, lineItem2})
         };
 
         // Act / Assert
@@ -55,12 +55,12 @@ public class OrderServiceTests
             new Product("product 2", "desc", 4.0, category)
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new RequestModels.OrderDto
         {
-            LineItems = new List<LineItem>(new[]
+            LineItems = new List<LineItemDto>(new[]
             {
-                new LineItem {Product = new ProductId {Id = products[0].Id}, Quantity = 4},
-                new LineItem {Product = new ProductId {Id = products[1].Id}, Quantity = 1}
+                new LineItemDto {Product = new ProductId {Id = products[0].Id}, Quantity = 4},
+                new LineItemDto {Product = new ProductId {Id = products[1].Id}, Quantity = 1}
             })
         };
 
@@ -87,7 +87,7 @@ public class OrderServiceTests
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
-        Assert.Null(await sut.UpdateOrder(Guid.NewGuid(), new RequestModels.Order()));
+        Assert.Null(await sut.UpdateOrder(Guid.NewGuid(), new RequestModels.OrderDto()));
     }
 
     [Fact]
@@ -104,11 +104,11 @@ public class OrderServiceTests
             new Product("product 2", "desc", 4.0, category)
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new RequestModels.OrderDto
         {
-            LineItems = new List<LineItem>(new[]
+            LineItems = new List<LineItemDto>(new[]
             {
-                new LineItem {Product = new ProductId {Id = products[0].Id}, Quantity = 4},
+                new LineItemDto {Product = new ProductId {Id = products[0].Id}, Quantity = 4},
             })
         };
 
@@ -139,11 +139,11 @@ public class OrderServiceTests
             new Product("product 2", "desc", 4.0, category)
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new RequestModels.OrderDto
         {
-            LineItems = new List<LineItem>(new[]
+            LineItems = new List<LineItemDto>(new[]
             {
-                new LineItem {Product = new ProductId {Id = Guid.NewGuid()}, Quantity = 4}
+                new LineItemDto {Product = new ProductId {Id = Guid.NewGuid()}, Quantity = 4}
             })
         };
 
