@@ -171,6 +171,7 @@ visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public
 # the following rules are enforced in the compiler, so can cause a build to fail
 # a fix for this issue: https://github.com/dotnet/roslyn/issues/49439
 
+[*.{cs,vb}]
 ### .net rules
 # Enforced use of this.
 dotnet_diagnostic.IDE0009.severity = error
