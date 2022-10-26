@@ -12,7 +12,7 @@ public class LineItemTests
     public void LineItem_InitWithNullProduct_ThrowsArgumentNullException()
     {
         // Arrange
-        var product = (null as Product);
+        var product = null as Product;
 
         // Act / Assert
         Assert.Throws<ArgumentNullException>(() => new LineItem(product!));
@@ -38,7 +38,7 @@ public class LineItemTests
     public void AddQuantity_AddZero_ThrowsLineItemException()
     {
         // Arrange
-        var product = GetProduct();
+        var product = this.GetProduct();
         var lineItem = new LineItem(product);
 
         // Act / Assert
@@ -91,7 +91,7 @@ public class LineItemTests
     public void RemoveQuantity_RemoveZero_ThrowsLineItemException()
     {
         // Arrange
-        var product = GetProduct();
+        var product = this.GetProduct();
         var lineItem = new LineItem(product);
 
         // Act / Assert
@@ -102,7 +102,7 @@ public class LineItemTests
     public void RemoveQuantity_RemoveMoreThanQuantity_ThrowsLineItemException()
     {
         // Arrange
-        var product = GetProduct();
+        var product = this.GetProduct();
         var lineItem = new LineItem(product);
         var quantity = 1;
         var moreThanQuantity = 3;

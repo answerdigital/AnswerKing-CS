@@ -30,7 +30,7 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Domain.Inventory.Category>), 200)]
     public async Task<IActionResult> GetAll()
     {
-        return this.Ok(await this.Categories.GetCategories());
+        return  this.Ok(await this.Categories.GetCategories());
     }
 
     /// <summary>

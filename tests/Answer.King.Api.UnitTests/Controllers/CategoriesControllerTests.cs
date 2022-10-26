@@ -175,7 +175,7 @@ public class CategoriesControllerTests
     public async void Retire_NullCategory_ReturnsNotFound()
     {
         // Arrange
-        var category = (null as RequestModels.CategoryDto);
+        var category = null as RequestModels.CategoryDto;
 
         // Act
         var result = await GetSubjectUnderTest.Retire(Arg.Any<Guid>());

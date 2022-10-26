@@ -36,7 +36,7 @@ public class ProductTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var productName = (null as string);
+        var productName = null as string;
         var productDescription = "Product Description";
         var category = this.GetCategory();
         var price = 142;
@@ -81,7 +81,7 @@ public class ProductTests
         // Arrange
         var id = Guid.NewGuid();
         var productName = "Product Name";
-        var productDescription = (null as string);
+        var productDescription = null as string;
         var category = this.GetCategory();
         var price = 142;
         var retired = false;
@@ -126,7 +126,7 @@ public class ProductTests
         var id = Guid.NewGuid();
         var productName = "Product Name";
         var productDescription = "Product Description";
-        var category = (null as Category);
+        var category = null as Category;
         var price = 142;
         var retired = false;
 

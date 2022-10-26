@@ -1,4 +1,4 @@
-using Answer.King.Api.Services;
+﻿using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
@@ -90,7 +90,7 @@ public class CategoryServiceTests
         var category = new Category("category", "desc");
         var id = category.Id;
 
-        CategoryRepository.Get(id).Returns(category);
+        this.CategoryRepository.Get(id).Returns(category);
 
         // Act
         var sut = this.GetServiceUnderTest();
@@ -111,7 +111,7 @@ public class CategoryServiceTests
             new Category("category 2", "desc")
         };
             
-        CategoryRepository.Get().Returns(categories);
+        this.CategoryRepository.Get().Returns(categories);
 
         // Act
         var sut = this.GetServiceUnderTest();
