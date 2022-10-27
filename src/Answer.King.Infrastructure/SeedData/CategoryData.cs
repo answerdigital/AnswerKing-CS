@@ -6,7 +6,7 @@ using Answer.King.Infrastructure.Repositories.Mappings;
 
 namespace Answer.King.Infrastructure.SeedData;
 
-public class CategoryData
+public static class CategoryData
 {
     public static IList<Category> Categories { get; } = new List<Category>
     {

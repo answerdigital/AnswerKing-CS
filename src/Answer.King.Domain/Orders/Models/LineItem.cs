@@ -46,4 +46,12 @@ public class LineItemException : Exception
     public LineItemException(string message) : base(message)
     {
     }
+
+    public LineItemException () : base()
+    {
+    }
+
+    public LineItemException (string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 }

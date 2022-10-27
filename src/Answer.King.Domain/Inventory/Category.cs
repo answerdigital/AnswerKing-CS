@@ -131,4 +131,12 @@ public class CategoryLifecycleException : Exception
     public CategoryLifecycleException(string message) : base(message)
     {
     }
+
+    public CategoryLifecycleException () : base()
+    {
+    }
+
+    public CategoryLifecycleException (string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 }

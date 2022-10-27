@@ -130,12 +130,28 @@ public class OrderPaymentException : Exception
     public OrderPaymentException(string message) : base(message)
     {
     }
+
+    public OrderPaymentException () : base()
+    {
+    }
+
+    public OrderPaymentException (string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 }
 
 [Serializable]
 public class OrderLifeCycleException : Exception
 {
     public OrderLifeCycleException(string message) : base(message)
+    {
+    }
+
+    public OrderLifeCycleException () : base()
+    {
+    }
+
+    public OrderLifeCycleException (string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }
