@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories;
@@ -36,12 +37,6 @@ public class CategoryRepository : ICategoryRepository
     public Task Save(Category item)
     {
         return Task.FromResult(this.Collection.Upsert(item));
-    }
-
-    public Task<Category?> GetByProductId(long productId)
-    {
-        var query = Query.EQ("Products[*]._id", productId);
-        return Task.FromResult(this.Collection.FindOne(query))!;
     }
 
     private void SeedData()

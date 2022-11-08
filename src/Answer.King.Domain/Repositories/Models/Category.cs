@@ -2,6 +2,16 @@
 
 public class Category
 {
+    public Category (string name, string description)
+    {
+        Guard.AgainstNullOrWhitespaceArgument(nameof(name), name);
+        Guard.AgainstNullOrWhitespaceArgument(nameof(description), description);
+
+        this.Id = 0;
+        this.Name = name;
+        this.Description = description;
+    }
+
     public Category(long id, string name, string description)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
@@ -13,7 +23,7 @@ public class Category
         this.Description = description;
     }
 
-    public long Id { get; }
+    public long Id { get; set; }
 
     public string Name { get; }
 
