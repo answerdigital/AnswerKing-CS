@@ -10,7 +10,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 internal static class OrderFactory
 {
     public static Order CreateOrder(
-        Guid id,
+        long id,
         DateTime createdOn,
         DateTime lastUpdated,
         OrderStatus status,

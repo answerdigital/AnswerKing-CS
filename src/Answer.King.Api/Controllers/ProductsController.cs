@@ -36,11 +36,11 @@ public class ProductsController : ControllerBase
     /// <returns></returns>
     /// <response code="200">When the product with the provided <paramref name="id"/> has been found.</response>
     /// <response code="404">When the product with the given <paramref name="id"/> does not exist</response>
-    // GET api/products/{GUID}
+    // GET api/products/{ID}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Product), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOne(Guid id)
+    public async Task<IActionResult> GetOne(long id)
     {
         var product = await this.Products.GetProduct(id);
 
@@ -85,12 +85,12 @@ public class ProductsController : ControllerBase
     /// <response code="200">When the product has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the product with the given <paramref name="id"/> does not exist.</response>
-    // PUT api/products/{GUID}
+    // PUT api/products/{ID}
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Product), 200)]
     [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] RequestModels.ProductDto updateProduct)
+    public async Task<IActionResult> Put(long id, [FromBody] RequestModels.ProductDto updateProduct)
     {
         try
         {
@@ -116,11 +116,11 @@ public class ProductsController : ControllerBase
     /// <param name="id"></param>
     /// <response code="200">When the product has been retired.</response>
     /// <response code="404">When the product with the given <paramref name="id"/> does not exist.</response>
-    // DELETE api/products/{GUID}
+    // DELETE api/products/{ID}
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(Product), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Retire(Guid id)
+    public async Task<IActionResult> Retire(long id)
     {
         var product = await this.Products.RetireProduct(id);
 

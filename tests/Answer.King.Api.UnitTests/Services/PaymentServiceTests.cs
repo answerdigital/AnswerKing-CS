@@ -20,7 +20,7 @@ public class PaymentServiceTests
     public async void MakePayment_InvalidOrderIdReceived_ThrowsException()
     {
         // Arrange
-        this.OrderRepository.Get(Arg.Any<Guid>()).ReturnsNull();
+        this.OrderRepository.Get(Arg.Any<long>()).ReturnsNull();
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -33,12 +33,12 @@ public class PaymentServiceTests
     {
         // Arrange
         var order = new Order();
-        order.AddLineItem(Guid.NewGuid(), "product", "desc", 12.00,
-            new Category(Guid.NewGuid(), "category", "desc"), 2);
+        order.AddLineItem(1, "product", "desc", 12.00,
+            new Category(1, "category", "desc"), 2);
 
         var makePayment = new MakePayment {OrderId = order.Id, Amount = 20.00};
 
-        this.OrderRepository.Get(Arg.Any<Guid>()).Returns(order);
+        this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -51,13 +51,13 @@ public class PaymentServiceTests
     {
         // Arrange
         var order = new Order();
-        order.AddLineItem(Guid.NewGuid(), "product", "desc", 12.00,
-            new Category(Guid.NewGuid(), "category", "desc"), 2);
+        order.AddLineItem(1, "product", "desc", 12.00,
+            new Category(1, "category", "desc"), 2);
         order.CompleteOrder();
 
         var makePayment = new MakePayment {OrderId = order.Id, Amount = 24.00};
 
-        this.OrderRepository.Get(Arg.Any<Guid>()).Returns(order);
+        this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -74,7 +74,7 @@ public class PaymentServiceTests
 
         var makePayment = new MakePayment {OrderId = order.Id, Amount = 24.00};
 
-        this.OrderRepository.Get(Arg.Any<Guid>()).Returns(order);
+        this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -87,13 +87,13 @@ public class PaymentServiceTests
     {
         // Arrange
         var order = new Order();
-        order.AddLineItem(Guid.NewGuid(), "product", "desc", 12.00,
-            new Category(Guid.NewGuid(), "category", "desc"), 2);
+        order.AddLineItem(1, "product", "desc", 12.00,
+            new Category(1, "category", "desc"), 2);
 
         var makePayment = new MakePayment {OrderId = order.Id, Amount = 24.00};
         var expectedPayment = new Payment(order.Id, makePayment.Amount, order.OrderTotal);
 
-        this.OrderRepository.Get(Arg.Any<Guid>()).Returns(order);
+        this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
         // Act
         var sut = this.GetServiceUnderTest();
@@ -119,8 +119,8 @@ public class PaymentServiceTests
         // Arrange
         var payments = new[]
         {
-            new Payment(Guid.NewGuid(), 50.00, 35.00),
-            new Payment(Guid.NewGuid(), 10.00, 7.95)
+            new Payment(1, 50.00, 35.00),
+            new Payment(1, 10.00, 7.95)
         };
 
         this.PaymentRepository.Get().Returns(payments);
@@ -138,7 +138,7 @@ public class PaymentServiceTests
     public async void GetPayment_ValidPaymentId_ReturnsPayment()
     {
         // Arrange
-        var payment = new Payment(Guid.NewGuid(), 50.00, 35.00);
+        var payment = new Payment(1, 50.00, 35.00);
 
         this.PaymentRepository.Get(payment.Id).Returns(payment);
 

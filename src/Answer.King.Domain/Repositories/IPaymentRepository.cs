@@ -4,7 +4,7 @@ namespace Answer.King.Domain.Repositories;
 
 public interface IPaymentRepository
 {
-    Task<Payment> Get(Guid id);
+    Task<Payment> Get(long id);
 
     Task<IEnumerable<Payment>> Get();
 

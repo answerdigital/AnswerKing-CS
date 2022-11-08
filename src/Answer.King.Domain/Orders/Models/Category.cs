@@ -2,7 +2,7 @@
 
 public class Category
 {
-    public Category(Guid id, string name, string description)
+    public Category(long id, string name, string description)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrWhitespaceArgument(nameof(name), name);
@@ -13,7 +13,7 @@ public class Category
         this.Description = description;
     }
 
-    public Guid Id { get; }
+    public long Id { get; }
 
     public string Name { get; }
 

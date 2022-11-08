@@ -27,7 +27,7 @@ public class OrderRepository : IOrderRepository
         return Task.FromResult(this.Collection.FindAll());
     }
 
-    public Task<Order?> Get(Guid id)
+    public Task<Order?> Get(long id)
     {
         return Task.FromResult(this.Collection.FindOne(c => c.Id == id))!;
     }

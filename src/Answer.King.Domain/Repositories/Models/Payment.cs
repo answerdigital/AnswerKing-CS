@@ -2,21 +2,20 @@
 
 public partial class Payment
 {
-    public Payment(Guid orderId, double amount, double orderTotal)
+    public Payment(long orderId, double amount, double orderTotal)
     {
-        Domain.Guard.AgainstDefaultValue(nameof(orderId), orderId);
         Domain.Guard.AgainstNegativeValue(nameof(amount), amount);
         Domain.Guard.AgainstNegativeValue(nameof(orderTotal), orderTotal);
         Guard.AgainstUnderPayment(amount, orderTotal);
 
-        this.Id = Guid.NewGuid();
+        this.Id = 0;
         this.OrderId = orderId;
         this.Amount = amount;
         this.OrderTotal = orderTotal;
         this.Date = DateTime.UtcNow;
     }
 
-    private Payment(Guid id, Guid orderId, double amount, double orderTotal, DateTime date)
+    private Payment(long id, long orderId, double amount, double orderTotal, DateTime date)
     {
         Domain.Guard.AgainstDefaultValue(nameof(id), id);
         Domain.Guard.AgainstDefaultValue(nameof(orderId), orderId);
@@ -32,9 +31,9 @@ public partial class Payment
         this.Date = date;
     }
 
-    public Guid Id { get; }
+    public long Id { get; }
 
-    public Guid OrderId { get; }
+    public long OrderId { get; }
 
     public double Amount { get; }
 

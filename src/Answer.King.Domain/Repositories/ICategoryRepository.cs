@@ -4,5 +4,5 @@ namespace Answer.King.Domain.Repositories;
 
 public interface ICategoryRepository : IAggregateRepository<Category>
 {
-    Task<Category?> GetByProductId(Guid productId);
+    Task<Category?> GetByProductId(long productId);
 }

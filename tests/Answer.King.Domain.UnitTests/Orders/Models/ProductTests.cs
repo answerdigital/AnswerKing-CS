@@ -9,14 +9,14 @@ namespace Answer.King.Domain.UnitTests.Orders.Models;
 public class ProductTests
 {
     [Fact]
-    public void Product_InitWithDefaultGuid_ThrowsDefaultValueException()
+    public void Product_InitWithDefaultId_ThrowsDefaultValueException()
     {
         // Arrange
-        var id = default(Guid);
+        var id = 0;
         var name = "name";
         var description = "description";
         var price = 142;
-        var catgeory = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
 
         // Act / Assert
 
@@ -25,7 +25,7 @@ public class ProductTests
             name,
             description,
             price,
-            catgeory)
+            category)
         );
     }
 
@@ -33,11 +33,11 @@ public class ProductTests
     public void Product_InitWithNegativePrice_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
         var price = -1;
-        var catgeory = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
 
         // Act Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => new Product(
@@ -45,7 +45,7 @@ public class ProductTests
             name,
             description,
             price,
-            catgeory)
+            category)
         );
     }
 }

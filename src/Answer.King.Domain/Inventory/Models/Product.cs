@@ -2,12 +2,12 @@
 
 public class ProductId
 {
-    public ProductId(Guid id)
+    public ProductId(long id)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
 
         this.Id = id;
     }
 
-    public Guid Id { get; }
+    public long Id { get; }
 }

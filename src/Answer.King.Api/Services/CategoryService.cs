@@ -12,7 +12,7 @@ public class CategoryService : ICategoryService
 
     private ICategoryRepository Categories { get; }
 
-    public async Task<Category?> GetCategory (Guid categoryId)
+    public async Task<Category?> GetCategory (long categoryId)
     {
         return await this.Categories.Get(categoryId);
     }
@@ -31,7 +31,7 @@ public class CategoryService : ICategoryService
         return category;
     }
 
-    public async Task<Category?> UpdateCategory (Guid categoryId, RequestModels.CategoryDto updateCategory)
+    public async Task<Category?> UpdateCategory (long categoryId, RequestModels.CategoryDto updateCategory)
     {
         var category = await this.Categories.Get(categoryId);
         if (category == null)
@@ -46,7 +46,7 @@ public class CategoryService : ICategoryService
         return category;
     }
 
-    public async Task<Category?> RetireCategory (Guid categoryId)
+    public async Task<Category?> RetireCategory (long categoryId)
     {
         var category = await this.Categories.Get(categoryId);
 

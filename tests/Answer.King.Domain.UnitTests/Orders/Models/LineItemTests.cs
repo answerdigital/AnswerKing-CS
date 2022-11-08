@@ -133,11 +133,11 @@ public class LineItemTests
     #region Helpers
 
     private Product GetProduct() => new Product(
-        Guid.NewGuid(),
+        1,
         "name",
         "description",
         142,
-        new Category(Guid.NewGuid(), "name", "description")
+        new Category(1, "name", "description")
     );
 
     #endregion Helpers

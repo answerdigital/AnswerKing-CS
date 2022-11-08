@@ -7,7 +7,7 @@ public interface ICategoryService
 {
     Task<Category> CreateCategory(RequestCategory createCategory);
     Task<IEnumerable<Category>> GetCategories();
-    Task<Category?> GetCategory(Guid categoryId);
-    Task<Category?> RetireCategory(Guid categoryId);
-    Task<Category?> UpdateCategory(Guid categoryId, RequestCategory updateCategory);
+    Task<Category?> GetCategory(long categoryId);
+    Task<Category?> RetireCategory(long categoryId);
+    Task<Category?> UpdateCategory(long categoryId, RequestCategory updateCategory);
 }

@@ -48,7 +48,7 @@ public class PaymentsController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Payment), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOne(Guid id)
+    public async Task<IActionResult> GetOne(long id)
     {
         var payment = await this.Payments.GetPayment(id);
 
@@ -91,11 +91,11 @@ public class PaymentsController : ControllerBase
     /// <param name="id"></param>
     /// <response code="200">When the order has been returned.</response>
     /// <response code="404">When the payment with the given <paramref name="id"/> does not exist.</response>
-    // GET api/payments/{GUID}/order
+    // GET api/payments/{ID}/order
     [HttpGet("{id}/order")]
     [ProducesResponseType(typeof(IEnumerable<Order>), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOrder(Guid id)
+    public async Task<IActionResult> GetOrder(long id)
     {
         var payment = await this.Payments.GetPayment(id);
 

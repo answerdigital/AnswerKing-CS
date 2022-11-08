@@ -9,8 +9,21 @@ public class Category : IAggregateRoot
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
+        
+        this.Id = 0;
+        this.Name = name;
+        this.Description = description;
+        this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
+        this._Products = new List<ProductId>();
+        this.Retired = false;
+    }
 
-        this.Id = Guid.NewGuid();
+    public Category (long id, string name, string description)
+    {
+        Guard.AgainstNullOrEmptyArgument(nameof(name), name);
+        Guard.AgainstNullOrEmptyArgument(nameof(description), description);
+
+        this.Id = id;
         this.Name = name;
         this.Description = description;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
@@ -20,7 +33,7 @@ public class Category : IAggregateRoot
 
     // ReSharper disable once UnusedMember.Local
     private Category(
-        Guid id,
+        long id,
         string name,
         string description,
         DateTime createdOn,
@@ -43,7 +56,8 @@ public class Category : IAggregateRoot
         this.Retired = retired;
     }
 
-    public Guid Id { get; }
+
+    public long Id { get; }
 
     public string Name { get; private set; }
 

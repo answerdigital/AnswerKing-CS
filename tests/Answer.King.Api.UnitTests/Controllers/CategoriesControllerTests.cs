@@ -65,10 +65,10 @@ public class CategoriesControllerTests
     {
         // Arrange
         Category data = null!;
-        CategoryService.GetCategory(Arg.Any<Guid>()).Returns(data);
+        CategoryService.GetCategory(Arg.Any<long>()).Returns(data);
 
         // Act
-        var result = await GetSubjectUnderTest.GetOne(Arg.Any<Guid>());
+        var result = await GetSubjectUnderTest.GetOne(Arg.Any<long>());
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
@@ -79,10 +79,10 @@ public class CategoriesControllerTests
     {
         // Arrange
         //var data = new Category();
-        //CategoryService.GetCategory(Arg.Any<Guid>()).Returns(data);
+        //CategoryService.GetCategory(Arg.Any<long>()).Returns(data);
 
         // Act
-        //var result = await GetSubjectUnderTest.GetOne((Arg.Any<Guid>()));
+        //var result = await GetSubjectUnderTest.GetOne((Arg.Any<long>()));
 
         // Assert
         //Assert.IsType<OkObjectResult>(result);
@@ -126,7 +126,7 @@ public class CategoriesControllerTests
     public async void Put_NullCategory_ReturnsNotFoundResult()
     {
         // Arrange
-        var id = Guid.Parse("20C72D1B-DE64-4262-B657-4280747CE358");
+        var id = 1;
 
         // Act
         var result = await GetSubjectUnderTest.Put(id, null!);
@@ -139,7 +139,7 @@ public class CategoriesControllerTests
     public async void Put_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
-        var id = Guid.Parse("E5853F4F-FCE7-4A81-B02D-729AF333328C");
+        var id = 1;
         var categoryRequestModel = new RequestModels.CategoryDto
         {
             Name = "CATEGORY_NAME",
@@ -178,7 +178,7 @@ public class CategoriesControllerTests
         var category = null as RequestModels.CategoryDto;
 
         // Act
-        var result = await GetSubjectUnderTest.Retire(Arg.Any<Guid>());
+        var result = await GetSubjectUnderTest.Retire(Arg.Any<long>());
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
@@ -188,7 +188,7 @@ public class CategoriesControllerTests
     public async void Retire_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
-        var id = Guid.Parse("E5853F4F-FCE7-4A81-B02D-729AF333328C");
+        var id = 1;
         var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION");
 
         CategoryService.RetireCategory(id).Returns(category);

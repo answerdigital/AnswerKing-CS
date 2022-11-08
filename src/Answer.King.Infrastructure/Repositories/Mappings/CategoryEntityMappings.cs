@@ -16,7 +16,6 @@ public class CategoryEntityMappings : IEntityMapping
 
                 var doc = new BsonDocument
                 {
-                    ["_id"] = category.Id,
                     ["Name"] = category.Name,
                     ["Description"] = category.Description,
                     ["CreatedOn"] = category.CreatedOn,
@@ -31,14 +30,14 @@ public class CategoryEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
 
-                return CategoryFactory.CreateOrder(
-                    doc["_id"].AsGuid,
+                return CategoryFactory.CreateCategory(
+                    doc["_id"].AsInt64,
                     doc["Name"].AsString,
                     doc["Description"].AsString,
                     doc["CreatedOn"].AsDateTime,
                     doc["LastUpdated"].AsDateTime,
                     doc["Products"].AsArray.Select(
-                        p => new ProductId(p.AsDocument["_id"].AsGuid)).ToList(),
+                        p => new ProductId(p.AsDocument["_id"].AsInt64)).ToList(),
                     doc["Retired"].AsBoolean);
             }
         );

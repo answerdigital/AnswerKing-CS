@@ -23,12 +23,12 @@ public class ProductService : IProductService
         return await this.Products.Get();
     }
 
-    public async Task<IEnumerable<Product>> GetProducts(IEnumerable<Guid> productIds)
+    public async Task<IEnumerable<Product>> GetProducts(IEnumerable<long> productIds)
     {
         return await this.Products.Get(productIds);
     }
 
-    public async Task<Product?> GetProduct(Guid productId)
+    public async Task<Product?> GetProduct(long productId)
     {
         return await this.Products.Get(productId);
     }
@@ -57,7 +57,7 @@ public class ProductService : IProductService
         return product;
     }
 
-    public async Task<Product?> UpdateProduct(Guid productId, RequestModels.ProductDto updateProduct)
+    public async Task<Product?> UpdateProduct(long productId, RequestModels.ProductDto updateProduct)
     {
         var product = await this.Products.Get(productId);
 
@@ -103,7 +103,7 @@ public class ProductService : IProductService
         return product;
     }
 
-    public async Task<Product?> RetireProduct(Guid productId)
+    public async Task<Product?> RetireProduct(long productId)
     {
         var product = await this.Products.Get(productId);
 

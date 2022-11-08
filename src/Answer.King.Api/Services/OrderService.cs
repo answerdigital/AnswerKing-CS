@@ -19,7 +19,7 @@ public class OrderService : IOrderService
 
     private IProductRepository Products { get; }
 
-    public async Task<Order?> GetOrder(Guid orderId)
+    public async Task<Order?> GetOrder(long orderId)
     {
         return await this.Orders.Get(orderId);
     }
@@ -54,7 +54,7 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public async Task<Order?> UpdateOrder(Guid orderId, RequestModels.OrderDto updateOrder)
+    public async Task<Order?> UpdateOrder(long orderId, RequestModels.OrderDto updateOrder)
     {
         var order = await this.Orders.Get(orderId);
 
@@ -85,7 +85,7 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public async Task<Order?> CancelOrder(Guid orderId)
+    public async Task<Order?> CancelOrder(long orderId)
     {
         var order = await this.Orders.Get(orderId);
 

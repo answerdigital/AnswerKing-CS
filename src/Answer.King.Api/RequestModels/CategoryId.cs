@@ -2,5 +2,5 @@
 
 public record CategoryId
 {
-    public Guid Id { get; init; }
+    public long Id { get; init; }
 }

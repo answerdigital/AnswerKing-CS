@@ -43,10 +43,10 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
-        var category = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
         var price = 1.24;
         var quantity = 2;
 
@@ -62,10 +62,10 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
-        var category = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
         var price = 1.24;
         var quantity = 2;
 
@@ -81,10 +81,10 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
-        var category = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
         var price = 1.24;
         var quantity = 2;
 
@@ -106,10 +106,10 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
-        var category = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
         var price = 1.24;
         var quantity = 2;
 
@@ -128,10 +128,10 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
-        var category = new Category(Guid.NewGuid(), "name", "description");
+        var category = new Category(1, "name", "description");
         var price = 1.24;
         var quantity = 2;
 
@@ -155,7 +155,7 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var quantity = 2;
 
         order.CompleteOrder();
@@ -170,7 +170,7 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var quantity = 2;
 
         order.CancelOrder();
@@ -185,7 +185,7 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var quantity = 3;
 
         // Act
@@ -200,11 +200,11 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "PRODUCT_NAME";
         var productDescription = "PRODUCT_DESCRIPTION";
         var category = new Category(
-            Guid.Parse("9BAC7050-D3C4-4793-A5C8-BEEAC4EA4229"),
+            1,
             "CATEGORY_NAME",
             "CATEGORY_DESCRIPTION"
         );
@@ -228,11 +228,11 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "PRODUCT_NAME";
         var productDescription = "PRODUCT_DESCRIPTION";
         var category = new Category(
-            Guid.Parse("9BAC7050-D3C4-4793-A5C8-BEEAC4EA4229"),
+            1,
             "CATEGORY_NAME",
             "CATEGORY_DESCRIPTION"
         );

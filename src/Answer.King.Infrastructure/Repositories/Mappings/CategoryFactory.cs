@@ -9,8 +9,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class CategoryFactory
 {
-    public static Category CreateOrder(
-        Guid id,
+    public static Category CreateCategory(
+        long id,
         string name,
         string description,
         DateTime createdOn,

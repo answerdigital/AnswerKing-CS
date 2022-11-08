@@ -11,7 +11,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 internal static class ProductFactory
 {
     public static Product CreateProduct(
-        Guid id,
+        long id,
         string name,
         string description,
         double price,

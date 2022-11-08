@@ -9,14 +9,14 @@ public class Product
         Guard.AgainstNegativeValue(nameof(price), price);
         Guard.AgainstNullArgument(nameof(category), category);
 
-        this.Id = Guid.NewGuid();
+        this.Id = 0;
         this.Name = name;
         this.Description = description;
         this.Price = price;
         this.Category = category;
     }
 
-    private Product(Guid id, string name, string description, double price, Category category, bool retired)
+    public Product(long id, string name, string description, double price, Category category, bool retired)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
@@ -32,7 +32,7 @@ public class Product
         this.Retired = retired;
     }
 
-    public Guid Id { get; }
+    public long Id { get; }
 
     public string Name { get; set; }
 

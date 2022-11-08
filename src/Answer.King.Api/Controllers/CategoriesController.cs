@@ -40,11 +40,11 @@ public class CategoriesController : ControllerBase
     /// <returns></returns>
     /// <response code="200">When the category with the provided <paramref name="id"/> has been found.</response>
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist</response>
-    // GET api/categories/{GUID}
+    // GET api/categories/{ID}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Domain.Inventory.Category), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOne(Guid id)
+    public async Task<IActionResult> GetOne(long id)
     {
         var category = await this.Categories.GetCategory(id);
         if (category == null)
@@ -80,12 +80,12 @@ public class CategoriesController : ControllerBase
     /// <response code="200">When the category has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist.</response>
-    // PUT api/categories/{GUID}
+    // PUT api/categories/{ID}
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Domain.Inventory.Category), 200)]
     [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] CategoryDto updateCategory)
+    public async Task<IActionResult> Put(long id, [FromBody] CategoryDto updateCategory)
     {
         var category = await this.Categories.UpdateCategory(id, updateCategory);
         if (category == null)
@@ -103,12 +103,12 @@ public class CategoriesController : ControllerBase
     /// <response code="200">When the category has been retired.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist.</response>
-    // DELETE api/categories/{GUID}
+    // DELETE api/categories/{ID}
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(Domain.Inventory.Category), 200)]
     [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Retire(Guid id)
+    public async Task<IActionResult> Retire(long id)
     {
         try
         {
@@ -136,11 +136,11 @@ public class CategoriesController : ControllerBase
     /// <param name="id"></param>
     /// <response code="200">When all the products have been returned.</response>
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist.</response>
-    // GET api/categories/{GUID}/products
+    // GET api/categories/{ID}/products
     [HttpGet("{id}/products")]
     [ProducesResponseType(typeof(IEnumerable<Product>), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetProducts(Guid id)
+    public async Task<IActionResult> GetProducts(long id)
     {
         var category = await this.Categories.GetCategory(id);
 

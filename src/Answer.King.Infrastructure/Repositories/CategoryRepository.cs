@@ -28,7 +28,7 @@ public class CategoryRepository : ICategoryRepository
         return Task.FromResult(this.Collection.FindAll());
     }
 
-    public Task<Category?> Get(Guid id)
+    public Task<Category?> Get(long id)
     {
         return Task.FromResult(this.Collection.FindOne(c => c.Id == id))!;
     }
@@ -38,7 +38,7 @@ public class CategoryRepository : ICategoryRepository
         return Task.FromResult(this.Collection.Upsert(item));
     }
 
-    public Task<Category?> GetByProductId(Guid productId)
+    public Task<Category?> GetByProductId(long productId)
     {
         var query = Query.EQ("Products[*]._id", productId);
         return Task.FromResult(this.Collection.FindOne(query))!;

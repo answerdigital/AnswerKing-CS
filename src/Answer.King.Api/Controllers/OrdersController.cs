@@ -37,11 +37,11 @@ public class OrdersController : ControllerBase
     /// <returns></returns>
     /// <response code="200">When the order with the provided <paramref name="id"/> has been found.</response>
     /// <response code="404">When the order with the given <paramref name="id"/> does not exist</response>
-    // GET api/orders/{GUID}
+    // GET api/orders/{ID}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOne(Guid id)
+    public async Task<IActionResult> GetOne(long id)
     {
         var order = await this.Orders.GetOrder(id);
         if (order == null)
@@ -85,12 +85,12 @@ public class OrdersController : ControllerBase
     /// <response code="200">When the order has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the order with the given <paramref name="id"/> does not exist.</response>
-    // PUT api/orders/{GUID}
+    // PUT api/orders/{ID}
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
     [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] OrderDto updateOrder)
+    public async Task<IActionResult> Put(long id, [FromBody] OrderDto updateOrder)
     {
         try
         {
@@ -122,12 +122,12 @@ public class OrdersController : ControllerBase
     /// <response code="200">When the order has been cancelled.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the order with the given <paramref name="id"/> does not exist.</response>
-    // DELETE api/orders/{GUID}
+    // DELETE api/orders/{ID}
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
     [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> Cancel(Guid id)
+    public async Task<IActionResult> Cancel(long id)
     {
         try
         {

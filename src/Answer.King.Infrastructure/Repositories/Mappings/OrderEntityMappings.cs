@@ -53,7 +53,7 @@ public class OrderEntityMappings : IEntityMapping
                         .ToList();
 
                 return OrderFactory.CreateOrder(
-                    doc["_id"].AsGuid,
+                    doc["_id"].AsInt64,
                     doc["CreatedOn"].AsDateTime,
                     doc["LastUpdated"].AsDateTime,
                     (OrderStatus)Enum.Parse(typeof(OrderStatus), doc["OrderStatus"]),
@@ -70,12 +70,12 @@ public class OrderEntityMappings : IEntityMapping
 
         var result = new LineItem(
             new Product(
-                product["_id"].AsGuid,
+                product["_id"].AsInt64,
                 product["Name"].AsString,
                 product["Description"].AsString,
                 product["Price"].AsDouble,
                 new Category(
-                    category["_id"].AsGuid,
+                    category["_id"].AsInt64,
                     category["Name"].AsString,
                     category["Description"].AsString)
             )

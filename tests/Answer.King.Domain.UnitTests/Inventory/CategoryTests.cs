@@ -51,7 +51,7 @@ public class CategoryTests
     public void RetireCategory_WithProductsContainedWithinCategory_ThrowsException()
     {
         var category = new Category("Phones", "Electronics");
-        category.AddProduct(new ProductId(Guid.NewGuid()));
+        category.AddProduct(new ProductId(1));
 
         Assert.Throws<CategoryLifecycleException>(() => category.RetireCategory());
     }

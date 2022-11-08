@@ -17,11 +17,11 @@ public class CategoryServiceTests
     public async void RetireCategory_InvalidCategoryIdReceived_ReturnsNull()
     {
         // Arrange
-        this.CategoryRepository.Get(Arg.Any<Guid>()).Returns(null as Category);
+        this.CategoryRepository.Get(Arg.Any<long>()).Returns(null as Category);
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
-        Assert.Null(await sut.RetireCategory(Guid.NewGuid()));
+        Assert.Null(await sut.RetireCategory(1));
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class CategoryServiceTests
     {
         // Arrange
         var category = new Category("category", "desc");
-        category.AddProduct(new ProductId(Guid.NewGuid()));
+        category.AddProduct(new ProductId(1));
 
         this.CategoryRepository.Get(category.Id).Returns(category);
 
@@ -131,7 +131,7 @@ public class CategoryServiceTests
     {
         // Arrange
         var updateCategoryRequest = new RequestModels.CategoryDto();
-        var categoryId = Guid.NewGuid();
+        var categoryId = 1;
 
         // Act
         var sut = this.GetServiceUnderTest();
