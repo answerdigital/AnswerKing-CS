@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Answer.King.Domain;
 using Answer.King.Domain.Inventory;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using Answer.King.Infrastructure.SeedData;
 using LiteDB;
@@ -56,4 +58,47 @@ public class CategoryRepository : ICategoryRepository
     }
 
     private static bool DataSeeded { get; set; }
+
+    private class RepoCategory : IAggregateRoot
+    {
+        private RepoCategory (
+        long id,
+        string name,
+        string description,
+        DateTime createdOn,
+        DateTime lastUpdated,
+        IList<ProductId>? products,
+        bool retired)
+        {
+            Guard.AgainstDefaultValue(nameof(id), id);
+            Guard.AgainstNullOrEmptyArgument(nameof(name), name);
+            Guard.AgainstNullOrEmptyArgument(nameof(description), description);
+            Guard.AgainstDefaultValue(nameof(createdOn), createdOn);
+            Guard.AgainstDefaultValue(nameof(lastUpdated), lastUpdated);
+
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.CreatedOn = createdOn;
+            this.LastUpdated = lastUpdated;
+            this._Products = products ?? new List<ProductId>();
+            this.Retired = retired;
+        }
+
+        public long Id { get; set; }
+
+        public string Name { get; private set; }
+
+        public string Description { get; private set; }
+
+        public DateTime CreatedOn { get; }
+
+        public DateTime LastUpdated { get; private set; }
+
+        private IList<ProductId> _Products { get; }
+
+        public IReadOnlyCollection<ProductId> Products => (this._Products as List<ProductId>)!;
+
+        public bool Retired { get; private set; }
+    }
 }
