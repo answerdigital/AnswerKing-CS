@@ -15,9 +15,9 @@ internal static class OrderData
     {
         return new List<Order>
         {
-            new Order(),
             OrderWithLineItems(),
-            CancelledOrder()
+            CancelledOrder(),
+            new Order()
         };
     }
 
@@ -46,7 +46,7 @@ internal static class OrderData
         };
 
         return OrderFactory.CreateOrder(
-            2,
+            1,
             DateTime.UtcNow.AddHours(-1),
             DateTime.UtcNow.AddMinutes(-10),
             OrderStatus.Created,
@@ -59,7 +59,7 @@ internal static class OrderData
         var lineItems = new List<LineItem>();
 
         return OrderFactory.CreateOrder(
-            3,
+            2,
             DateTime.UtcNow.AddHours(-3),
             DateTime.UtcNow.AddMinutes(-50),
             OrderStatus.Cancelled,

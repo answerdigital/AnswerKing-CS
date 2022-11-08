@@ -17,7 +17,7 @@ public class CategoryService : ICategoryService
         return await this.Categories.Get(categoryId);
     }
 
-    public async Task<IEnumerable<Category>> GetCategories ()
+    public async Task<IEnumerable<Category>> GetCategories()
     {
         return await this.Categories.Get();
     }
