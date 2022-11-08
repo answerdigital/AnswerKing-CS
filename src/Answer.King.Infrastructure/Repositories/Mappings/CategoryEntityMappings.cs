@@ -16,6 +16,7 @@ public class CategoryEntityMappings : IEntityMapping
 
                 var doc = new BsonDocument
                 {
+                    ["_id"] = category.Id,
                     ["Name"] = category.Name,
                     ["Description"] = category.Description,
                     ["CreatedOn"] = category.CreatedOn,

@@ -12,6 +12,7 @@ public class PaymentEntityMappings : IEntityMapping
             {
                 var doc = new BsonDocument
                 {
+                    ["_id"] = payment.Id,
                     ["OrderId"] = payment.OrderId,
                     ["Amount"] = payment.Amount,
                     ["OrderTotal"] = payment.OrderTotal,

@@ -31,7 +31,7 @@ public partial class Payment
         this.Date = date;
     }
 
-    public long Id { get; }
+    public long Id { get; set; }
 
     public long OrderId { get; }
 

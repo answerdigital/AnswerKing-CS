@@ -13,6 +13,7 @@ public class ProductEntityMappings : IEntityMapping
             {
                 var doc = new BsonDocument
                 {
+                    ["_id"] = product.Id,
                     ["Name"] = product.Name,
                     ["Description"] = product.Description,
                     ["Price"] = product.Price,
