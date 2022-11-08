@@ -16,7 +16,7 @@ public class Product
         this.Category = category;
     }
 
-    public Product(long id, string name, string description, double price, Category category, bool retired)
+    private Product(long id, string name, string description, double price, Category category, bool retired)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);

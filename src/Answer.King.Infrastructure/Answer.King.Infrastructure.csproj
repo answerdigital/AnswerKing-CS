@@ -22,5 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Answer.King.Domain\Answer.King.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Answer.King.Api.UnitTests" />
+  </ItemGroup>
   
 </Project>

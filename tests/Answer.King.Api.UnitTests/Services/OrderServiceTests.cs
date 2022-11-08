@@ -1,6 +1,7 @@
 ﻿using Answer.King.Api.RequestModels;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories;
+using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -51,8 +52,8 @@ public class OrderServiceTests
         var category = new Category(1, "Cat 1", "desc");
         var products = new[]
         {
-            new Product(1, "product 1", "desc", 2.0, category, false),
-            new Product(2, "product 2", "desc", 4.0, category, false)
+            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, category, false),
+            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, category, false)
         };
 
         var orderRequest = new RequestModels.OrderDto
@@ -100,8 +101,8 @@ public class OrderServiceTests
         var category = new Category(1, "Cat 1", "desc");
         var products = new[]
         {
-            new Product(1, "product 1", "desc", 2.0, category, false),
-            new Product(2, "product 2", "desc", 4.0, category, false)
+            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, category, false),
+            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, category, false)
         };
 
         var orderRequest = new RequestModels.OrderDto

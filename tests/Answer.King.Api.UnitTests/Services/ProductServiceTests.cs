@@ -1,6 +1,7 @@
 ﻿using Answer.King.Api.RequestModels;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories;
+using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
 using Xunit;
@@ -51,7 +52,7 @@ public class ProductServiceTests
     public async void RetireProduct_ValidProductId_ReturnsProductAsRetired()
     {
         // Arrange
-        var product = new Domain.Repositories.Models.Product(1,
+        var product = ProductFactory.CreateProduct(1,
             "product", "desc", 12.00, new Domain.Repositories.Models.Category(1, "category", "desc"), false);
         
         this.ProductRepository.Get(product.Id).Returns(product);
@@ -109,15 +110,16 @@ public class ProductServiceTests
     public async void UpdateProduct_InvalidUpdatedCategory_ThrowsException()
     {
         // Arrange
-        var oldCategory = new Category(1, "category", "desc");
-        var product = new Domain.Repositories.Models.Product(1,
+        var oldCategory = this.CreateCategory(1, "category", "desc");
+
+        var product = ProductFactory.CreateProduct(1,
             "product",
             "desc",
             10.00,
             new Domain.Repositories.Models.Category(oldCategory.Id, "category", "desc"),
             false);
 
-        var updatedCategory = new Category(2, "updated category", "desc");
+        var updatedCategory = this.CreateCategory(2, "updated category", "desc");
 
         this.ProductRepository.Get(Arg.Any<long>()).Returns(product);
         this.CategoryRepository.GetByProductId(product.Id).Returns(oldCategory);
@@ -173,6 +175,15 @@ public class ProductServiceTests
         // Assert
         Assert.Equal(product, actualProduct);
         await this.ProductRepository.Received().Get(product.Id);
+    }
+
+    #endregion
+
+    #region Helpers
+
+    public Category CreateCategory(long id, string name, string description)
+    {
+        return CategoryFactory.CreateCategory(id, name, description, DateTime.UtcNow, DateTime.UtcNow, new List<Answer.King.Domain.Inventory.Models.ProductId>(), false);
     }
 
     #endregion

@@ -18,19 +18,6 @@ public class Category : IAggregateRoot
         this.Retired = false;
     }
 
-    public Category (long id, string name, string description)
-    {
-        Guard.AgainstNullOrEmptyArgument(nameof(name), name);
-        Guard.AgainstNullOrEmptyArgument(nameof(description), description);
-
-        this.Id = id;
-        this.Name = name;
-        this.Description = description;
-        this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
-        this._Products = new List<ProductId>();
-        this.Retired = false;
-    }
-
     // ReSharper disable once UnusedMember.Local
     private Category(
         long id,

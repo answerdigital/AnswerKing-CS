@@ -21,7 +21,7 @@ public class ProductTests
 
         // Act / Assert
 
-        Assert.Throws<Guard.DefaultValueException>(() => new Product(
+        Assert.Throws<Guard.DefaultValueException>(() => ProductFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -43,7 +43,7 @@ public class ProductTests
         var retired = false;
 
         // Act / Assert
-        Assert.Throws<ArgumentNullException>(() => new Product(
+        Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
             id,
             productName!,
             productDescription,
@@ -65,7 +65,7 @@ public class ProductTests
         var retired = false;
 
         // Act / Assert
-        Assert.Throws<Guard.EmptyStringException>(() => new Product(
+        Assert.Throws<Guard.EmptyStringException>(() => ProductFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -87,7 +87,7 @@ public class ProductTests
         var retired = false;
 
         // Act / Assert
-        Assert.Throws<ArgumentNullException>(() => new Product(
+        Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
             id,
             productName,
             productDescription!,
@@ -109,7 +109,7 @@ public class ProductTests
         var retired = false;
 
         // Act / Assert
-        Assert.Throws<Guard.EmptyStringException>(() => new Product(
+        Assert.Throws<Guard.EmptyStringException>(() => ProductFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -131,7 +131,7 @@ public class ProductTests
         var retired = false;
 
         // Act / Assert
-        Assert.Throws<ArgumentNullException>(() => new Product(
+        Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -153,7 +153,7 @@ public class ProductTests
         var retired = false;
 
         // Act Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => new Product(
+        Assert.Throws<ArgumentOutOfRangeException>(() => ProductFactory.CreateProduct(
             id,
             productName,
             productDescription,
