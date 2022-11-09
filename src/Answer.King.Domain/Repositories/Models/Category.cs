@@ -23,7 +23,7 @@ public class Category
         this.Description = description;
     }
 
-    public long Id { get; set; }
+    public long Id { get; }
 
     public string Name { get; }
 

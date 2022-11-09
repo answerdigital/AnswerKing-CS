@@ -31,7 +31,7 @@ public class Order : IAggregateRoot
         this._LineItems = lineItems ?? new List<LineItem>();
     }
 
-    public long Id { get; set; }
+    public long Id { get; }
 
     public DateTime CreatedOn { get; }
 

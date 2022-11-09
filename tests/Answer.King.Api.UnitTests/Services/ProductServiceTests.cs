@@ -59,7 +59,7 @@ public class ProductServiceTests
 
 
         var category = new Category("category", "desc");
-        this.CategoryRepository.Get(product.Category.Id)
+        this.CategoryRepository.GetByProductId(product.Id)
             .Returns(category);
 
         // Act
@@ -70,7 +70,7 @@ public class ProductServiceTests
         Assert.True(retiredProduct!.Retired);
         Assert.Equal(product.Id, retiredProduct.Id);
 
-        await this.CategoryRepository.Received().Get(product.Category.Id);
+        await this.CategoryRepository.Received().GetByProductId(product.Id);
         await this.CategoryRepository.Save(category);
         await this.ProductRepository.AddOrUpdate(product);
     }
@@ -98,7 +98,7 @@ public class ProductServiceTests
         var product = new Domain.Repositories.Models.Product("product", "desc", 10.00, category);
 
         this.ProductRepository.Get(Arg.Any<long>()).Returns(product);
-        this.CategoryRepository.Get(product.Category.Id).Returns(null as Category);
+        this.CategoryRepository.GetByProductId(product.Id).Returns(null as Category);
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -122,7 +122,7 @@ public class ProductServiceTests
         var updatedCategory = this.CreateCategory(2, "updated category", "desc");
 
         this.ProductRepository.Get(Arg.Any<long>()).Returns(product);
-        this.CategoryRepository.Get(product.Category.Id).Returns(oldCategory);
+        this.CategoryRepository.GetByProductId(product.Id).Returns(oldCategory);
         this.CategoryRepository.Get(updatedCategory.Id).Returns(null as Category);
 
         var updatedProduct = new ProductDto {Category = new CategoryId {Id = updatedCategory.Id}};

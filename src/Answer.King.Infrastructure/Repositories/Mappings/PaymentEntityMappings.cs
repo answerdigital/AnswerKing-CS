@@ -41,7 +41,7 @@ public class PaymentEntityMappings : IEntityMapping
         );
     }
 
-    public void ResolveMember (Type type, MemberInfo memberInfo, MemberMapper memberMapper)
+    public void ResolveMember(Type type, MemberInfo memberInfo, MemberMapper memberMapper)
     {
         if (type == typeof(Payment) && memberMapper.MemberName == "Id")
         {

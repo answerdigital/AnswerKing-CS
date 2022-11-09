@@ -32,7 +32,7 @@ public class Product
         this.Retired = retired;
     }
 
-    public long Id { get; set; }
+    public long Id { get; }
 
     public string Name { get; set; }
 

@@ -15,9 +15,9 @@ internal static class OrderData
     {
         return new List<Order>
         {
+            new Order(),
             OrderWithLineItems(),
             CancelledOrder(),
-            new Order()
         };
     }
 

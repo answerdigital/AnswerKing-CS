@@ -53,7 +53,7 @@ public class ProductEntityMappings : IEntityMapping
         );
     }
 
-    public void ResolveMember (Type type, MemberInfo memberInfo, MemberMapper memberMapper)
+    public void ResolveMember(Type type, MemberInfo memberInfo, MemberMapper memberMapper)
     {
         if (type == typeof(Product) && memberMapper.MemberName == "Id")
         {

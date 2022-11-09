@@ -1,6 +1,6 @@
 ﻿namespace Answer.King.Domain.Repositories.Models;
 
-public partial class Payment
+public class Payment
 {
     public Payment(long orderId, double amount, double orderTotal)
     {
@@ -31,7 +31,7 @@ public partial class Payment
         this.Date = date;
     }
 
-    public long Id { get; set; }
+    public long Id { get; }
 
     public long OrderId { get; }
 

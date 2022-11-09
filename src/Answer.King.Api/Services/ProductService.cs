@@ -66,7 +66,7 @@ public class ProductService : IProductService
             return null;
         }
 
-        var oldCategory = await this.Categories.Get(product.Category.Id);
+        var oldCategory = await this.Categories.GetByProductId(product.Id);
 
         if(oldCategory == null)
         {
@@ -112,7 +112,7 @@ public class ProductService : IProductService
             return null;
         }
 
-        var category = await this.Categories.Get(product.Category.Id);
+        var category = await this.Categories.GetByProductId(productId);
         if (category != null)
         {
             category.RemoveProduct(new ProductId(productId));

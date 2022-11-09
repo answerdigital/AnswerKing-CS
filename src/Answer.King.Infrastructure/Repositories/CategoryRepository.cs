@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories;

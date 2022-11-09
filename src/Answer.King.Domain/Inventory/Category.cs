@@ -44,7 +44,7 @@ public class Category : IAggregateRoot
     }
 
 
-    public long Id { get; set; }
+    public long Id { get; }
 
     public string Name { get; private set; }
 
