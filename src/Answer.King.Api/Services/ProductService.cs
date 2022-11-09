@@ -66,7 +66,7 @@ public class ProductService : IProductService
             return null;
         }
 
-        var oldCategory = await this.Categories.GetByProductId(product.Id);
+        var oldCategory = await this.Categories.GetByProductId(productId);
 
         if(oldCategory == null)
         {

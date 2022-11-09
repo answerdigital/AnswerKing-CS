@@ -58,7 +58,6 @@ public class ProductServiceTests
         
         this.ProductRepository.Get(product.Id).Returns(product);
 
-
         var category = new Category("category", "desc");
         this.CategoryRepository.GetByProductId(product.Id)
             .Returns(category);
@@ -113,12 +112,12 @@ public class ProductServiceTests
         // Arrange
         var oldCategory = this.CreateCategory(1, "category", "desc");
 
-        var product = ProductFactory.CreateProduct(1,
+        var product = new Product(
             "product",
             "desc",
             10.00,
-            new Domain.Repositories.Models.Category(oldCategory.Id, "category", "desc"),
-            false);
+            new Domain.Repositories.Models.Category(oldCategory.Id, "category", "desc")
+            );
 
         var updatedCategory = this.CreateCategory(2, "updated category", "desc");
 
