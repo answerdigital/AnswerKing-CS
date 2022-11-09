@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using LiteDB;
 
@@ -6,6 +9,9 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class CategoryEntityMappings : IEntityMapping
 {
+    private static readonly FieldInfo? CategoryIdFieldInfo =
+        typeof(Category).GetField($"<{nameof(Category.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+
     public void RegisterMapping(BsonMapper mapper)
     {
         mapper.RegisterType
@@ -42,5 +48,14 @@ public class CategoryEntityMappings : IEntityMapping
                     doc["Retired"].AsBoolean);
             }
         );
+    }
+
+    public void ResolveMember(Type type, MemberInfo memberInfo, MemberMapper memberMapper)
+    {
+        if (type == typeof(Category) && memberMapper.MemberName == "Id")
+        {
+            memberMapper.Setter =
+                (obj, value) => CategoryIdFieldInfo?.SetValue(obj, value);
+        }
     }
 }

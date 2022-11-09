@@ -21,7 +21,6 @@ public class Order : IAggregateRoot
         OrderStatus status,
         IList<LineItem>? lineItems)
     {
-        Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstDefaultValue(nameof(createdOn), createdOn);
         Guard.AgainstDefaultValue(nameof(lastUpdated), lastUpdated);
 

@@ -34,7 +34,7 @@ internal static class OrderData
         var chips = ProductData.Products
             .Where(p => p.Id == 2)
             .Select(x => new Product(x.Id, x.Name, x.Description, x.Price, new Category(x.Category.Id, x.Category.Name, x.Category.Description)))
-            .SingleOrDefault(); ;
+            .SingleOrDefault();
 
         var lineItem2 = new LineItem(chips!);
         lineItem2.AddQuantity(2);
@@ -46,7 +46,7 @@ internal static class OrderData
         };
 
         return OrderFactory.CreateOrder(
-            1,
+            0,
             DateTime.UtcNow.AddHours(-1),
             DateTime.UtcNow.AddMinutes(-10),
             OrderStatus.Created,
@@ -59,7 +59,7 @@ internal static class OrderData
         var lineItems = new List<LineItem>();
 
         return OrderFactory.CreateOrder(
-            2,
+            0,
             DateTime.UtcNow.AddHours(-3),
             DateTime.UtcNow.AddMinutes(-50),
             OrderStatus.Cancelled,

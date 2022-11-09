@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Answer.King.Domain.Orders;
 using Answer.King.Domain.Repositories;
@@ -16,8 +15,6 @@ public class OrderRepository : IOrderRepository
 
         this.Collection = db.GetCollection<Order>();
         this.Collection.EnsureIndex("LineItems.Product.Id");
-
-        this.SeedData();
     }
 
     private ILiteCollection<Order> Collection { get; }
@@ -36,22 +33,4 @@ public class OrderRepository : IOrderRepository
     {
         return Task.FromResult(this.Collection.Upsert(item));
     }
-
-    private void SeedData()
-    {
-        if (DataSeeded)
-        {
-            return;
-        }
-
-        var none = this.Collection.Count() < 1;
-        if (none)
-        {
-            this.Collection.InsertBulk(OrderData.Orders);
-        }
-
-        DataSeeded = true;
-    }
-
-    private static bool DataSeeded { get; set; }
 }
