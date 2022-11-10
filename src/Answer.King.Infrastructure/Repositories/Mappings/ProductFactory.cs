@@ -28,7 +28,7 @@ internal static class ProductFactory
          */
         try
         {
-            return (Product) ctor?.Invoke(parameters)!;
+            return (Product)ctor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {

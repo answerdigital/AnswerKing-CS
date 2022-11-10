@@ -24,11 +24,11 @@ public class ProductServiceTests
             Name = "Laptop",
             Description = "desc",
             Price = 1500.00,
-            Category = new CategoryId {Id = 1}
+            Category = new CategoryId { Id = 1 }
         };
 
         this.CategoryRepository.Get(Arg.Any<long>()).Returns(null as Category);
-                        
+
         // Act / Assert
         var sut = this.GetServiceUnderTest();
         await Assert.ThrowsAsync<ProductServiceException>(() => sut.CreateProduct(productRequest));
@@ -55,7 +55,7 @@ public class ProductServiceTests
         // Arrange
         var product = new Product(
             "product", "desc", 12.00, new Domain.Repositories.Models.Category(1, "category", "desc"));
-        
+
         this.ProductRepository.Get(product.Id).Returns(product);
 
         var category = new Category("category", "desc");
@@ -125,7 +125,7 @@ public class ProductServiceTests
         this.CategoryRepository.GetByProductId(product.Id).Returns(oldCategory);
         this.CategoryRepository.Get(updatedCategory.Id).Returns(null as Category);
 
-        var updatedProduct = new ProductDto {Category = new CategoryId {Id = updatedCategory.Id}};
+        var updatedProduct = new ProductDto { Category = new CategoryId { Id = updatedCategory.Id } };
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();

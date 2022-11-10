@@ -38,7 +38,7 @@ internal static class CategoryFactory
          */
         try
         {
-            return (Category) ctor?.Invoke(parameters)!;
+            return (Category)ctor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {

@@ -9,7 +9,7 @@ public class Category : IAggregateRoot
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
-        
+
         this.Id = 0;
         this.Name = name;
         this.Description = description;
@@ -133,11 +133,11 @@ public class CategoryLifecycleException : Exception
     {
     }
 
-    public CategoryLifecycleException () : base()
+    public CategoryLifecycleException() : base()
     {
     }
 
-    public CategoryLifecycleException (string? message, Exception? innerException) : base(message, innerException)
+    public CategoryLifecycleException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

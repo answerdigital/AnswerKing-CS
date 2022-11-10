@@ -291,11 +291,11 @@ public static class Guard
         {
         }
 
-        public EmptyStringException () : base()
+        public EmptyStringException() : base()
         {
         }
 
-        public EmptyStringException (string? message, Exception? innerException) : base(message, innerException)
+        public EmptyStringException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
     }
@@ -307,11 +307,11 @@ public static class Guard
         {
         }
 
-        public WhitespaceException () : base()
+        public WhitespaceException() : base()
         {
         }
 
-        public WhitespaceException (string? message, Exception? innerException) : base(message, innerException)
+        public WhitespaceException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
     }
@@ -323,11 +323,11 @@ public static class Guard
         {
         }
 
-        public StringExceedsNCharactersException () : base()
+        public StringExceedsNCharactersException() : base()
         {
         }
 
-        public StringExceedsNCharactersException (string? message, Exception? innerException) : base(message, innerException)
+        public StringExceedsNCharactersException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
     }
@@ -339,11 +339,11 @@ public static class Guard
         {
         }
 
-        public DefaultValueException () : base()
+        public DefaultValueException() : base()
         {
         }
 
-        public DefaultValueException (string? message, Exception? innerException) : base(message, innerException)
+        public DefaultValueException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
     }
@@ -355,11 +355,11 @@ public static class Guard
         {
         }
 
-        public EmptyListException () : base()
+        public EmptyListException() : base()
         {
         }
 
-        public EmptyListException (string? message, Exception? innerException) : base(message, innerException)
+        public EmptyListException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
     }

@@ -2,7 +2,7 @@
 
 public class Category
 {
-    public Category (string name, string description)
+    public Category(string name, string description)
     {
         Guard.AgainstNullOrWhitespaceArgument(nameof(name), name);
         Guard.AgainstNullOrWhitespaceArgument(nameof(description), description);

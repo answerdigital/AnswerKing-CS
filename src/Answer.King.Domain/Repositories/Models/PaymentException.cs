@@ -7,11 +7,11 @@ public class PaymentException : Exception
     {
     }
 
-    public PaymentException () : base()
+    public PaymentException() : base()
     {
     }
 
-    public PaymentException (string? message, Exception? innerException) : base(message, innerException)
+    public PaymentException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

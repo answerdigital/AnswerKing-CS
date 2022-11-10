@@ -35,11 +35,11 @@ public class LiteDbConnectionFactoryException : Exception
     {
     }
 
-    public LiteDbConnectionFactoryException () : base()
+    public LiteDbConnectionFactoryException() : base()
     {
     }
 
-    public LiteDbConnectionFactoryException (string? message, Exception? innerException) : base(message, innerException)
+    public LiteDbConnectionFactoryException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

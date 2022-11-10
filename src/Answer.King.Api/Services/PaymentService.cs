@@ -75,7 +75,7 @@ internal class PaymentServiceException : Exception
     {
     }
 
-    public PaymentServiceException () : base()
+    public PaymentServiceException() : base()
     {
     }
 }

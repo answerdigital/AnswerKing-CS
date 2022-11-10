@@ -130,11 +130,11 @@ public class OrderPaymentException : Exception
     {
     }
 
-    public OrderPaymentException () : base()
+    public OrderPaymentException() : base()
     {
     }
 
-    public OrderPaymentException (string? message, Exception? innerException) : base(message, innerException)
+    public OrderPaymentException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }
@@ -146,11 +146,11 @@ public class OrderLifeCycleException : Exception
     {
     }
 
-    public OrderLifeCycleException () : base()
+    public OrderLifeCycleException() : base()
     {
     }
 
-    public OrderLifeCycleException (string? message, Exception? innerException) : base(message, innerException)
+    public OrderLifeCycleException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }
