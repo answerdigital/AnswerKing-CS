@@ -26,11 +26,11 @@ public static class LiteDbServiceCollectionExtensions
     {
         var mappings = app.ApplicationServices.GetServices<IEntityMapping>();
 
+        var originalResolver = BsonMapper.Global.ResolveMember;
+
         foreach (var entityMapping in mappings)
         {
             entityMapping.RegisterMapping(BsonMapper.Global);
-
-            var originalResolver = BsonMapper.Global.ResolveMember;
 
             BsonMapper.Global.ResolveMember = (type, memberInfo, memberMapper) =>
             {

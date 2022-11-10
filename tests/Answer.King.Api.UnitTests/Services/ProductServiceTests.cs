@@ -53,8 +53,8 @@ public class ProductServiceTests
     public async void RetireProduct_ValidProductId_ReturnsProductAsRetired()
     {
         // Arrange
-        var product = ProductFactory.CreateProduct(1,
-            "product", "desc", 12.00, new Domain.Repositories.Models.Category(1, "category", "desc"), false);
+        var product = new Product(
+            "product", "desc", 12.00, new Domain.Repositories.Models.Category(1, "category", "desc"));
         
         this.ProductRepository.Get(product.Id).Returns(product);
 
