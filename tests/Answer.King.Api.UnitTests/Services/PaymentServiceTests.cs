@@ -1,4 +1,4 @@
-using Answer.King.Api.RequestModels;
+﻿using Answer.King.Api.RequestModels;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
@@ -36,7 +36,7 @@ public class PaymentServiceTests
         order.AddLineItem(1, "product", "desc", 12.00,
             new Category(1, "category", "desc"), 2);
 
-        var makePayment = new MakePayment {OrderId = order.Id, Amount = 20.00};
+        var makePayment = new MakePayment { OrderId = order.Id, Amount = 20.00 };
 
         this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
@@ -55,7 +55,7 @@ public class PaymentServiceTests
             new Category(1, "category", "desc"), 2);
         order.CompleteOrder();
 
-        var makePayment = new MakePayment {OrderId = order.Id, Amount = 24.00};
+        var makePayment = new MakePayment { OrderId = order.Id, Amount = 24.00 };
 
         this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
@@ -72,7 +72,7 @@ public class PaymentServiceTests
         var order = new Order();
         order.CancelOrder();
 
-        var makePayment = new MakePayment {OrderId = order.Id, Amount = 24.00};
+        var makePayment = new MakePayment { OrderId = order.Id, Amount = 24.00 };
 
         this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
@@ -90,7 +90,7 @@ public class PaymentServiceTests
         order.AddLineItem(1, "product", "desc", 12.00,
             new Category(1, "category", "desc"), 2);
 
-        var makePayment = new MakePayment {OrderId = order.Id, Amount = 24.00};
+        var makePayment = new MakePayment { OrderId = order.Id, Amount = 24.00 };
         var expectedPayment = new Payment(order.Id, makePayment.Amount, order.OrderTotal);
 
         this.OrderRepository.Get(Arg.Any<long>()).Returns(order);

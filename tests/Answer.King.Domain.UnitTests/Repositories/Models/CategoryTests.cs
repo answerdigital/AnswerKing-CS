@@ -8,7 +8,7 @@ namespace Answer.King.Domain.UnitTests.Repositories.Models;
 public class CategoryTests
 {
     [Fact]
-    public void Category_InitWithWithDefaultId_ThrowsDefaultValueException ()
+    public void Category_InitWithWithDefaultId_ThrowsDefaultValueException()
     {
         // Arrange
         var id = 0;

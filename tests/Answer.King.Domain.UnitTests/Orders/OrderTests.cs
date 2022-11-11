@@ -23,16 +23,16 @@ public class OrderTests
     {
         var order = new Order();
         order.CancelOrder();
-            
+
         Assert.Throws<OrderLifeCycleException>(() => order.CompleteOrder());
     }
-        
+
     [Fact]
     public void CancelOrder_OrderStatusCompleted_ThrowsOrderLifecycleException()
     {
         var order = new Order();
         order.CompleteOrder();
-            
+
         Assert.Throws<OrderLifeCycleException>(() => order.CancelOrder());
     }
 

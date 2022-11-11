@@ -23,19 +23,19 @@ public class OrderServiceTests
         // Arrange
         var lineItem1 = new LineItemDto
         {
-            Product = new ProductId {Id = 1},
+            Product = new ProductId { Id = 1 },
             Quantity = 1
         };
 
         var lineItem2 = new LineItemDto
         {
-            Product = new ProductId {Id = 1},
+            Product = new ProductId { Id = 1 },
             Quantity = 1
         };
 
         var orderRequest = new RequestModels.OrderDto
         {
-            LineItems = new List<LineItemDto>(new[] {lineItem1, lineItem2})
+            LineItems = new List<LineItemDto>(new[] { lineItem1, lineItem2 })
         };
 
         // Act / Assert

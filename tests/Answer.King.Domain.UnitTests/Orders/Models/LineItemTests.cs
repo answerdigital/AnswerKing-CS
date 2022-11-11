@@ -97,7 +97,7 @@ public class LineItemTests
         // Act / Assert
         Assert.Throws<LineItemException>(() => lineItem.RemoveQuantity(0));
     }
-        
+
     [Fact]
     public void RemoveQuantity_RemoveMoreThanQuantity_ThrowsLineItemException()
     {
@@ -106,7 +106,7 @@ public class LineItemTests
         var lineItem = new LineItem(product);
         var quantity = 1;
         var moreThanQuantity = 3;
-            
+
         // Act
         lineItem.AddQuantity(quantity);
 

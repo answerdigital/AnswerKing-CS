@@ -110,7 +110,7 @@ public class CategoryServiceTests
             new Category("category 1", "desc"),
             new Category("category 2", "desc")
         };
-            
+
         this.CategoryRepository.Get().Returns(categories);
 
         // Act
