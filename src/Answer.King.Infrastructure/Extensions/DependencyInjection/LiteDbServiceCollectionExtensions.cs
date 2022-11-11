@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Infrastructure.SeedData;
 using LiteDB;
@@ -24,20 +25,21 @@ public static class LiteDbServiceCollectionExtensions
 
     public static IApplicationBuilder UseLiteDb(this IApplicationBuilder app)
     {
-        var mappings = app.ApplicationServices.GetServices<IEntityMapping>();
-
-        var originalResolver = BsonMapper.Global.ResolveMember;
+        var mappings =
+            app.ApplicationServices.GetServices<IEntityMapping>().ToList();
 
         foreach (var entityMapping in mappings)
         {
             entityMapping.RegisterMapping(BsonMapper.Global);
-
-            BsonMapper.Global.ResolveMember = (type, memberInfo, memberMapper) =>
-            {
-                originalResolver(type, memberInfo, memberMapper);
-                entityMapping.ResolveMember(type, memberInfo, memberMapper);
-            };
         }
+
+        var originalResolver = BsonMapper.Global.ResolveMember;
+
+        BsonMapper.Global.ResolveMember = (type, memberInfo, memberMapper) =>
+        {
+            originalResolver(type, memberInfo, memberMapper);
+            mappings.ForEach(mapping => mapping.ResolveMember(type, memberInfo, memberMapper));
+        };
 
         var connections = app.ApplicationServices.GetRequiredService<ILiteDbConnectionFactory>();
 

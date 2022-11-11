@@ -17,7 +17,7 @@ public class ProductDataSeeder : ISeedData
         var none = collection.Count() < 1;
         if (none)
         {
-            collection.InsertBulk(ProductData.Products);
+            collection.Insert(ProductData.Products);
         }
 
         DataSeeded = true;

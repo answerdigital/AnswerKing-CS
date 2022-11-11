@@ -17,7 +17,7 @@ public class CategoryDataSeeder : ISeedData
         var none = collection.Count() < 1;
         if (none)
         {
-            collection.InsertBulk(CategoryData.Categories);
+            collection.Insert(CategoryData.Categories);
         }
 
         DataSeeded = true;

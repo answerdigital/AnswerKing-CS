@@ -17,7 +17,7 @@ public class OrderDataSeeder : ISeedData
         var none = collection.Count() < 1;
         if (none)
         {
-            collection.InsertBulk(OrderData.Orders);
+            collection.Insert(OrderData.Orders);
         }
 
         DataSeeded = true;
