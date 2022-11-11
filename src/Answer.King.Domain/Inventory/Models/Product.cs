@@ -4,6 +4,7 @@ public class ProductId
 {
     public ProductId(long id)
     {
+        Guard.AgainstDefaultValue(nameof(id), id);
 
         this.Id = id;
     }
