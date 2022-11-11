@@ -274,7 +274,7 @@ public class OrderStateConstantsData : IEnumerable<object[]>
         return new List<object[]>
         {
             new object[] { 0, OrderStatus.Created },
-            new object[] { 1, OrderStatus.Paid },
+            new object[] { 1, OrderStatus.Complete },
             new object[] { 2, OrderStatus.Cancelled },
         }.GetEnumerator();
     }

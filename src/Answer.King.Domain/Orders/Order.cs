@@ -100,7 +100,7 @@ public class Order : IAggregateRoot
             throw new OrderLifeCycleException($"Cannot complete order - Order status {this.OrderStatus}.");
         }
 
-        this.OrderStatus = OrderStatus.Paid;
+        this.OrderStatus = OrderStatus.Complete;
         this.LastUpdated = DateTime.UtcNow;
     }
 
@@ -119,7 +119,7 @@ public class Order : IAggregateRoot
 public enum OrderStatus
 {
     Created = 0,
-    Paid = 1,
+    Complete = 1,
     Cancelled = 2
 }
 
