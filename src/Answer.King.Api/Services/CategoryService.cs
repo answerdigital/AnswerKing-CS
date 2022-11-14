@@ -55,6 +55,11 @@ public class CategoryService : ICategoryService
             return null;
         }
 
+        if (category.Retired)
+        {
+            throw new CategoryServiceException("The category is already retired.");
+        }
+
         try
         {
             category.RetireCategory();

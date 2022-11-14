@@ -112,6 +112,11 @@ public class ProductService : IProductService
             return null;
         }
 
+        if (product.Retired)
+        {
+            throw new ProductServiceException("The product is already retired.");
+        }
+
         var category = await this.Categories.GetByProductId(productId);
         if (category != null)
         {

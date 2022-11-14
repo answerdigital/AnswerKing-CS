@@ -24,7 +24,7 @@ public class OrdersController : ControllerBase
     /// <response code="200">When all the orders have been returned.</response>
     // GET api/orders
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<Domain.Orders.Order>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<Order>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
     {
         return this.Ok(await this.Orders.GetOrders());
@@ -39,8 +39,8 @@ public class OrdersController : ControllerBase
     /// <response code="404">When the order with the given <paramref name="id"/> does not exist</response>
     // GET api/orders/{ID}
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetOne(long id)
     {
         var order = await this.Orders.GetOrder(id);
@@ -60,8 +60,8 @@ public class OrdersController : ControllerBase
     /// <response code="400">When invalid parameters are provided.</response>
     // POST api/orders
     [HttpPost]
-    [ProducesResponseType(typeof(Domain.Orders.Order), 201)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
+    [ProducesResponseType(typeof(Order), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody] OrderDto createOrder)
     {
         try
@@ -87,9 +87,9 @@ public class OrdersController : ControllerBase
     /// <response code="404">When the order with the given <paramref name="id"/> does not exist.</response>
     // PUT api/orders/{ID}
     [HttpPut("{id}")]
-    [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put(long id, [FromBody] OrderDto updateOrder)
     {
         try
@@ -124,9 +124,9 @@ public class OrdersController : ControllerBase
     /// <response code="404">When the order with the given <paramref name="id"/> does not exist.</response>
     // DELETE api/orders/{ID}
     [HttpDelete("{id}")]
-    [ProducesResponseType(typeof(Domain.Orders.Order), 200)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Cancel(long id)
     {
         try
