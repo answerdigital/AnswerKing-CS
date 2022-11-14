@@ -14,7 +14,7 @@ public class OrderRepository : IOrderRepository
         var db = connections.GetConnection();
 
         this.Collection = db.GetCollection<Order>();
-        this.Collection.EnsureIndex("LineItems.Product.Id");
+        this.Collection.EnsureIndex("LineItems.Product._id");
     }
 
     private ILiteCollection<Order> Collection { get; }

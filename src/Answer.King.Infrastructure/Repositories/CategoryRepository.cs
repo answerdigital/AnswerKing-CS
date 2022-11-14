@@ -13,7 +13,7 @@ public class CategoryRepository : ICategoryRepository
         var db = connections.GetConnection();
 
         this.Collection = db.GetCollection<Category>();
-        this.Collection.EnsureIndex("Products.Id");
+        this.Collection.EnsureIndex("Products._id");
     }
 
     private ILiteCollection<Category> Collection { get; }
@@ -36,7 +36,7 @@ public class CategoryRepository : ICategoryRepository
 
     public Task<Category?> GetByProductId(long productId)
     {
-        var query = Query.EQ("Products[*]._id", productId);
+        var query = Query.EQ("Products[*]._id ANY", productId);
         return Task.FromResult(this.Collection.FindOne(query))!;
     }
 }
