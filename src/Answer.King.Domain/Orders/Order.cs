@@ -46,7 +46,7 @@ public class Order : IAggregateRoot
 
     public IReadOnlyCollection<LineItem> LineItems => (this._LineItems as List<LineItem>)!;
 
-    public void AddLineItem(Guid productId, string productName, string productDescription, double price, Category productCategory, int quantity = 1)
+    public void AddLineItem(Guid productId, string productName, string productDescription, double price, IList<Category> productCategories, int quantity = 1)
     {
         Guard.AgainstDefaultValue(nameof(productId), productId);
 
@@ -59,7 +59,7 @@ public class Order : IAggregateRoot
 
         if (lineItem == null)
         {
-            var product = new Product(productId, productName, productDescription, price, productCategory);
+            var product = new Product(productId, productName, productDescription, price, productCategories);
             lineItem = new LineItem(product);
             this._LineItems.Add(lineItem);
         }

@@ -22,12 +22,12 @@ public class OrderEntityMappings : IEntityMapping
                         ["_id"] = li.Product.Id,
                         ["Name"] = li.Product.Name,
                         ["Description"] = li.Product.Description,
-                        ["Category"] = new BsonDocument
+                        ["Categories"] = new BsonArray(li.Product.Categories.Select(ca => new BsonDocument
                         {
-                            ["_id"] = li.Product.Category.Id,
-                            ["Name"] = li.Product.Category.Name,
-                            ["Description"] = li.Product.Category.Description
-                        },
+                            ["_id"] = ca.Id,
+                            ["Name"] = ca.Name,
+                            ["Description"] = ca.Description
+                        })),
                         ["Price"] = li.Product.Price
                     },
                     ["Quantity"] = li.Quantity

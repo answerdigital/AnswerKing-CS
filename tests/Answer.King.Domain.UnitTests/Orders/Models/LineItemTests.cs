@@ -137,7 +137,10 @@ public class LineItemTests
         "name",
         "description",
         142,
-        new Category(Guid.NewGuid(), "name", "description")
+        new List<Category>
+        {
+            new Category(Guid.NewGuid(), "name", "description")
+        }
     );
 
     #endregion Helpers

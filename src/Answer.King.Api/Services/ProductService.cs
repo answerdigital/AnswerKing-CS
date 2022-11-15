@@ -35,7 +35,7 @@ public class ProductService : IProductService
 
     public async Task<Product> CreateProduct(RequestModels.ProductDto createProduct)
     {
-        var category = await this.Categories.Get(createProduct.Category.Id);
+        var category = await this.Categories.Get(createProduct.Categories.First().Id);
 
         if (category == null)
         {
@@ -46,7 +46,10 @@ public class ProductService : IProductService
             createProduct.Name,
             createProduct.Description,
             createProduct.Price,
-            new Category(category.Id, category.Name, category.Description));
+            new List<Category>
+            {
+                new Category (category.Id, category.Name, category.Description)
+            });
 
         await this.Products.AddOrUpdate(product);
 
@@ -73,10 +76,10 @@ public class ProductService : IProductService
             throw new ProductServiceException("Could not find a category for this product id.");
         }
 
-        var categoryChanged = oldCategory.Id != updateProduct.Category.Id;
+        var categoryChanged = oldCategory.Id != updateProduct.Categories.First().Id;
 
         var category = categoryChanged
-            ? await this.Categories.Get(updateProduct.Category.Id)
+            ? await this.Categories.Get(updateProduct.Categories.First().Id)
             : oldCategory;
 
         if(category == null)
@@ -96,7 +99,10 @@ public class ProductService : IProductService
         product.Name = updateProduct.Name;
         product.Description = updateProduct.Description;
         product.Price = updateProduct.Price;
-        product.Category = new Category(category.Id, category.Name, category.Description);
+        product.Categories = new List<Category>
+        {
+            new Category (category.Id, category.Name, category.Description)
+        };
 
         await this.Products.AddOrUpdate(product);
 

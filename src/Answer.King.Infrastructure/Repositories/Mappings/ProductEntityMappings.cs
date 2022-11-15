@@ -1,4 +1,5 @@
-﻿using Answer.King.Domain.Repositories.Models;
+﻿using System.Linq;
+using Answer.King.Domain.Repositories.Models;
 using LiteDB;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
@@ -17,12 +18,12 @@ public class ProductEntityMappings : IEntityMapping
                     ["Name"] = product.Name,
                     ["Description"] = product.Description,
                     ["Price"] = product.Price,
-                    ["Category"] = new BsonDocument
+                    ["Categories"] = new BsonArray(product.Categories.Select(ca => new BsonDocument
                     {
-                        ["_id"] = product.Category.Id,
-                        ["Name"] = product.Category.Name,
-                        ["Description"] = product.Category.Description
-                    },
+                        ["_id"] = ca.Id,
+                        ["Name"] = ca.Name,
+                        ["Description"] = ca.Description
+                    })),
                     ["Retired"] = product.Retired
                 };
 
@@ -32,7 +33,8 @@ public class ProductEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
                 var cat = doc["Category"].AsDocument;
-                var category = new Category(
+                var categories = new 
+                Category(
                     cat["_id"].AsGuid,
                     cat["Name"].AsString,
                     cat["Description"].AsString);
@@ -42,7 +44,7 @@ public class ProductEntityMappings : IEntityMapping
                     doc["Name"].AsString,
                     doc["Description"].AsString,
                     doc["Price"].AsDouble,
-                    category, 
+                    categories, 
                     doc["Retired"].AsBoolean);
             }
         );
