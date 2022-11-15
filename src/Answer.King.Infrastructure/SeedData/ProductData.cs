@@ -14,14 +14,20 @@ internal static class ProductData
             "Fish",
             "Delicious and satisfying.",
             5.99,
-            Category(1),
+            new List<CategoryId>
+            {
+                new CategoryId(1)
+            },
             false),
         ProductFactory.CreateProduct(
             2,
             "Chips",
             "Nothing more to say.",
             2.99,
-            Category(2),
+            new List<CategoryId>
+            {
+                new CategoryId(2)
+            },
             false)
     };
 

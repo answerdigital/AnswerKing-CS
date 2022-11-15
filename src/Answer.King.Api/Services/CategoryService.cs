@@ -1,5 +1,7 @@
-﻿using Answer.King.Domain.Inventory;
+﻿using Answer.King.Api.RequestModels;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories;
+using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Api.Services;
 
@@ -24,7 +26,9 @@ public class CategoryService : ICategoryService
 
     public async Task<Category> CreateCategory(RequestModels.CategoryDto createCategory)
     {
-        var category = new Category(createCategory.Name, createCategory.Description);
+        var products = createCategory.Products.Select(p => new Domain.Inventory.Models.ProductId(p.Id));
+
+        var category = new Category(createCategory.Name, createCategory.Description, products.ToList());
 
         await this.Categories.Save(category);
 

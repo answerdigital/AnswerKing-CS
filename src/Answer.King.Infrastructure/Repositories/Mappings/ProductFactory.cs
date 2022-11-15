@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories.Models;
 
 [assembly: InternalsVisibleTo("Answer.King.Domain.UnitTests")]
@@ -14,14 +16,14 @@ internal static class ProductFactory
         string name,
         string description,
         double price,
-        Category category,
+        IList<CategoryId> categories,
         bool retired)
     {
         var ctor = typeof(Product)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate);
 
-        var parameters = new object[] { id, name, description, price, category, retired };
+        var parameters = new object[] { id, name, description, price, categories, retired };
 
         /* invoking a private constructor will wrap up any exception into a
          * TargetInvocationException so here I unwrap it

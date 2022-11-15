@@ -96,7 +96,7 @@ public class ProductService : IProductService
         product.Name = updateProduct.Name;
         product.Description = updateProduct.Description;
         product.Price = updateProduct.Price;
-        product.Category = new Category(category.Id, category.Name, category.Description);
+        product.AddCategory(new CategoryId(category.Id));
 
         await this.Products.AddOrUpdate(product);
 

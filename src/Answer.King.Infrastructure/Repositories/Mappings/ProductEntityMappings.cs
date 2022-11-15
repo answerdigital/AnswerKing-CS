@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories.Models;
 using LiteDB;
 
@@ -16,18 +18,15 @@ public class ProductEntityMappings : IEntityMapping
         (
             serialize: product =>
             {
+                var categories = product.Categories.Select(p => new BsonDocument { ["_id"] = p.Id });
+
                 var doc = new BsonDocument
                 {
                     ["_id"] = product.Id,
                     ["Name"] = product.Name,
                     ["Description"] = product.Description,
                     ["Price"] = product.Price,
-                    ["Category"] = new BsonDocument
-                    {
-                        ["_id"] = product.Category.Id,
-                        ["Name"] = product.Category.Name,
-                        ["Description"] = product.Category.Description
-                    },
+                    ["Categories"] = new BsonArray(categories),
                     ["Retired"] = product.Retired
                 };
 
@@ -36,18 +35,14 @@ public class ProductEntityMappings : IEntityMapping
             deserialize: bson =>
             {
                 var doc = bson.AsDocument;
-                var cat = doc["Category"].AsDocument;
-                var category = new Category(
-                    cat["_id"].AsInt64,
-                    cat["Name"].AsString,
-                    cat["Description"].AsString);
 
                 return ProductFactory.CreateProduct(
                     doc["_id"].AsInt64,
                     doc["Name"].AsString,
                     doc["Description"].AsString,
                     doc["Price"].AsDouble,
-                    category,
+                    doc["Categories"].AsArray.Select(
+                        p => new CategoryId(p.AsDocument["_id"].AsInt64)).ToList(),
                     doc["Retired"].AsBoolean);
             }
         );
