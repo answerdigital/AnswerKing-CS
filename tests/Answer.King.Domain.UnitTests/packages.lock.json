@@ -1055,14 +1055,14 @@
       "answer.king.infrastructure": {
         "type": "Project",
         "dependencies": {
-          "Answer.King.Domain": "1.0.0",
-          "LiteDB": "5.0.12"
+          "Answer.King.Domain": "[1.0.0, )",
+          "LiteDB": "[5.0.12, )"
         }
       },
       "answer.king.test.common": {
         "type": "Project",
         "dependencies": {
-          "xunit": "2.4.1"
+          "xunit": "[2.4.1, )"
         }
       }
     }
