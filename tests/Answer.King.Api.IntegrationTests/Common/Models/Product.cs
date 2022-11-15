@@ -2,6 +2,7 @@
 using Answer.King.Domain.Inventory;
 
 namespace Answer.King.Api.IntegrationTests.Common.Models;
+
 public class Product
 {
     public Product(long id, string name, string description, double price, Category category, bool retired)

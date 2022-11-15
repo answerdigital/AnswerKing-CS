@@ -1425,9 +1425,6 @@
           "NETStandard.Library": "1.6.1",
           "xunit.extensibility.core": "[2.4.1]"
         }
-      },
-      "answer.king.domain": {
-        "type": "Project"
       }
     }
   }

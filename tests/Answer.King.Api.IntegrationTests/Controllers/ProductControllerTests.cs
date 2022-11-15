@@ -1,223 +1,267 @@
-﻿using System.Text;
-using Answer.King.Api.RequestModels;
+﻿using Alba;
+using Answer.King.Api.IntegrationTests.Common;
 using Answer.King.Api.IntegrationTests.Common.Models;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
+using Answer.King.Api.RequestModels;
+using VerifyTests;
+using VerifyXunit;
 using Xunit;
-using Assert = Xunit.Assert;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
-[TestClass]
-public class ProductControllerTests 
-{
-    private readonly HttpClient _httpClient;
 
-    public ProductControllerTests()
+[UsesVerify]
+public class ProductControllerTests : IClassFixture<WebFixtures>
+{
+    private readonly IAlbaHost _host;
+
+    private VerifySettings _errorLevelSettings;
+
+    public ProductControllerTests(WebFixtures app)
     {
-        var webApplicationFactory = new WebApplicationFactory<Program>();
-        this._httpClient = webApplicationFactory.CreateDefaultClient();
+        this._host = app.AlbaHost;
+
+        this._errorLevelSettings = new();
+        this._errorLevelSettings.ScrubMember("traceId");
     }
 
     #region Get
     [Fact]
-    public async Task GetProducts_ReturnsList()
+    public async Task<VerifyResult> GetProducts_ReturnsList()
     {
+        var result = await this._host.Scenario(_ =>
+        {
+            _.Get.Url("/api/products");
+            _.StatusCodeShouldBeOk();
+        });
 
-        var response = await this._httpClient.GetAsync("/api/products");
-        var result = await response.Content.ReadAsStringAsync();
-        var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(result);
-
-        Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
-        Assert.NotEmpty(products);
+        var products = result.ReadAsJson<IEnumerable<Product>>();
+        return await Verify(products);
     }
 
     [Fact]
-    public async Task GetProduct_ProductExists_ReturnsProduct()
+    public async Task<VerifyResult> GetProduct_ProductExists_ReturnsProduct()
     {
-        var response = await this._httpClient.GetAsync("/api/products/1");
-        var result = await response.Content.ReadAsStringAsync();
-        var products = JsonConvert.DeserializeObject<Product>(result);
+        var result = await this._host.Scenario(_ =>
+        {
+            _.Get.Url("/api/products/1");
+            _.StatusCodeShouldBeOk();
+        });
 
-        Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        var products = result.ReadAsJson<Product>();
+        return await Verify(products);
     }
 
     [Fact]
-    public async Task GetProduct_ProductDoesNotExist_Returns404()
+    public async Task<VerifyResult> GetProduct_ProductDoesNotExist_Returns404()
     {
-        var response = await this._httpClient.GetAsync("/api/products/5000");
+        var result = await this._host.Scenario(_ =>
+        {
+            _.Get.Url("/api/products/50");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
+        });
 
-        Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
     }
     #endregion
 
     #region Post
     [Fact]
-    public async Task PostProduct_ValidModel_ReturnsNewProduct()
+    public async Task<VerifyResult> PostProduct_ValidModel_ReturnsNewProduct()
     {
-        var body = new
+        var result = await this._host.Scenario(_ =>
         {
-            Name = "Burger",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 1 }
-        };
+            _.Post
+                .Json(new
+                {
+                    Name = "Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 1 }
+                })
+                .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
+        });
 
-        var response = await this._httpClient.PostAsync(
-            "/api/products",
-            new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
-
-        Assert.Equal(System.Net.HttpStatusCode.Created, response.StatusCode);
+        var products = result.ReadAsJson<Product>();
+        return await Verify(products);
     }
 
     [Fact]
-    public async Task PostProduct_InValidMedia_Fails()
+    public async Task<VerifyResult> PostProduct_InValidDTO_Fails()
     {
-        var body = new
+        var result = await this._host.Scenario(_ =>
         {
-            Actor = "Burger",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 1 }
-        };
+            _.Post
+                .Json(new
+                {
+                    Name = "Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 4 }
+                })
+                .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
 
-        var response = await this._httpClient.PostAsync(
-            "/api/products",
-            new StringContent(JsonConvert.SerializeObject(body)));
-
-        Assert.Equal(System.Net.HttpStatusCode.UnsupportedMediaType, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task PostProduct_InValidDTO_Fails()
-    {
-        var body = new
-        {
-            Name = "Burger",
-            Description = "Juicy",
-            Price = 1.50
-        };
-
-        var response = await this._httpClient.PostAsync(
-            "/api/products",
-            new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
-
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
     }
     #endregion
 
     #region Put
     [Fact]
-    public async Task PutProduct_ValidDTO_ReturnsModel()
+    public async Task<VerifyResult> PutProduct_ValidDTO_ReturnsModel()
     {
-        var body = new
+        var postResult = await this._host.Scenario(_ =>
         {
-            Name = "Test",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 1 }
-        };
+            _.Post
+                .Json(new
+                {
+                    Name = "Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 1 }
+                })
+                .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
+        });
 
-        var postResponse = await this._httpClient.PostAsync(
-            "/api/products",
-            new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
+        var products = postResult.ReadAsJson<Product>();
 
-        var result = await postResponse.Content.ReadAsStringAsync();
-        var product = JsonConvert.DeserializeObject<Product>(result);
-
-        var putBody = new
+        var putResult = await this._host.Scenario(_ =>
         {
-            Name = "BBQ Burger",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 1 }
-        };
+            _.Put
+                .Json(new
+                {
+                    Name = "BBQ Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 1 }
+                })
+                .ToUrl($"/api/products/{products?.Id}");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
+        });
 
-        var response = await this._httpClient.PutAsync(
-            $"/api/products/{product.Id}",
-            new StringContent(JsonConvert.SerializeObject(putBody), Encoding.UTF8, "application/json"));
-
-        var putResult = await response.Content.ReadAsStringAsync();
-        var putProduct = JsonConvert.DeserializeObject<Product>(putResult);
-
-        Assert.Equal(putBody.Name, putProduct.Name);
-        Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        var updatedProduct = putResult.ReadAsJson<Product>();
+        return await Verify(updatedProduct);
     }
 
     [Fact]
-    public async Task PutProduct_InvalidDTO_ReturnsModel()
+    public async Task<VerifyResult> PutProduct_InvalidDTO_ReturnsBadRequest()
     {
-        var body = new
+        var putResult = await this._host.Scenario(_ =>
         {
-            Name = "BBQ Burger",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 300000 }
-        };
+            _.Put
+                .Json(new
+                {
+                    Name = "BBQ Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 4 }
+                })
+                .ToUrl("/api/products/1");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
 
-        var response = await this._httpClient.PutAsync(
-            "/api/products/1",
-            new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
-
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
     }
 
     [Fact]
-    public async Task PutProduct_InvalidId_ReturnsNotFound()
+    public async Task<VerifyResult> PutProduct_InvalidId_ReturnsNotFound()
     {
-        var body = new
+        var putResult = await this._host.Scenario(_ =>
         {
-            Name = "BBQ Burger",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 1 }
-        };
+            _.Put
+                .Json(new
+                {
+                    Name = "BBQ Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 1 }
+                })
+                .ToUrl("/api/products/5");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
+        });
 
-        var response = await this._httpClient.PutAsync(
-            "/api/products/100000",
-            new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
-
-        Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
     }
     #endregion
 
     #region Retire
     [Fact]
-    public async Task RetireProduct_InvalidId_ReturnsNotFound()
+    public async Task<VerifyResult> RetireProduct_InvalidId_ReturnsNotFound()
     {
-        var response = await this._httpClient.DeleteAsync("/api/products/100000");
-
-        Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task RetireProduct_ValidId_ReturnsOk()
-    {
-        var body = new
+        var putResult = await this._host.Scenario(_ =>
         {
-            Name = "Test",
-            Description = "Juicy",
-            Price = 1.50,
-            Category = new CategoryId { Id = 1 }
-        };
+            _.Delete
+                .Url("/api/products/5");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
+        });
 
-        var postResponse = await this._httpClient.PostAsync(
-            "/api/products",
-            new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json"));
-
-        var result = await postResponse.Content.ReadAsStringAsync();
-        var product = JsonConvert.DeserializeObject<Product>(result);
-
-        var response = await this._httpClient.DeleteAsync($"/api/products/{product.Id}");
-
-        Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
     }
 
     [Fact]
-    public async Task RetireProduct_ValidId_IsRetired_ReturnsNotFound()
+    public async Task<VerifyResult> RetireProduct_ValidId_ReturnsOk()
     {
-        var response = await this._httpClient.DeleteAsync("/api/products/3");
+        var postResult = await this._host.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 1 }
+                })
+                .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
+        });
 
-        Assert.Equal(System.Net.HttpStatusCode.Gone, response.StatusCode);
+        var products = postResult.ReadAsJson<Product>();
+
+        var putResult = await this._host.Scenario(_ =>
+        {
+            _.Delete
+                .Url($"/api/products/{products?.Id}");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> RetireProduct_ValidId_IsRetired_ReturnsNotFound()
+    {
+        var postResult = await this._host.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Category = new CategoryId { Id = 1 }
+                })
+                .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
+        });
+
+        var products = postResult.ReadAsJson<Product>();
+
+        await this._host.Scenario(_ =>
+        {
+            _.Delete
+                .Url($"/api/products/{products?.Id}");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
+        });
+
+        var secondDeleteResult = await this._host.Scenario(_ =>
+        {
+            _.Delete
+                .Url($"/api/products/{products?.Id}");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Gone);
+        });
+
+        return await VerifyJson(secondDeleteResult.ReadAsTextAsync(), this._errorLevelSettings);
     }
     #endregion
 }
