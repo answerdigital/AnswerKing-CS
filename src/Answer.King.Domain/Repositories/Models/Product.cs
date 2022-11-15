@@ -6,7 +6,7 @@ namespace Answer.King.Domain.Repositories.Models;
 
 public class Product
 {
-    public Product(string name, string description, double price, IList<CategoryId>? categories)
+    public Product(string name, string description, double price, IList<Category>? categories)
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -17,7 +17,7 @@ public class Product
         this.Description = description;
         this.Price = price;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
-        this._Categories = categories ?? new List<CategoryId>();
+        this._Categories = categories ?? new List<Category>();
     }
 
     private Product(long id,
@@ -26,7 +26,7 @@ public class Product
         double price,
         DateTime createdOn,
         DateTime lastUpdated,
-        IList<CategoryId>? categories,
+        IList<Category>? categories,
         bool retired)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
@@ -42,7 +42,7 @@ public class Product
         this.Price = price;
         this.CreatedOn = createdOn;
         this.LastUpdated = lastUpdated;
-        this._Categories = categories ?? new List<CategoryId>();
+        this._Categories = categories ?? new List<Category>();
         this.Retired = retired;
     }
 
@@ -58,39 +58,39 @@ public class Product
 
     public DateTime LastUpdated { get; private set; }
 
-    private IList<CategoryId> _Categories { get; }
+    private IList<Category> _Categories { get; }
 
-    public IReadOnlyCollection<CategoryId> Categories => (this._Categories as List<CategoryId>)!;
+    public IReadOnlyCollection<Category> Categories => (this._Categories as List<Category>)!;
 
     public bool Retired { get; private set; }
 
-    public void AddCategory(CategoryId categoryId)
+    public void AddCategory(Category category)
     {
         if (this.Retired)
         {
             throw new ProductLifecycleException("Cannot add category to retired product.");
         }
 
-        var exists = this._Categories.Any(p => p.Id == categoryId.Id);
+        var exists = this._Categories.Any(p => p.Id == category.Id);
 
         if (exists)
         {
             return;
         }
 
-        this._Categories.Add(categoryId);
+        this._Categories.Add(category);
 
         this.LastUpdated = DateTime.UtcNow;
     }
 
-    public void RemoveCategory(CategoryId categoryId)
+    public void RemoveCategory(long categoryId)
     {
         if (this.Retired)
         {
             throw new ProductLifecycleException("Cannot remove category from retired product.");
         }
 
-        var existing = this._Categories.SingleOrDefault(p => p.Id == categoryId.Id);
+        var existing = this._Categories.SingleOrDefault(p => p.Id == categoryId);
 
         if (existing == null)
         {

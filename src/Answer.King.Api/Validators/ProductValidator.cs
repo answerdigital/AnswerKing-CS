@@ -15,9 +15,5 @@ public class ProductValidator : AbstractValidator<ProductDto>
 
         this.RuleFor(p => p.Price)
             .GreaterThanOrEqualTo(0.00);
-
-        this.RuleFor(p => p.Category)
-            .NotNull()
-            .SetValidator(new CategoryIdValidator());
     }
 }
