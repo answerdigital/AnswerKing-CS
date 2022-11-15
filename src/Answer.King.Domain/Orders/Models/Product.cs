@@ -2,7 +2,7 @@
 
 public class Product
 {
-    public Product(Guid id, string name, string description, double price, IList<Category> categories)
+    public Product(long id, string name, string description, double price, IList<Category> categories)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
@@ -17,7 +17,7 @@ public class Product
         this.Categories = categories;
     }
 
-    public Guid Id { get; }
+    public long Id { get; }
 
     public string Name { get; set; }
 

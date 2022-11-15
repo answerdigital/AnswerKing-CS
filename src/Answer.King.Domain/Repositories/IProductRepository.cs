@@ -4,11 +4,11 @@ namespace Answer.King.Domain.Repositories;
 
 public interface IProductRepository
 {
-    Task<Product?> Get(Guid id);
+    Task<Product?> Get(long id);
 
     Task<IEnumerable<Product>> Get();
 
-    Task<IEnumerable<Product>> Get(IEnumerable<Guid> ids);
+    Task<IEnumerable<Product>> Get(IEnumerable<long> ids);
 
     Task AddOrUpdate(Product product);
 }

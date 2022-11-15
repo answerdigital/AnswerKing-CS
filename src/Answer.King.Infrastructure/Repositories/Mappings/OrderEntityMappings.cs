@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Answer.King.Domain.Orders;
 using Answer.King.Domain.Orders.Models;
 using LiteDB;
@@ -8,13 +9,15 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class OrderEntityMappings : IEntityMapping
 {
+    private static readonly FieldInfo? OrderIdFieldInfo =
+        typeof(Order).GetField($"<{nameof(Order.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+
     public void RegisterMapping(BsonMapper mapper)
     {
         mapper.RegisterType
         (
             serialize: order =>
             {
-
                 var lineItems = order.LineItems.Select(li => new BsonDocument
                 {
                     ["Product"] = new BsonDocument
@@ -48,18 +51,27 @@ public class OrderEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
 
-                var lineItems = 
+                var lineItems =
                     doc["LineItems"].AsArray.Select(this.ToLineItem)
                         .ToList();
 
                 return OrderFactory.CreateOrder(
-                    doc["_id"].AsGuid,
+                    doc["_id"].AsInt64,
                     doc["CreatedOn"].AsDateTime,
                     doc["LastUpdated"].AsDateTime,
                     (OrderStatus)Enum.Parse(typeof(OrderStatus), doc["OrderStatus"]),
                     lineItems);
             }
         );
+    }
+
+    public void ResolveMember(Type type, MemberInfo memberInfo, MemberMapper memberMapper)
+    {
+        if (type == typeof(Order) && memberMapper.MemberName == "Id")
+        {
+            memberMapper.Setter =
+                (obj, value) => OrderIdFieldInfo?.SetValue(obj, value);
+        }
     }
 
     private LineItem ToLineItem(BsonValue item)
@@ -70,12 +82,12 @@ public class OrderEntityMappings : IEntityMapping
 
         var result = new LineItem(
             new Product(
-                product["_id"].AsGuid,
+                product["_id"].AsInt64,
                 product["Name"].AsString,
                 product["Description"].AsString,
                 product["Price"].AsDouble,
                 new Category(
-                    category["_id"].AsGuid,
+                    category["_id"].AsInt64,
                     category["Name"].AsString,
                     category["Description"].AsString)
             )

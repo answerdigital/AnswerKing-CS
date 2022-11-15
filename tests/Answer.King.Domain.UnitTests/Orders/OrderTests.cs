@@ -23,16 +23,16 @@ public class OrderTests
     {
         var order = new Order();
         order.CancelOrder();
-            
+
         Assert.Throws<OrderLifeCycleException>(() => order.CompleteOrder());
     }
-        
+
     [Fact]
     public void CancelOrder_OrderStatusCompleted_ThrowsOrderLifecycleException()
     {
         var order = new Order();
         order.CompleteOrder();
-            
+
         Assert.Throws<OrderLifeCycleException>(() => order.CancelOrder());
     }
 
@@ -43,12 +43,12 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
         var categories = new List<Category>
         {
-            new Category(Guid.NewGuid(), "name", "description")
+            new Category(1, "name", "description")
         };
         var price = 1.24;
         var quantity = 2;
@@ -65,12 +65,12 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
         var categories = new List<Category>
         {
-            new Category(Guid.NewGuid(), "name", "description")
+            new Category(1, "name", "description")
         };
         var price = 1.24;
         var quantity = 2;
@@ -87,12 +87,12 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
         var categories = new List<Category>
         {
-            new Category(Guid.NewGuid(), "name", "description")
+            new Category(1, "name", "description")
         };
         var price = 1.24;
         var quantity = 2;
@@ -115,12 +115,12 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
         var categories = new List<Category>
         {
-            new Category(Guid.NewGuid(), "name", "description")
+            new Category(1, "name", "description")
         };
         var price = 1.24;
         var quantity = 2;
@@ -140,12 +140,12 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var name = "name";
         var description = "description";
         var categories = new List<Category>
         {
-            new Category(Guid.NewGuid(), "name", "description")
+            new Category(1, "name", "description")
         };
         var price = 1.24;
         var quantity = 2;
@@ -170,7 +170,7 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var quantity = 2;
 
         order.CompleteOrder();
@@ -185,7 +185,7 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var quantity = 2;
 
         order.CancelOrder();
@@ -200,7 +200,7 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var quantity = 3;
 
         // Act
@@ -215,13 +215,13 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "PRODUCT_NAME";
         var productDescription = "PRODUCT_DESCRIPTION";
         var categories = new List<Category>
         {
             new Category(
-            Guid.Parse("9BAC7050-D3C4-4793-A5C8-BEEAC4EA4229"),
+            1,
             "CATEGORY_NAME",
             "CATEGORY_DESCRIPTION"
         )};
@@ -245,13 +245,13 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "PRODUCT_NAME";
         var productDescription = "PRODUCT_DESCRIPTION";
         var category = new List<Category>
         {
             new Category(
-            Guid.Parse("9BAC7050-D3C4-4793-A5C8-BEEAC4EA4229"),
+            1,
             "CATEGORY_NAME",
             "CATEGORY_DESCRIPTION"
         )};
@@ -293,7 +293,7 @@ public class OrderStateConstantsData : IEnumerable<object[]>
         return new List<object[]>
         {
             new object[] { 0, OrderStatus.Created },
-            new object[] { 1, OrderStatus.Paid },
+            new object[] { 1, OrderStatus.Complete },
             new object[] { 2, OrderStatus.Cancelled },
         }.GetEnumerator();
     }

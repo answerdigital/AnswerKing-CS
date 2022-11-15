@@ -4,5 +4,5 @@ public record MakePayment
 {
     public double Amount { get; init; }
 
-    public Guid OrderId { get; init; }
+    public long OrderId { get; init; }
 }

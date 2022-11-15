@@ -2,5 +2,5 @@
 
 public interface IAggregateRoot
 {
-    Guid Id { get; }
+    long Id { get; }
 }

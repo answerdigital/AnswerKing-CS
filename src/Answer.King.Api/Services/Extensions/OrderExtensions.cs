@@ -116,7 +116,7 @@ public static class OrderExtensions
         /// <summary>
         /// Product Id to provide when calling <see cref="Order.AddLineItem"/> or <see cref="Order.RemoveLineItem"/>.
         /// </summary>
-        public Guid ProductId { get; set; }
+        public long ProductId { get; set; }
 
         /// <summary>
         /// Quantity to add/remove when calling <see cref="Order.AddLineItem"/> or <see cref="Order.RemoveLineItem"/>.

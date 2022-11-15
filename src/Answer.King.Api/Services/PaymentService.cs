@@ -24,7 +24,7 @@ public class PaymentService : IPaymentService
         return await this.Payments.Get();
     }
 
-    public async Task<Payment?> GetPayment(Guid paymentId)
+    public async Task<Payment?> GetPayment(long paymentId)
     {
         return await this.Payments.Get(paymentId);
     }
@@ -75,7 +75,7 @@ internal class PaymentServiceException : Exception
     {
     }
 
-    public PaymentServiceException () : base()
+    public PaymentServiceException() : base()
     {
     }
 }

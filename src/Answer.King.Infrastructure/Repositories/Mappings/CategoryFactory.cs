@@ -9,8 +9,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class CategoryFactory
 {
-    public static Category CreateOrder(
-        Guid id,
+    public static Category CreateCategory(
+        long id,
         string name,
         string description,
         DateTime createdOn,
@@ -38,7 +38,7 @@ internal static class CategoryFactory
          */
         try
         {
-            return (Category) ctor?.Invoke(parameters)!;
+            return (Category)ctor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {

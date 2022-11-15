@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories;
-using Answer.King.Infrastructure.SeedData;
 using LiteDB;
 
 namespace Answer.King.Infrastructure.Repositories;
@@ -15,9 +13,7 @@ public class CategoryRepository : ICategoryRepository
         var db = connections.GetConnection();
 
         this.Collection = db.GetCollection<Category>();
-        this.Collection.EnsureIndex("Products.Id");
-
-        this.SeedData();
+        this.Collection.EnsureIndex("Products._id");
     }
 
     private ILiteCollection<Category> Collection { get; }
@@ -28,7 +24,7 @@ public class CategoryRepository : ICategoryRepository
         return Task.FromResult(this.Collection.FindAll());
     }
 
-    public Task<Category?> Get(Guid id)
+    public Task<Category?> Get(long id)
     {
         return Task.FromResult(this.Collection.FindOne(c => c.Id == id))!;
     }
@@ -38,27 +34,9 @@ public class CategoryRepository : ICategoryRepository
         return Task.FromResult(this.Collection.Upsert(item));
     }
 
-    public Task<Category?> GetByProductId(Guid productId)
+    public Task<Category?> GetByProductId(long productId)
     {
-        var query = Query.EQ("Products[*]._id", productId);
+        var query = Query.EQ("Products[*]._id ANY", productId);
         return Task.FromResult(this.Collection.FindOne(query))!;
     }
-
-    private void SeedData()
-    {
-        if (DataSeeded)
-        {
-            return;
-        }
-
-        var none = this.Collection.Count() < 1;
-        if (none)
-        {
-            this.Collection.InsertBulk(CategoryData.Categories);
-        }
-
-        DataSeeded = true;
-    }
-
-    private static bool DataSeeded { get; set; }
 }

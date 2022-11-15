@@ -97,7 +97,7 @@ public class LineItemTests
         // Act / Assert
         Assert.Throws<LineItemException>(() => lineItem.RemoveQuantity(0));
     }
-        
+
     [Fact]
     public void RemoveQuantity_RemoveMoreThanQuantity_ThrowsLineItemException()
     {
@@ -106,7 +106,7 @@ public class LineItemTests
         var lineItem = new LineItem(product);
         var quantity = 1;
         var moreThanQuantity = 3;
-            
+
         // Act
         lineItem.AddQuantity(quantity);
 
@@ -133,13 +133,13 @@ public class LineItemTests
     #region Helpers
 
     private Product GetProduct() => new Product(
-        Guid.NewGuid(),
+        1,
         "name",
         "description",
         142,
         new List<Category>
         {
-            new Category(Guid.NewGuid(), "name", "description")
+            new Category(1, "name", "description")
         }
     );
 

@@ -8,11 +8,11 @@ public interface IOrderService
 {
     Task<Order> CreateOrder(RequestOrder createOrder);
 
-    Task<Order?> GetOrder(Guid orderId);
+    Task<Order?> GetOrder(long orderId);
 
     Task<IEnumerable<Order>> GetOrders();
 
-    Task<Order?> UpdateOrder(Guid orderId, RequestOrder updateOrder);
+    Task<Order?> UpdateOrder(long orderId, RequestOrder updateOrder);
 
-    Task<Order?> CancelOrder(Guid orderId);
+    Task<Order?> CancelOrder(long orderId);
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
@@ -19,7 +18,7 @@ public class PaymentRepository : IPaymentRepository
     private ILiteCollection<Payment> Collection { get; }
 
 
-    public Task<Payment> Get(Guid id)
+    public Task<Payment> Get(long id)
     {
         return Task.FromResult(this.Collection.FindOne(c => c.Id == id));
     }

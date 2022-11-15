@@ -23,12 +23,12 @@ public class ProductService : IProductService
         return await this.Products.Get();
     }
 
-    public async Task<IEnumerable<Product>> GetProducts(IEnumerable<Guid> productIds)
+    public async Task<IEnumerable<Product>> GetProducts(IEnumerable<long> productIds)
     {
         return await this.Products.Get(productIds);
     }
 
-    public async Task<Product?> GetProduct(Guid productId)
+    public async Task<Product?> GetProduct(long productId)
     {
         return await this.Products.Get(productId);
     }
@@ -60,18 +60,18 @@ public class ProductService : IProductService
         return product;
     }
 
-    public async Task<Product?> UpdateProduct(Guid productId, RequestModels.ProductDto updateProduct)
+    public async Task<Product?> UpdateProduct(long productId, RequestModels.ProductDto updateProduct)
     {
         var product = await this.Products.Get(productId);
 
-        if(product == null)
+        if (product == null)
         {
             return null;
         }
 
         var oldCategory = await this.Categories.GetByProductId(productId);
 
-        if(oldCategory == null)
+        if (oldCategory == null)
         {
             throw new ProductServiceException("Could not find a category for this product id.");
         }
@@ -82,12 +82,12 @@ public class ProductService : IProductService
             ? await this.Categories.Get(updateProduct.Categories.First().Id)
             : oldCategory;
 
-        if(category == null)
+        if (category == null)
         {
             throw new ProductServiceException("The provided category id is not valid.");
         }
 
-        if(categoryChanged)
+        if (categoryChanged)
         {
             oldCategory.RemoveProduct(new ProductId(productId));
             await this.Categories.Save(oldCategory);
@@ -109,13 +109,18 @@ public class ProductService : IProductService
         return product;
     }
 
-    public async Task<Product?> RetireProduct(Guid productId)
+    public async Task<Product?> RetireProduct(long productId)
     {
         var product = await this.Products.Get(productId);
 
         if (product == null)
         {
             return null;
+        }
+
+        if (product.Retired)
+        {
+            throw new ProductServiceException("The product is already retired.");
         }
 
         var category = await this.Categories.GetByProductId(productId);
@@ -140,11 +145,11 @@ internal class ProductServiceException : Exception
     {
     }
 
-    public ProductServiceException () : base()
+    public ProductServiceException() : base()
     {
     }
 
-    public ProductServiceException (string? message, Exception? innerException) : base(message, innerException)
+    public ProductServiceException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

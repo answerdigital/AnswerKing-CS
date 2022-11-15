@@ -156,7 +156,7 @@ csharp_style_prefer_switch_expression = true:warning
 csharp_style_prefer_pattern_matching = true:silent
 csharp_style_prefer_not_pattern = true:warning
 csharp_style_prefer_extended_property_pattern = true:warning
-csharp_space_between_method_declaration_name_and_open_parenthesis = true
+csharp_space_between_method_declaration_name_and_open_parenthesis = false:warning
 csharp_style_namespace_declarations = file_scoped:warning
 ###############################
 # VB Coding Conventions       #
@@ -215,6 +215,8 @@ dotnet_diagnostic.IDE0041.severity = warning
 dotnet_diagnostic.IDE0150.severity = warning
 # Use Filescoped
 dotnet_diagnostic.IDE0161.severity = warning
+# Fix formatting
+dotnet_diagnostic.IDE0055.severity = warning
 
 [*.cs]
 ### C# rules

@@ -7,7 +7,7 @@ public class Order : IAggregateRoot
 {
     public Order()
     {
-        this.Id = Guid.NewGuid();
+        this.Id = 0;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
         this.OrderStatus = OrderStatus.Created;
         this._LineItems = new List<LineItem>();
@@ -15,13 +15,12 @@ public class Order : IAggregateRoot
 
     // ReSharper disable once UnusedMember.Local
     private Order(
-        Guid id,
+        long id,
         DateTime createdOn,
         DateTime lastUpdated,
         OrderStatus status,
         IList<LineItem>? lineItems)
     {
-        Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstDefaultValue(nameof(createdOn), createdOn);
         Guard.AgainstDefaultValue(nameof(lastUpdated), lastUpdated);
 
@@ -32,7 +31,7 @@ public class Order : IAggregateRoot
         this._LineItems = lineItems ?? new List<LineItem>();
     }
 
-    public Guid Id { get; }
+    public long Id { get; }
 
     public DateTime CreatedOn { get; }
 
@@ -46,7 +45,7 @@ public class Order : IAggregateRoot
 
     public IReadOnlyCollection<LineItem> LineItems => (this._LineItems as List<LineItem>)!;
 
-    public void AddLineItem(Guid productId, string productName, string productDescription, double price, IList<Category> productCategories, int quantity = 1)
+    public void AddLineItem(long productId, string productName, string productDescription, double price, IList<Category> productCategories, int quantity = 1)
     {
         Guard.AgainstDefaultValue(nameof(productId), productId);
 
@@ -68,7 +67,7 @@ public class Order : IAggregateRoot
         this.LastUpdated = DateTime.UtcNow;
     }
 
-    public void RemoveLineItem(Guid productId, int quantity = 1)
+    public void RemoveLineItem(long productId, int quantity = 1)
     {
         Guard.AgainstDefaultValue(nameof(productId), productId);
 
@@ -101,7 +100,7 @@ public class Order : IAggregateRoot
             throw new OrderLifeCycleException($"Cannot complete order - Order status {this.OrderStatus}.");
         }
 
-        this.OrderStatus = OrderStatus.Paid;
+        this.OrderStatus = OrderStatus.Complete;
         this.LastUpdated = DateTime.UtcNow;
     }
 
@@ -120,7 +119,7 @@ public class Order : IAggregateRoot
 public enum OrderStatus
 {
     Created = 0,
-    Paid = 1,
+    Complete = 1,
     Cancelled = 2
 }
 
@@ -131,11 +130,11 @@ public class OrderPaymentException : Exception
     {
     }
 
-    public OrderPaymentException () : base()
+    public OrderPaymentException() : base()
     {
     }
 
-    public OrderPaymentException (string? message, Exception? innerException) : base(message, innerException)
+    public OrderPaymentException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }
@@ -147,11 +146,11 @@ public class OrderLifeCycleException : Exception
     {
     }
 
-    public OrderLifeCycleException () : base()
+    public OrderLifeCycleException() : base()
     {
     }
 
-    public OrderLifeCycleException (string? message, Exception? innerException) : base(message, innerException)
+    public OrderLifeCycleException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

@@ -7,7 +7,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class PaymentFactory
 {
-    public static Payment CreatePayment(Guid id, Guid orderId, double amount, double orderTotal, DateTime date)
+    public static Payment CreatePayment(long id, long orderId, double amount, double orderTotal, DateTime date)
     {
         var ctor = typeof(Payment)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)

@@ -30,7 +30,7 @@ public class PaymentsController : ControllerBase
     /// <response code="200">When all the payments have been returned.</response>
     // GET: api/payments
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<Payment>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<Payment>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
     {
         var payments = await this.Payments.GetPayments();
@@ -46,9 +46,9 @@ public class PaymentsController : ControllerBase
     /// <response code="404">When the payment with the given <paramref name="id"/> does not exist</response>
     // GET: api/payments/5
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(Payment), 200)]
-    [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOne(Guid id)
+    [ProducesResponseType(typeof(Payment), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetOne(long id)
     {
         var payment = await this.Payments.GetPayment(id);
 
@@ -68,8 +68,8 @@ public class PaymentsController : ControllerBase
     /// <response code="400">When invalid parameters are provided.</response>
     // POST api/payments
     [HttpPost]
-    [ProducesResponseType(typeof(Payment), 201)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
+    [ProducesResponseType(typeof(Payment), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody] MakePayment makePayment)
     {
         try
@@ -91,11 +91,11 @@ public class PaymentsController : ControllerBase
     /// <param name="id"></param>
     /// <response code="200">When the order has been returned.</response>
     /// <response code="404">When the payment with the given <paramref name="id"/> does not exist.</response>
-    // GET api/payments/{GUID}/order
+    // GET api/payments/{ID}/order
     [HttpGet("{id}/order")]
-    [ProducesResponseType(typeof(IEnumerable<Order>), 200)]
-    [ProducesResponseType(404)]
-    public async Task<IActionResult> GetOrder(Guid id)
+    [ProducesResponseType(typeof(IEnumerable<Order>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetOrder(long id)
     {
         var payment = await this.Payments.GetPayment(id);
 

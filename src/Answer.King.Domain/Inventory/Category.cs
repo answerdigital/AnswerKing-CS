@@ -10,7 +10,7 @@ public class Category : IAggregateRoot
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
 
-        this.Id = Guid.NewGuid();
+        this.Id = 0;
         this.Name = name;
         this.Description = description;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
@@ -20,7 +20,7 @@ public class Category : IAggregateRoot
 
     // ReSharper disable once UnusedMember.Local
     private Category(
-        Guid id,
+        long id,
         string name,
         string description,
         DateTime createdOn,
@@ -43,7 +43,8 @@ public class Category : IAggregateRoot
         this.Retired = retired;
     }
 
-    public Guid Id { get; }
+
+    public long Id { get; }
 
     public string Name { get; private set; }
 
@@ -132,11 +133,11 @@ public class CategoryLifecycleException : Exception
     {
     }
 
-    public CategoryLifecycleException () : base()
+    public CategoryLifecycleException() : base()
     {
     }
 
-    public CategoryLifecycleException (string? message, Exception? innerException) : base(message, innerException)
+    public CategoryLifecycleException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

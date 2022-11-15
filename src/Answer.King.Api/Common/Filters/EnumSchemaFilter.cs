@@ -6,7 +6,7 @@ namespace Answer.King.Api.Common.Filters;
 
 public class EnumSchemaFilter : ISchemaFilter
 {
-    public void Apply (OpenApiSchema model, SchemaFilterContext context)
+    public void Apply(OpenApiSchema model, SchemaFilterContext context)
     {
         if (context.Type.IsEnum)
         {

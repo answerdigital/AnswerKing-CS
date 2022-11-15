@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Answer.King.Domain.Repositories;
@@ -19,8 +18,7 @@ public class ProductRepository : IProductRepository
 
     private ILiteCollection<Product> Collection { get; }
 
-
-    public Task<Product?> Get(Guid id)
+    public Task<Product?> Get(long id)
     {
         return Task.FromResult(this.Collection.FindOne(c => c.Id == id))!;
     }
@@ -30,7 +28,7 @@ public class ProductRepository : IProductRepository
         return Task.FromResult(this.Collection.FindAll());
     }
 
-    public Task<IEnumerable<Product>> Get(IEnumerable<Guid> ids)
+    public Task<IEnumerable<Product>> Get(IEnumerable<long> ids)
     {
         return Task.FromResult(this.Collection.Find(p => ids.Contains(p.Id)));
     }

@@ -47,11 +47,11 @@ public class LineItemException : Exception
     {
     }
 
-    public LineItemException () : base()
+    public LineItemException() : base()
     {
     }
 
-    public LineItemException (string? message, Exception? innerException) : base(message, innerException)
+    public LineItemException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

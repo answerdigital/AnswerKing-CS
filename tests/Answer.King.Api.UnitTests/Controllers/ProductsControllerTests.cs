@@ -57,7 +57,7 @@ public class ProductsControllerTests
     public async void GetOne_ServiceReturnsNull_ReturnsNotFoundResult()
     {
         // Arrange
-        var id = Guid.Parse("220D4AF3-A520-4F71-A8BC-519C70867D20");
+        var id = 1;
 
         // Act
         var result = await GetSubjectUnderTest.GetOne(id);
@@ -70,7 +70,7 @@ public class ProductsControllerTests
     public void GetOne_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
-        //var id = Guid.Parse("220D4AF3-A520-4F71-A8BC-519C70867D20");
+        //var id = 1;
         //var products = new List<Product>();
         //ProductService.GetProduct(id).Returns(products);
 

@@ -2,5 +2,5 @@
 
 public record ProductId
 {
-    public Guid Id { get; init; }
+    public long Id { get; init; }
 }

@@ -9,10 +9,10 @@ namespace Answer.King.Domain.UnitTests.Repositories.Models;
 public class ProductTests
 {
     [Fact]
-    public void Product_InitWithDefaultGuid_ThrowsDefaultValueException()
+    public void Product_InitWithDefaultId_ThrowsDefaultValueException()
     {
         // Arrange
-        var id = default(Guid);
+        var id = 0;
         var productName = "Product Name";
         var productDescription = "Product Description";
         var category = this.GetCategory();
@@ -35,7 +35,7 @@ public class ProductTests
     public void Product_InitWithNullName_ThrowsArgumentNullException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = null as string;
         var productDescription = "Product Description";
         var category = this.GetCategory();
@@ -57,7 +57,7 @@ public class ProductTests
     public void Product_InitWithEmptyStringName_ThrowsEmptyStringException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "";
         var productDescription = "Product Description";
         var category = this.GetCategory();
@@ -79,7 +79,7 @@ public class ProductTests
     public void Product_InitWithNullDescription_ThrowsArgumentNullException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "Product Name";
         var productDescription = null as string;
         var category = this.GetCategory();
@@ -101,7 +101,7 @@ public class ProductTests
     public void Product_InitWithEmptyStringDescription_ThrowsEmptyStringException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "Product Name";
         var productDescription = "";
         var category = this.GetCategory();
@@ -123,7 +123,7 @@ public class ProductTests
     public void Product_InitWithNullCategory_ThrowsNullArgumentException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "Product Name";
         var productDescription = "Product Description";
         var category = null as Category;
@@ -145,7 +145,7 @@ public class ProductTests
     public void Product_InitWithNegativePrice_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = 1;
         var productName = "Product Name";
         var productDescription = "Product Description";
         var category = this.GetCategory();
@@ -166,7 +166,7 @@ public class ProductTests
     #region Helpers
 
     private Category GetCategory() => new Category(
-        Guid.NewGuid(),
+        1,
         "name",
         "description"
     );

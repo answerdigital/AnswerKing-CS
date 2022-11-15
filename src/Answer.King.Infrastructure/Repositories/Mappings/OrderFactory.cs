@@ -10,7 +10,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 internal static class OrderFactory
 {
     public static Order CreateOrder(
-        Guid id,
+        long id,
         DateTime createdOn,
         DateTime lastUpdated,
         OrderStatus status,
@@ -20,14 +20,14 @@ internal static class OrderFactory
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate);
 
-        var parameters = new object[] {id, createdOn, lastUpdated, status, lineItems};
+        var parameters = new object[] { id, createdOn, lastUpdated, status, lineItems };
 
         /* invoking a private constructor will wrap up any exception into a
          * TargetInvocationException so here I unwrap it
          */
         try
         {
-            return (Order) ctor?.Invoke(parameters)!;
+            return (Order)ctor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {
