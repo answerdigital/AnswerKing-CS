@@ -73,7 +73,7 @@ public class OrdersController : ControllerBase
         catch (ProductInvalidException ex)
         {
             this.ModelState.AddModelError("LineItems.ProductId", ex.Message);
-            return this.BadRequest(this.ModelState);
+            return this.ValidationProblem();
         }
     }
 
@@ -106,12 +106,12 @@ public class OrdersController : ControllerBase
         catch (ProductInvalidException ex)
         {
             this.ModelState.AddModelError("LineItems.ProductId", ex.Message);
-            return this.BadRequest(this.ModelState);
+            return this.ValidationProblem();
         }
         catch (OrderLifeCycleException ex)
         {
-            this.ModelState.AddModelError("Order", ex.Message);
-            return this.BadRequest(this.ModelState);
+            this.ModelState.AddModelError("order", ex.Message);
+            return this.ValidationProblem();
         }
     }
 
@@ -142,8 +142,8 @@ public class OrdersController : ControllerBase
         }
         catch (OrderLifeCycleException ex)
         {
-            this.ModelState.AddModelError("Order", ex.Message);
-            return this.BadRequest(this.ModelState);
+            this.ModelState.AddModelError("order", ex.Message);
+            return this.ValidationProblem();
         }
     }
 }

@@ -81,7 +81,8 @@ public class PaymentsController : ControllerBase
         catch (PaymentServiceException ex)
         {
             this.ModelState.AddModelError("error", ex.Message);
-            return this.BadRequest(this.ModelState);
+            return this.ValidationProblem();
+
         }
     }
 

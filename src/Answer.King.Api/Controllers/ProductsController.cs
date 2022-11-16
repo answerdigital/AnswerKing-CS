@@ -1,4 +1,5 @@
-﻿using Answer.King.Api.Services;
+﻿using System.Xml.Linq;
+using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,8 +73,8 @@ public class ProductsController : ControllerBase
         }
         catch (ProductServiceException ex)
         {
-            this.ModelState.AddModelError("Category", ex.Message);
-            return this.BadRequest(this.ModelState);
+            this.ModelState.AddModelError("category", ex.Message);
+            return this.ValidationProblem();
         }
     }
 
@@ -105,8 +106,8 @@ public class ProductsController : ControllerBase
         }
         catch (ProductServiceException ex)
         {
-            this.ModelState.AddModelError("Category", ex.Message);
-            return this.BadRequest(this.ModelState);
+            this.ModelState.AddModelError("category", ex.Message);
+            return this.ValidationProblem();
         }
     }
 
@@ -137,7 +138,10 @@ public class ProductsController : ControllerBase
         }
         catch (ProductServiceException)
         {
-            return this.StatusCode(StatusCodes.Status410Gone);
+            return this.Problem(
+                type: "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.9",
+                title: "Gone",
+                statusCode: StatusCodes.Status410Gone);
         }
     }
 }
