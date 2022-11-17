@@ -248,7 +248,7 @@ public class OrderTests
         var id = 1;
         var productName = "PRODUCT_NAME";
         var productDescription = "PRODUCT_DESCRIPTION";
-        var category = new List<Category>
+        var categories = new List<Category>
         {
             new Category(
             1,
@@ -258,7 +258,7 @@ public class OrderTests
         var quantity = 3;
         var price = 1.25;
 
-        order.AddLineItem(id, productName, productDescription, price, category, quantity);
+        order.AddLineItem(id, productName, productDescription, price, categories, quantity);
 
         // Act
         order.RemoveLineItem(id, 3);

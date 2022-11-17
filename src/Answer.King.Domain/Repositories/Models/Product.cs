@@ -6,7 +6,7 @@ namespace Answer.King.Domain.Repositories.Models;
 
 public class Product
 {
-    public Product(string name, string description, double price, IList<Category>? categories)
+    public Product(string name, string description, double price, IList<Category> categories)
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -17,7 +17,7 @@ public class Product
         this.Description = description;
         this.Price = price;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
-        this._Categories = categories ?? new List<Category>();
+        this._Categories = categories;
     }
 
     private Product(long id,

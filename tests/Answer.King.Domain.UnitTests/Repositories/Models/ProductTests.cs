@@ -15,7 +15,7 @@ public class ProductTests
         var id = 0;
         var productName = "Product Name";
         var productDescription = "Product Description";
-        var category = new List<Category> { this.GetCategory() };
+        var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
         var createdOn = DateTime.Now;
@@ -30,7 +30,7 @@ public class ProductTests
             price,
             createdOn,
             lastUpdated,
-            category,
+            categories,
             retired)
         );
     }
@@ -42,7 +42,7 @@ public class ProductTests
         var id = 1;
         var productName = null as string;
         var productDescription = "Product Description";
-        var category = new List<Category> { this.GetCategory() };
+        var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
         var createdOn = DateTime.Now;
@@ -56,7 +56,7 @@ public class ProductTests
             price,
             createdOn,
             lastUpdated,
-            category,
+            categories,
             retired)
         );
     }
@@ -68,7 +68,7 @@ public class ProductTests
         var id = 1;
         var productName = "";
         var productDescription = "Product Description";
-        var category = new List<Category> { this.GetCategory() };
+        var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
         var createdOn = DateTime.Now;
@@ -82,7 +82,7 @@ public class ProductTests
             price,
             createdOn,
             lastUpdated,
-            category,
+            categories,
             retired)
         );
     }
@@ -94,7 +94,7 @@ public class ProductTests
         var id = 1;
         var productName = "Product Name";
         var productDescription = null as string;
-        var category = new List<Category> { this.GetCategory() };
+        var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
         var createdOn = DateTime.Now;
@@ -108,7 +108,7 @@ public class ProductTests
             price,
             createdOn,
             lastUpdated,
-            category,
+            categories,
             retired)
         );
     }
@@ -120,7 +120,7 @@ public class ProductTests
         var id = 1;
         var productName = "Product Name";
         var productDescription = "";
-        var category = new List<Category> { this.GetCategory() };
+        var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
         var createdOn = DateTime.Now;
@@ -134,33 +134,7 @@ public class ProductTests
             price,
             createdOn,
             lastUpdated,
-            category,
-            retired)
-        );
-    }
-
-    [Fact]
-    public void Product_InitWithNullCategory_ThrowsNullArgumentException()
-    {
-        // Arrange
-        var id = 1;
-        var productName = "Product Name";
-        var productDescription = "Product Description";
-        var category = null as Category[];
-        var price = 142;
-        var retired = false;
-        var createdOn = DateTime.Now;
-        var lastUpdated = DateTime.Now;
-
-        // Act / Assert
-        Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
-            id,
-            productName,
-            productDescription,
-            price,
-            createdOn,
-            lastUpdated,
-            category!,
+            categories,
             retired)
         );
     }
@@ -172,7 +146,7 @@ public class ProductTests
         var id = 1;
         var productName = "Product Name";
         var productDescription = "Product Description";
-        var category = new List<Category> { this.GetCategory() };
+        var categories = new List<Category> { this.GetCategory() };
         var price = -1;
         var retired = false;
         var createdOn = DateTime.Now;
@@ -186,7 +160,7 @@ public class ProductTests
             price,
             createdOn,
             lastUpdated,
-            category,
+            categories,
             retired)
         );
     }
