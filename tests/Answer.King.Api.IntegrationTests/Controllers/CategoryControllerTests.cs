@@ -2,7 +2,6 @@
 using Answer.King.Api.IntegrationTests.Common;
 using Answer.King.Api.IntegrationTests.Common.Models;
 using Answer.King.Api.RequestModels;
-using Answer.King.Domain.Inventory;
 using VerifyTests;
 using VerifyXunit;
 using Xunit;
@@ -47,7 +46,7 @@ public class CategoryControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBeOk();
         });
 
-        var products = result.ReadAsJson<Product>();
+        var products = result.ReadAsJson<Category>();
         return await Verify(products);
     }
 
