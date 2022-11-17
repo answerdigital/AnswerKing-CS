@@ -162,6 +162,44 @@ public class ProductServiceTests
             sut.UpdateProduct(oldProduct.Id, updatedProduct));
     }
 
+    [Fact]
+    public async void UpdateProduct_ValidUpdatedCategory_UpdatesCategoryCorrectly()
+    {
+        // Arrange
+        var oldCategory = this.CreateCategory(1, "category", "desc");
+        var oldCategories = new Category[]
+        {
+            oldCategory
+        };
+        var oldProduct = ProductFactory.CreateProduct(1,
+            "product", "desc", 10.00, DateTime.Now, DateTime.Now, new List<Domain.Repositories.Models.Category>
+            {
+                new Domain.Repositories.Models.Category(1, "category", "desc")
+            }, false);
+
+        var updatedCategory = this.CreateCategory(2, "updated category", "desc");
+
+        this.ProductRepository.Get(Arg.Any<long>()).Returns(oldProduct);
+        this.CategoryRepository.GetByProductId(oldProduct.Id).Returns(oldCategories);
+        this.CategoryRepository.Get(updatedCategory.Id).Returns(updatedCategory);
+
+        var updatedProduct = new ProductDto
+        {
+            Categories = new List<CategoryId>
+            {
+                new CategoryId
+                {
+                    Id = updatedCategory.Id
+                }
+            }
+        };
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        var product = await sut.UpdateProduct(oldProduct.Id, updatedProduct);
+        Assert.Equal(updatedCategory.Id, product?.Categories.First().Id);
+    }
+
     #endregion
 
     #region Get
