@@ -1,4 +1,6 @@
-﻿namespace Answer.King.Domain.Orders.Models;
+﻿using Answer.King.Domain.Repositories.Models;
+
+namespace Answer.King.Domain.Orders.Models;
 
 public class Product
 {
@@ -14,7 +16,7 @@ public class Product
         this.Name = name;
         this.Description = description;
         this.Price = price;
-        this.Categories = categories;
+        this._Categories = categories;
     }
 
     public long Id { get; }
@@ -25,5 +27,7 @@ public class Product
 
     public double Price { get; set; }
 
-    public IList<Category> Categories { get; set; }
+    private IList<Category> _Categories { get; }
+
+    public IReadOnlyCollection<Category> Categories => (this._Categories as List<Category>)!;
 }

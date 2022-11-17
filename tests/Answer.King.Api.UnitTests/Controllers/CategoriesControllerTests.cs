@@ -1,6 +1,7 @@
 ﻿using Answer.King.Api.Controllers;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Test.Common.CustomAsserts;
 using Answer.King.Test.Common.CustomTraits;
 using Microsoft.AspNetCore.Mvc;
@@ -146,7 +147,8 @@ public class CategoriesControllerTests
             Description = "CATEGORY_DESCRIPTION"
         };
 
-        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION");
+        var products = new List<ProductId> { new ProductId(1) };
+        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION", products);
 
         CategoryService.UpdateCategory(id, categoryRequestModel).Returns(category);
 
@@ -189,7 +191,8 @@ public class CategoriesControllerTests
     {
         // Arrange
         var id = 1;
-        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION");
+        var products = new List<ProductId> { new ProductId(1) };
+        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION", products);
 
         CategoryService.RetireCategory(id).Returns(category);
 

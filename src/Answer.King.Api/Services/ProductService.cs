@@ -1,4 +1,5 @@
-﻿using Answer.King.Domain.Inventory.Models;
+﻿using Answer.King.Api.RequestModels;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
 
@@ -35,27 +36,36 @@ public class ProductService : IProductService
 
     public async Task<Product> CreateProduct(RequestModels.ProductDto createProduct)
     {
-        var category = await this.Categories.Get(createProduct.Categories.First().Id);
+        var productCategories = new List<Category>();
+        var categories = new List<Domain.Inventory.Category>();
 
-        if (category == null)
+        foreach (var categoryId in createProduct.Categories)
         {
-            throw new ProductServiceException("The provided category id is not valid.");
+            var category = await this.Categories.Get(categoryId.Id);
+
+            if (category == null)
+            {
+                throw new ProductServiceException("The provided category id is not valid.");
+            }
+
+            productCategories.Add(new Category(category.Id, category.Name, category.Description));
+            categories.Add(category);
         }
 
         var product = new Product(
             createProduct.Name,
             createProduct.Description,
             createProduct.Price,
-            new List<Category>
-            {
-                new Category (category.Id, category.Name, category.Description)
-            });
+            productCategories
+            );
 
         await this.Products.AddOrUpdate(product);
 
-        category.AddProduct(new ProductId(product.Id));
-
-        await this.Categories.Save(category);
+        foreach (var category in categories)
+        {
+            category.AddProduct(new Domain.Inventory.Models.ProductId(product.Id));
+            await this.Categories.Save(category);
+        }
 
         return product;
     }
@@ -69,40 +79,60 @@ public class ProductService : IProductService
             return null;
         }
 
-        var oldCategory = await this.Categories.GetByProductId(productId);
+        var oldCategories = await this.Categories.GetByProductId(productId);
 
-        if (oldCategory == null)
+        if (!oldCategories.Any())
         {
-            throw new ProductServiceException("Could not find a category for this product id.");
+            throw new ProductServiceException("Could not find any categories for this product id.");
         }
 
-        var categoryChanged = oldCategory.Id != updateProduct.Categories.First().Id;
+        var updateIds = updateProduct.Categories.Select(c => c.Id).ToList();
 
-        var category = categoryChanged
-            ? await this.Categories.Get(updateProduct.Categories.First().Id)
-            : oldCategory;
-
-        if (category == null)
+        foreach (var oldCategory in oldCategories.ToList())
         {
-            throw new ProductServiceException("The provided category id is not valid.");
+            // If old category is not still present in updated list, remove link between product and category.
+            if (!updateIds.Contains(oldCategory.Id))
+            {
+                oldCategory.RemoveProduct(new Domain.Inventory.Models.ProductId(productId));
+                await this.Categories.Save(oldCategory);
+
+                product.RemoveCategory(oldCategory.Id);
+            }
+            // Else check that the category is still in the database.
+            else
+            {
+                var category = await this.Categories.Get(oldCategory.Id);
+
+                if (category == null)
+                {
+                    throw new ProductServiceException("The provided category id is not valid.");
+                }
+
+                category.AddProduct(new Domain.Inventory.Models.ProductId(productId));
+                await this.Categories.Save(category);
+
+                product.AddCategory(new Category(category.Id, category.Name, category.Description));
+
+                updateIds.Remove(oldCategory.Id);
+            }
         }
 
-        if (categoryChanged)
+        // Add any new categories remaining in the list
+        foreach (var updateId in updateIds)
         {
-            oldCategory.RemoveProduct(new ProductId(productId));
-            await this.Categories.Save(oldCategory);
+            var category = await this.Categories.Get(updateId);
 
-            category.AddProduct(new ProductId(productId));
-            await this.Categories.Save(category);
+            if (category == null)
+            {
+                throw new ProductServiceException("The provided category id is not valid.");
+            }
+
+            product.AddCategory(new Category(category.Id, category.Name, category.Description));
         }
 
         product.Name = updateProduct.Name;
         product.Description = updateProduct.Description;
         product.Price = updateProduct.Price;
-        product.Categories = new List<Category>
-        {
-            new Category (category.Id, category.Name, category.Description)
-        };
 
         await this.Products.AddOrUpdate(product);
 
@@ -123,11 +153,14 @@ public class ProductService : IProductService
             throw new ProductServiceException("The product is already retired.");
         }
 
-        var category = await this.Categories.GetByProductId(productId);
-        if (category != null)
+        var categories = await this.Categories.GetByProductId(productId);
+        foreach (var category in categories.ToList())
         {
-            category.RemoveProduct(new ProductId(productId));
-            await this.Categories.Save(category);
+            if (category != null)
+            {
+                category.RemoveProduct(new Domain.Inventory.Models.ProductId(productId));
+                await this.Categories.Save(category);
+            }
         }
 
         product.Retire();

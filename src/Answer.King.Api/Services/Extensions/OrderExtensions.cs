@@ -18,11 +18,7 @@ public static class OrderExtensions
             if (action.IsIncrease)
             {
                 var product = domainProducts.Single(p => p.Id == action.ProductId);
-                var categories = new List<Category>();
-                foreach (var category in product.Categories)
-                {
-                    categories.Add(new Category(category.Id, category.Name, category.Description));
-                }
+                var categories = product.Categories.Select(c => new Category(c.Id, c.Name, c.Description)).ToList();
 
                 order.AddLineItem(
                     product.Id,

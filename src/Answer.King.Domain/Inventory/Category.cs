@@ -5,7 +5,7 @@ namespace Answer.King.Domain.Inventory;
 // Todo: look at custom deserialisation: https://stackoverflow.com/questions/42336751/custom-deserialization
 public class Category : IAggregateRoot
 {
-    public Category(string name, string description)
+    public Category(string name, string description, IList<ProductId> products)
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -14,7 +14,7 @@ public class Category : IAggregateRoot
         this.Name = name;
         this.Description = description;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
-        this._Products = new List<ProductId>();
+        this._Products = products;
         this.Retired = false;
     }
 
