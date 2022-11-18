@@ -6,6 +6,7 @@ using Answer.King.Domain.Orders;
 using Answer.King.Domain.Repositories.Models;
 using LiteDB;
 using System.Collections.Generic;
+using Category = Answer.King.Domain.Repositories.Models.Category;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
@@ -33,8 +34,6 @@ public class ProductEntityMappings : IEntityMapping
                     ["Name"] = product.Name,
                     ["Description"] = product.Description,
                     ["Price"] = product.Price,
-                    ["CreatedOn"] = product.CreatedOn,
-                    ["LastUpdated"] = product.LastUpdated,
                     ["Categories"] = new BsonArray(categories),
                     ["Retired"] = product.Retired
                 };
@@ -50,8 +49,6 @@ public class ProductEntityMappings : IEntityMapping
                     doc["Name"].AsString,
                     doc["Description"].AsString,
                     doc["Price"].AsDouble,
-                    doc["CreatedOn"].AsDateTime,
-                    doc["LastUpdated"].AsDateTime,
                     doc["Categories"].AsArray.Select(
                         p => new Category(
                             p.AsDocument["_id"].AsInt64,

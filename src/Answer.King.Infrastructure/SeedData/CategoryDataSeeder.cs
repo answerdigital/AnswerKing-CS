@@ -1,4 +1,4 @@
-﻿using Answer.King.Domain.Inventory;
+﻿using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Infrastructure.SeedData;
 

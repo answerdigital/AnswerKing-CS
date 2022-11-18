@@ -15,8 +15,6 @@ internal static class ProductData
             "Fish",
             "Delicious and satisfying.",
             5.99,
-            DateTime.UtcNow,
-            DateTime.UtcNow,
             Categories(1),
             false),
         ProductFactory.CreateProduct(
@@ -24,8 +22,6 @@ internal static class ProductData
             "Chips",
             "Nothing more to say.",
             2.99,
-            DateTime.UtcNow,
-            DateTime.UtcNow,
             Categories(2),
             false)
     };

@@ -1,5 +1,4 @@
-﻿using Answer.King.Domain.Inventory;
-using Answer.King.Domain.Inventory.Models;
+﻿using Answer.King.Domain.Inventory.Models;
 using Answer.King.Test.Common.CustomTraits;
 using Xunit;
 

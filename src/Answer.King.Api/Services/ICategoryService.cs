@@ -1,4 +1,4 @@
-﻿using Answer.King.Domain.Inventory;
+﻿using Answer.King.Domain.Inventory.Models;
 using RequestCategory = Answer.King.Api.RequestModels.CategoryDto;
 
 namespace Answer.King.Api.Services;

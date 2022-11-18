@@ -28,8 +28,6 @@ public class ProductTests
             productName,
             productDescription,
             price,
-            createdOn,
-            lastUpdated,
             categories,
             retired)
         );
@@ -45,8 +43,6 @@ public class ProductTests
         var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
-        var createdOn = DateTime.Now;
-        var lastUpdated = DateTime.Now;
 
         // Act / Assert
         Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
@@ -54,8 +50,6 @@ public class ProductTests
             productName!,
             productDescription,
             price,
-            createdOn,
-            lastUpdated,
             categories,
             retired)
         );
@@ -71,8 +65,6 @@ public class ProductTests
         var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
-        var createdOn = DateTime.Now;
-        var lastUpdated = DateTime.Now;
 
         // Act / Assert
         Assert.Throws<Guard.EmptyStringException>(() => ProductFactory.CreateProduct(
@@ -80,8 +72,6 @@ public class ProductTests
             productName,
             productDescription,
             price,
-            createdOn,
-            lastUpdated,
             categories,
             retired)
         );
@@ -97,8 +87,6 @@ public class ProductTests
         var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
-        var createdOn = DateTime.Now;
-        var lastUpdated = DateTime.Now;
 
         // Act / Assert
         Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
@@ -106,8 +94,6 @@ public class ProductTests
             productName,
             productDescription!,
             price,
-            createdOn,
-            lastUpdated,
             categories,
             retired)
         );
@@ -123,8 +109,6 @@ public class ProductTests
         var categories = new List<Category> { this.GetCategory() };
         var price = 142;
         var retired = false;
-        var createdOn = DateTime.Now;
-        var lastUpdated = DateTime.Now;
 
         // Act / Assert
         Assert.Throws<Guard.EmptyStringException>(() => ProductFactory.CreateProduct(
@@ -132,8 +116,6 @@ public class ProductTests
             productName,
             productDescription,
             price,
-            createdOn,
-            lastUpdated,
             categories,
             retired)
         );
@@ -149,8 +131,6 @@ public class ProductTests
         var categories = new List<Category> { this.GetCategory() };
         var price = -1;
         var retired = false;
-        var createdOn = DateTime.Now;
-        var lastUpdated = DateTime.Now;
 
         // Act Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => ProductFactory.CreateProduct(
@@ -158,8 +138,6 @@ public class ProductTests
             productName,
             productDescription,
             price,
-            createdOn,
-            lastUpdated,
             categories,
             retired)
         );

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Answer.King.Domain.Inventory;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using LiteDB;
 

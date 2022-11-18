@@ -6,7 +6,7 @@ using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
 using Xunit;
-using Category = Answer.King.Domain.Inventory.Category;
+using Category = Answer.King.Domain.Inventory.Models.Category;
 
 namespace Answer.King.Api.UnitTests.Services;
 
@@ -60,7 +60,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = ProductFactory.CreateProduct(1,
-            "product", "desc", 12.00, DateTime.Now, DateTime.Now, new List<Domain.Repositories.Models.Category>
+            "product", "desc", 12.00, new List<Domain.Repositories.Models.Category>
             {
                 new Domain.Repositories.Models.Category(1, "category", "desc")
             }, false);
@@ -134,7 +134,7 @@ public class ProductServiceTests
             oldCategory
         };
         var oldProduct = ProductFactory.CreateProduct(1,
-            "product", "desc", 10.00, DateTime.Now, DateTime.Now, new List<Domain.Repositories.Models.Category>
+            "product", "desc", 10.00, new List<Domain.Repositories.Models.Category>
             {
                 new Domain.Repositories.Models.Category(1, "category", "desc")
             }, false);
@@ -172,7 +172,7 @@ public class ProductServiceTests
             oldCategory
         };
         var oldProduct = ProductFactory.CreateProduct(1,
-            "product", "desc", 10.00, DateTime.Now, DateTime.Now, new List<Domain.Repositories.Models.Category>
+            "product", "desc", 10.00, new List<Domain.Repositories.Models.Category>
             {
                 new Domain.Repositories.Models.Category(1, "category", "desc")
             }, false);

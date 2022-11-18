@@ -16,7 +16,6 @@ public class Product
         this.Name = name;
         this.Description = description;
         this.Price = price;
-        this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
         this._Categories = categories;
     }
 
@@ -24,8 +23,6 @@ public class Product
         string name,
         string description,
         double price,
-        DateTime createdOn,
-        DateTime lastUpdated,
         IList<Category>? categories,
         bool retired)
     {
@@ -33,15 +30,11 @@ public class Product
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
         Guard.AgainstNegativeValue(nameof(price), price);
-        Guard.AgainstDefaultValue(nameof(createdOn), createdOn);
-        Guard.AgainstDefaultValue(nameof(lastUpdated), lastUpdated);
 
         this.Id = id;
         this.Name = name;
         this.Description = description;
         this.Price = price;
-        this.CreatedOn = createdOn;
-        this.LastUpdated = lastUpdated;
         this._Categories = categories ?? new List<Category>();
         this.Retired = retired;
     }
@@ -53,10 +46,6 @@ public class Product
     public string Description { get; set; }
 
     public double Price { get; set; }
-
-    public DateTime CreatedOn { get; }
-
-    public DateTime LastUpdated { get; private set; }
 
     private IList<Category> _Categories { get; }
 
@@ -79,8 +68,6 @@ public class Product
         }
 
         this._Categories.Add(category);
-
-        this.LastUpdated = DateTime.UtcNow;
     }
 
     public void RemoveCategory(long categoryId)
@@ -98,8 +85,6 @@ public class Product
         }
 
         this._Categories.Remove(existing);
-
-        this.LastUpdated = DateTime.UtcNow;
     }
 
     public void Retire()

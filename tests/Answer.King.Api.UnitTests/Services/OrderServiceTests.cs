@@ -55,8 +55,8 @@ public class OrderServiceTests
         };
         var products = new[]
         {
-            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, DateTime.Now, DateTime.Now, categories, false),
-            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, DateTime.Now, DateTime.Now, categories, false)
+            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, categories, false),
+            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, categories, false)
         };
 
         var orderRequest = new RequestModels.OrderDto
@@ -107,8 +107,8 @@ public class OrderServiceTests
         };
         var products = new[]
         {
-            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, DateTime.Now, DateTime.Now, categories, false),
-            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, DateTime.Now, DateTime.Now, categories, false)
+            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, categories, false),
+            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, categories, false)
         };
 
         var orderRequest = new RequestModels.OrderDto
