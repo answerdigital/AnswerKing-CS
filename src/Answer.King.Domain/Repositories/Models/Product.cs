@@ -60,14 +60,10 @@ public class Product
             throw new ProductLifecycleException("Cannot add category to retired product.");
         }
 
-        var exists = this._Categories.Any(p => p.Id == category.Id);
-
-        if (exists)
+        if (!this._Categories.Any(p => p.Id == category.Id))
         {
-            return;
+            this._Categories.Add(category);
         }
-
-        this._Categories.Add(category);
     }
 
     public void RemoveCategory(long categoryId)
@@ -79,12 +75,10 @@ public class Product
 
         var existing = this._Categories.SingleOrDefault(p => p.Id == categoryId);
 
-        if (existing == null)
+        if (existing != null)
         {
-            return;
+            this._Categories.Remove(existing);
         }
-
-        this._Categories.Remove(existing);
     }
 
     public void Retire()
