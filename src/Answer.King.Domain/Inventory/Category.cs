@@ -1,4 +1,6 @@
-﻿namespace Answer.King.Domain.Inventory.Models;
+﻿using Answer.King.Domain.Inventory.Models;
+
+namespace Answer.King.Domain.Inventory;
 
 // Todo: look at custom deserialisation: https://stackoverflow.com/questions/42336751/custom-deserialization
 public class Category : IAggregateRoot

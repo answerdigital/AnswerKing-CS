@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 

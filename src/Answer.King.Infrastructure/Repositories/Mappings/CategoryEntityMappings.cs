@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using LiteDB;
 

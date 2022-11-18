@@ -1,4 +1,5 @@
 ﻿using Answer.King.Api.Services;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using Answer.King.Test.Common.CustomTraits;

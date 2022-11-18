@@ -1,6 +1,6 @@
 ﻿using Answer.King.Api.RequestModels;
 using Answer.King.Domain.Repositories;
-using Answer.King.Domain.Inventory.Models;
+using Answer.King.Domain.Inventory;
 
 namespace Answer.King.Api.Services;
 

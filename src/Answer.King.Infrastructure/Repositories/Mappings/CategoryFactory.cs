@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;

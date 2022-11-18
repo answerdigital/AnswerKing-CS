@@ -1,5 +1,4 @@
 ﻿using Answer.King.Api.RequestModels;
-using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
 using Category = Answer.King.Domain.Repositories.Models.Category;
@@ -38,7 +37,7 @@ public class ProductService : IProductService
     public async Task<Product> CreateProduct(RequestModels.ProductDto createProduct)
     {
         var productCategories = new List<Category>();
-        var categories = new List<Domain.Inventory.Models.Category>();
+        var categories = new List<Domain.Inventory.Category>();
 
         foreach (var categoryId in createProduct.Categories)
         {

@@ -1,4 +1,4 @@
-﻿using Answer.King.Domain.Inventory.Models;
+﻿using Answer.King.Domain.Inventory;
 
 namespace Answer.King.Domain.Repositories;
 

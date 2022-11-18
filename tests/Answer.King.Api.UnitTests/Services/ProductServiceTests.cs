@@ -6,7 +6,7 @@ using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
 using Xunit;
-using Category = Answer.King.Domain.Inventory.Models.Category;
+using Category = Answer.King.Domain.Inventory.Category;
 
 namespace Answer.King.Api.UnitTests.Services;
 

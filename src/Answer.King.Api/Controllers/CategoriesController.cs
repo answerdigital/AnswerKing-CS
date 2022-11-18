@@ -1,5 +1,5 @@
 ﻿using Answer.King.Api.Services;
-using Answer.King.Domain.Inventory.Models;
+using Answer.King.Domain.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using CategoryDto = Answer.King.Api.RequestModels.CategoryDto;
 using Product = Answer.King.Domain.Orders.Models.Product;
