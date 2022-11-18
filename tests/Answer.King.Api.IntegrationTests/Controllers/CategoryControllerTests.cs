@@ -8,19 +8,29 @@ using Xunit;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
 
+
 [UsesVerify]
-public class CategoryControllerTests : IClassFixture<WebFixtures>
+public class CategoryControllerTests : IAsyncLifetime
 {
-    private readonly IAlbaHost _host;
+    private IAlbaHost _host = null!;
 
     private VerifySettings _errorLevelSettings;
 
-    public CategoryControllerTests(WebFixtures app)
+    public CategoryControllerTests()
     {
-        this._host = app.AlbaHost;
-
         this._errorLevelSettings = new();
         this._errorLevelSettings.ScrubMember("traceId");
+    }
+
+    public async Task InitializeAsync()
+    {
+        this._host = await Alba.AlbaHost.For<Program>();
+    }
+
+    public async Task DisposeAsync()
+    {
+        await this._host.DisposeAsync();
+        File.Delete(".\\Answer.King.db");
     }
 
     #region Get
@@ -40,6 +50,18 @@ public class CategoryControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> GetCategory_CategoryExists_ReturnsCategory()
     {
+        var category = await this._host.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Seafood",
+                    Description = "Food from the oceans"
+                })
+                .ToUrl("/api/categories");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
+        });
+
         var result = await this._host.Scenario(_ =>
         {
             _.Get.Url("/api/categories/1");
@@ -163,7 +185,7 @@ public class CategoryControllerTests : IClassFixture<WebFixtures>
                     Name = "Seafood",
                     Description = "Food from the oceans"
                 })
-                .ToUrl("/api/categories/5");
+                .ToUrl("/api/categories/50");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
@@ -178,7 +200,7 @@ public class CategoryControllerTests : IClassFixture<WebFixtures>
         var putResult = await this._host.Scenario(_ =>
         {
             _.Delete
-                .Url("/api/categories/5");
+                .Url("/api/categories/50");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
