@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
-using Answer.King.Api.OpenApi;
 using System.Text.Json.Serialization;
 using Answer.King.Api.Common.Filters;
+using Answer.King.Api.Common.Validators;
 using Answer.King.Api.Extensions.DependencyInjection;
+using Answer.King.Api.OpenApi;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories;
 using Answer.King.Infrastructure;
@@ -50,7 +51,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationAutoValidation(
+    _ => ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName);
 
 builder.Services.ConfigureLiteDb(options =>
 {

@@ -68,9 +68,17 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody] CategoryDto createCategory)
     {
-        var category = await this.Categories.CreateCategory(createCategory);
+        try
+        {
+            var category = await this.Categories.CreateCategory(createCategory);
 
-        return this.CreatedAtAction(nameof(this.GetOne), new { category.Id }, category);
+            return this.CreatedAtAction(nameof(this.GetOne), new { category.Id }, category);
+        }
+        catch (CategoryServiceException ex)
+        {
+            this.ModelState.AddModelError("products", ex.Message);
+            return this.ValidationProblem();
+        }
     }
 
     /// <summary>
@@ -88,13 +96,21 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put(long id, [FromBody] CategoryDto updateCategory)
     {
-        var category = await this.Categories.UpdateCategory(id, updateCategory);
-        if (category == null)
+        try
         {
-            return this.NotFound();
-        }
+            var category = await this.Categories.UpdateCategory(id, updateCategory);
+            if (category == null)
+            {
+                return this.NotFound();
+            }
 
-        return this.Ok(category);
+            return this.Ok(category);
+        }
+        catch (CategoryServiceException ex)
+        {
+            this.ModelState.AddModelError("products", ex.Message);
+            return this.ValidationProblem();
+        }
     }
 
     /// <summary>
@@ -128,14 +144,16 @@ public class CategoriesController : ControllerBase
                                                       "Cannot retire category whilst there are still products assigned.",
                                                       StringComparison.OrdinalIgnoreCase))
         {
-            this.ModelState.AddModelError("Products", ex.Message);
-
-            return this.BadRequest(this.ModelState);
+            this.ModelState.AddModelError("products", ex.Message);
+            return this.ValidationProblem();
         }
         catch (CategoryServiceException ex) when (ex.Message.StartsWith(
                                                       "The category is already retired.", StringComparison.OrdinalIgnoreCase))
         {
-            return this.StatusCode(StatusCodes.Status410Gone);
+            return this.Problem(
+                type: "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.9",
+                title: "Gone",
+                statusCode: StatusCodes.Status410Gone);
         }
     }
 
