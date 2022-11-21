@@ -1,4 +1,5 @@
 ﻿using Answer.King.Api.RequestModels;
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
 using Category = Answer.King.Domain.Repositories.Models.Category;
@@ -96,25 +97,23 @@ public class ProductService : IProductService
                 oldCategory.RemoveProduct(new Domain.Inventory.Models.ProductId(productId));
                 await this.Categories.Save(oldCategory);
 
-                product.RemoveCategory(oldCategory.Id);
+                product.RemoveCategory(new Category(oldCategory.Id, oldCategory.Name, oldCategory.Description));
+                continue;
             }
             // Else check that the category is still in the database.
-            else
+            var category = await this.Categories.Get(oldCategory.Id);
+
+            if (category == null)
             {
-                var category = await this.Categories.Get(oldCategory.Id);
-
-                if (category == null)
-                {
-                    throw new ProductServiceException("The provided category id is not valid.");
-                }
-
-                category.AddProduct(new Domain.Inventory.Models.ProductId(productId));
-                await this.Categories.Save(category);
-
-                product.AddCategory(new Category(category.Id, category.Name, category.Description));
-
-                updateIds.Remove(oldCategory.Id);
+                throw new ProductServiceException("The provided category id is not valid.");
             }
+
+            category.AddProduct(new Domain.Inventory.Models.ProductId(productId));
+            await this.Categories.Save(category);
+
+            product.AddCategory(new Category(category.Id, category.Name, category.Description));
+
+            updateIds.Remove(oldCategory.Id);
         }
 
         // Add any new categories remaining in the list
@@ -156,11 +155,8 @@ public class ProductService : IProductService
         var categories = await this.Categories.GetByProductId(productId);
         foreach (var category in categories.ToList())
         {
-            if (category != null)
-            {
-                category.RemoveProduct(new Domain.Inventory.Models.ProductId(productId));
-                await this.Categories.Save(category);
-            }
+            category.RemoveProduct(new Domain.Inventory.Models.ProductId(productId));
+            await this.Categories.Save(category);
         }
 
         product.Retire();

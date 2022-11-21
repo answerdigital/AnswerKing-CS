@@ -28,8 +28,7 @@ public class CategoryServiceTests
     public async void RetireCategory_CategoryContainsProducts_ThrowsException()
     {
         // Arrange
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("category", "desc", products);
+        var category = new Category("category", "desc");
         category.AddProduct(new ProductId(1));
 
         this.CategoryRepository.Get(category.Id).Returns(category);
@@ -44,8 +43,7 @@ public class CategoryServiceTests
     public async void RetireCategory_NoProductsAssociatedWithCategory_ReturnsRetiredCategory()
     {
         // Arrange
-        var products = new List<ProductId>();
-        var category = new Category("category", "desc", products);
+        var category = new Category("category", "desc");
         this.CategoryRepository.Get(category.Id).Returns(category);
 
         // Act
@@ -91,8 +89,7 @@ public class CategoryServiceTests
     public async void GetCategory_ValdidCategoryId_ReturnsCategory()
     {
         // Arrange
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("category", "desc", products);
+        var category = new Category("category", "desc");
         var id = category.Id;
 
         this.CategoryRepository.Get(id).Returns(category);
@@ -110,11 +107,10 @@ public class CategoryServiceTests
     public async void GetCategories_ReturnsAllCategories()
     {
         // Arrange
-        var products = new List<ProductId> { new ProductId(1) };
         var categories = new[]
         {
-            new Category("category 1", "desc", products),
-            new Category("category 2", "desc", products)
+            new Category("category 1", "desc"),
+            new Category("category 2", "desc")
         };
 
         this.CategoryRepository.Get().Returns(categories);
@@ -151,8 +147,7 @@ public class CategoryServiceTests
     public async void UpdateCategory_ValidCategoryIdAndRequest_ReturnsUpdatedCategory()
     {
         // Arrange
-        var products = new List<ProductId> { new ProductId(1) };
-        var oldCategory = new Category("old category", "old desc", products);
+        var oldCategory = new Category("old category", "old desc");
         var categoryId = oldCategory.Id;
 
         var updateCategoryRequest = new RequestModels.CategoryDto

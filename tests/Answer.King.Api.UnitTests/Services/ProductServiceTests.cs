@@ -67,11 +67,7 @@ public class ProductServiceTests
 
         this.ProductRepository.Get(product.Id).Returns(product);
 
-        var category = new Category("category", "desc",
-            new List<Domain.Inventory.Models.ProductId>
-            {
-                new Domain.Inventory.Models.ProductId(1)
-            });
+        var category = new Category("category", "desc");
         var categories = new Category[] { category };
 
         this.CategoryRepository.GetByProductId(product.Id)

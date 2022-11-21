@@ -16,7 +16,7 @@ public class Product
         this.Name = name;
         this.Description = description;
         this.Price = price;
-        this._Categories = categories;
+        this._Categories = new HashSet<Category>(categories ?? Array.Empty<Category>());
     }
 
     private Product(long id,
@@ -35,11 +35,11 @@ public class Product
         this.Name = name;
         this.Description = description;
         this.Price = price;
-        this._Categories = categories ?? new List<Category>();
+        this._Categories = new HashSet<Category>(categories ?? Array.Empty<Category>());
         this.Retired = retired;
     }
 
-    public long Id { get; }
+    public long Id { get; set; }
 
     public string Name { get; set; }
 
@@ -47,9 +47,9 @@ public class Product
 
     public double Price { get; set; }
 
-    private IList<Category> _Categories { get; }
+    private HashSet<Category> _Categories { get; }
 
-    public IReadOnlyCollection<Category> Categories => (this._Categories as List<Category>)!;
+    public IReadOnlyCollection<Category> Categories => this._Categories;
 
     public bool Retired { get; private set; }
 
@@ -60,25 +60,17 @@ public class Product
             throw new ProductLifecycleException("Cannot add category to retired product.");
         }
 
-        if (!this._Categories.Any(p => p.Id == category.Id))
-        {
-            this._Categories.Add(category);
-        }
+        this._Categories.Add(category);
     }
 
-    public void RemoveCategory(long categoryId)
+    public void RemoveCategory(Category category)
     {
         if (this.Retired)
         {
             throw new ProductLifecycleException("Cannot remove category from retired product.");
         }
 
-        var existing = this._Categories.SingleOrDefault(p => p.Id == categoryId);
-
-        if (existing != null)
-        {
-            this._Categories.Remove(existing);
-        }
+        this._Categories.Remove(category);
     }
 
     public void Retire()

@@ -25,9 +25,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Category> CreateCategory(RequestModels.CategoryDto createCategory)
     {
-        var products = createCategory.Products.Select(p => new Domain.Inventory.Models.ProductId(p.Id));
-
-        var category = new Category(createCategory.Name, createCategory.Description, products.ToList());
+        var category = new Category(createCategory.Name, createCategory.Description);
 
         await this.Categories.Save(category);
 

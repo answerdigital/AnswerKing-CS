@@ -147,8 +147,7 @@ public class CategoriesControllerTests
             Description = "CATEGORY_DESCRIPTION"
         };
 
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION", products);
+        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION");
 
         CategoryService.UpdateCategory(id, categoryRequestModel).Returns(category);
 
@@ -191,8 +190,7 @@ public class CategoriesControllerTests
     {
         // Arrange
         var id = 1;
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION", products);
+        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION");
 
         CategoryService.RetireCategory(id).Returns(category);
 

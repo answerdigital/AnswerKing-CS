@@ -11,8 +11,7 @@ public class CategoryTests
     [Fact]
     public void RenameCategory_WithValidNameAndDescription_ReturnsExpectedResult()
     {
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("Phones", "Electronics", products);
+        var category = new Category("Phones", "Electronics");
 
         category.Rename("Lemon", "Squash");
 
@@ -23,40 +22,35 @@ public class CategoryTests
     [Fact]
     public void RenameCategory_WithInvalidName_ThrowsException()
     {
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("Phones", "Electronics", products);
+        var category = new Category("Phones", "Electronics");
         Assert.Throws<ArgumentNullException>(() => category.Rename(null!, "Electronics"));
     }
 
     [Fact]
     public void RenameCategory_WithBlankName_ThrowsException()
     {
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("Phones", "Electronics", products);
+        var category = new Category("Phones", "Electronics");
         Assert.Throws<Guard.EmptyStringException>(() => category.Rename("", "Electronics"));
     }
 
     [Fact]
     public void RenameCategory_WithInvalidDescription_ThrowsException()
     {
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("Phones", "Electronics", products);
+        var category = new Category("Phones", "Electronics");
         Assert.Throws<ArgumentNullException>(() => category.Rename("Phones", null!));
     }
 
     [Fact]
     public void RenameCategory_WithBlankDescription_ThrowsException()
     {
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("Phones", "Electronics", products);
+        var category = new Category("Phones", "Electronics");
         Assert.Throws<Guard.EmptyStringException>(() => category.Rename("Phones", ""));
     }
 
     [Fact]
     public void RetireCategory_WithProductsContainedWithinCategory_ThrowsException()
     {
-        var products = new List<ProductId> { new ProductId(1) };
-        var category = new Category("Phones", "Electronics", products);
+        var category = new Category("Phones", "Electronics");
         category.AddProduct(new ProductId(1));
 
         Assert.Throws<CategoryLifecycleException>(() => category.RetireCategory());
