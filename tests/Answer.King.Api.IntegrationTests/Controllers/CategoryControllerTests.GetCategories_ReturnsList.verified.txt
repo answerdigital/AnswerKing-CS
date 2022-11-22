@@ -1,1 +1,52 @@
-﻿[]
+﻿[
+  {
+    Id: 1,
+    Name: Seafood,
+    Description: Food from the oceans,
+    CreatedOn: DateTime_1,
+    LastUpdated: DateTime_2,
+    Products: [
+      {
+        Value: 1
+      }
+    ],
+    Retired: false
+  },
+  {
+    Id: 2,
+    Name: Sundries,
+    Description: Things that go with things.,
+    CreatedOn: DateTime_3,
+    LastUpdated: DateTime_4,
+    Products: [
+      {
+        Value: 2
+      }
+    ],
+    Retired: false
+  },
+  {
+    Id: 3,
+    Name: Seafood,
+    Description: Food from the oceans and the high seas and also the puddles maybe,
+    CreatedOn: DateTime_5,
+    LastUpdated: DateTime_6,
+    Retired: false
+  },
+  {
+    Id: 4,
+    Name: Seafood,
+    Description: Food from the oceans,
+    CreatedOn: DateTime_7,
+    LastUpdated: DateTime_8,
+    Retired: true
+  },
+  {
+    Id: 5,
+    Name: Seafood,
+    Description: Food from the oceans,
+    CreatedOn: DateTime_9,
+    LastUpdated: DateTime_10,
+    Retired: true
+  }
+]

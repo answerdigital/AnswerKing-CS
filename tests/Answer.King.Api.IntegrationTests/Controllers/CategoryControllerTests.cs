@@ -1,36 +1,27 @@
 ﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
-using Answer.King.Api.IntegrationTests.Common.Models;
 using Answer.King.Api.RequestModels;
 using VerifyTests;
 using VerifyXunit;
 using Xunit;
+using Category = Answer.King.Api.IntegrationTests.Common.Models.Category;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
 
 
 [UsesVerify]
-public class CategoryControllerTests : IAsyncLifetime
+public class CategoryControllerTests : IClassFixture<WebFixtures>
 {
-    private IAlbaHost _host = null!;
+    private readonly IAlbaHost _host;
 
     private VerifySettings _errorLevelSettings;
 
-    public CategoryControllerTests()
+    public CategoryControllerTests(WebFixtures app)
     {
+        this._host = app.AlbaHost;
+
         this._errorLevelSettings = new();
         this._errorLevelSettings.ScrubMember("traceId");
-    }
-
-    public async Task InitializeAsync()
-    {
-        this._host = await Alba.AlbaHost.For<Program>();
-    }
-
-    public async Task DisposeAsync()
-    {
-        await this._host.DisposeAsync();
-        File.Delete(".\\Answer.King.db");
     }
 
     #region Get
@@ -56,7 +47,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans"
+                    Description = "Food from the oceans",
+                    Products = new List<long> { }
                 })
                 .ToUrl("/api/categories");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -95,7 +87,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans"
+                    Description = "Food from the oceans",
+                    Products = new List<long> { }
                 })
                 .ToUrl("/api/categories");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -133,7 +126,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans"
+                    Description = "Food from the oceans",
+                    Products = new List<long>()
                 })
                 .ToUrl("/api/categories");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -147,7 +141,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans and the high seas and also the puddles maybe"
+                    Description = "Food from the oceans and the high seas and also the puddles maybe",
+                    Products = new List<long>()
                 })
                 .ToUrl($"/api/categories/{category?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
@@ -183,7 +178,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans"
+                    Description = "Food from the oceans",
+                    Products = new List<long> { }
                 })
                 .ToUrl("/api/categories/50");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
@@ -216,7 +212,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans"
+                    Description = "Food from the oceans",
+                    Products = new List<long> { }
                 })
                 .ToUrl("/api/categories");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -243,7 +240,8 @@ public class CategoryControllerTests : IAsyncLifetime
                 .Json(new
                 {
                     Name = "Seafood",
-                    Description = "Food from the oceans"
+                    Description = "Food from the oceans",
+                    Products = new List<long> { }
                 })
                 .ToUrl("/api/categories");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
