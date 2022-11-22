@@ -1,5 +1,6 @@
 ﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
+using Answer.King.Api.IntegrationTests.Common.Models;
 using Answer.King.Api.RequestModels;
 using Order = Answer.King.Api.IntegrationTests.Common.Models.Order;
 
@@ -30,7 +31,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBeOk();
         });
 
-        var orders = result.ReadAsJson<IEnumerable<Order>>();
+        var orders = result.ReadAsJson<IEnumerable<ReturnOrder>>();
         return await Verify(orders);
     }
 
@@ -43,7 +44,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBeOk();
         });
 
-        var orders = result.ReadAsJson<Order>();
+        var orders = result.ReadAsJson<ReturnOrder>();
         return await Verify(orders);
     }
 
@@ -78,7 +79,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = result.ReadAsJson<Order>();
+        var orders = result.ReadAsJson<ReturnOrder>();
         return await Verify(orders);
     }
 
@@ -121,7 +122,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = postResult.ReadAsJson<Order>();
+        var orders = postresult.ReadAsJson<ReturnOrder>();
 
         var putResult = await this._host.Scenario(_ =>
         {
@@ -137,7 +138,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
-        var updatedOrder = putResult.ReadAsJson<Order>();
+        var updatedOrder = putresult.ReadAsJson<ReturnOrder>();
         return await Verify(updatedOrder);
     }
 
@@ -213,7 +214,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = postResult.ReadAsJson<Order>();
+        var orders = postresult.ReadAsJson<ReturnOrder>();
 
         var putResult = await this._host.Scenario(_ =>
         {
@@ -242,7 +243,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = postResult.ReadAsJson<Order>();
+        var orders = postresult.ReadAsJson<ReturnOrder>();
 
         await this._host.Scenario(_ =>
         {
