@@ -1,14 +1,14 @@
 ﻿[
-  {},
   {
-    LineItems: [
-      {
-        Quantity: 1
-      },
-      {
-        Quantity: 2
-      }
-    ]
+    CreatedOn: DateTime_1,
+    LastUpdated: DateTime_1
   },
-  {}
+  {
+    CreatedOn: DateTime_2,
+    LastUpdated: DateTime_2
+  },
+  {
+    CreatedOn: DateTime_3,
+    LastUpdated: DateTime_3
+  }
 ]

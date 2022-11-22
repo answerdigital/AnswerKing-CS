@@ -1,8 +1,8 @@
 ﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
-using Answer.King.Api.IntegrationTests.Common.Models;
 using Answer.King.Api.RequestModels;
 using Order = Answer.King.Api.IntegrationTests.Common.Models.Order;
+using RMLineItems = Answer.King.Api.RequestModels.LineItem;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
 
@@ -31,8 +31,8 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBeOk();
         });
 
-        var orders = result.ReadAsJson<IEnumerable<ReturnOrder>>();
-        return await Verify(orders);
+        var orders = result.ReadAsJson<IEnumerable<Order>>();
+        return await Verify(orders, this._errorLevelSettings);
     }
 
     [Fact]
@@ -44,8 +44,8 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBeOk();
         });
 
-        var orders = result.ReadAsJson<ReturnOrder>();
-        return await Verify(orders);
+        var order = result.ReadAsJson<Order>();
+        return await Verify(order, this._errorLevelSettings);
     }
 
     [Fact]
@@ -70,17 +70,16 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 1 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=1}
+                    }
                 })
                 .ToUrl("/api/orders");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = result.ReadAsJson<ReturnOrder>();
-        return await Verify(orders);
+        var order = result.ReadAsJson<Order>();
+        return await Verify(order, this._errorLevelSettings);
     }
 
     [Fact]
@@ -91,10 +90,9 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",Product
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 4 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=-1}
+                    }
                 })
                 .ToUrl("/api/orders");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -113,33 +111,31 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 1 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=1}
+                    }
                 })
                 .ToUrl("/api/orders");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = postresult.ReadAsJson<ReturnOrder>();
+        var order = postResult.ReadAsJson<Order>();
 
         var putResult = await this._host.Scenario(_ =>
         {
             _.Put
                 .Json(new
                 {
-                    Name = "BBQ Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 1 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=2}
+                    }
                 })
-                .ToUrl($"/api/orders/{orders?.Id}");
+                .ToUrl($"/api/orders/{order?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
-        var updatedOrder = putresult.ReadAsJson<ReturnOrder>();
-        return await Verify(updatedOrder);
+        var updatedOrder = putResult.ReadAsJson<Order>();
+        return await Verify(updatedOrder, this._errorLevelSettings);
     }
 
     [Fact]
@@ -150,10 +146,9 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.Put
                 .Json(new
                 {
-                    Name = "BBQ Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 4 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=-1}
+                    }
                 })
                 .ToUrl("/api/orders/1");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -170,10 +165,9 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.Put
                 .Json(new
                 {
-                    Name = "BBQ Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 1 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=1}
+                    }
                 })
                 .ToUrl("/api/orders/5");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
@@ -185,7 +179,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
 
     #region Retire
     [Fact]
-    public async Task<VerifyResult> RetireOrder_InvalidId_ReturnsNotFound()
+    public async Task<VerifyResult> CancelOrder_InvalidId_ReturnsNotFound()
     {
         var putResult = await this._host.Scenario(_ =>
         {
@@ -198,28 +192,27 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     }
 
     [Fact]
-    public async Task<VerifyResult> RetireOrder_ValidId_ReturnsOk()
+    public async Task<VerifyResult> CancelOrder_ValidId_ReturnsOk()
     {
         var postResult = await this._host.Scenario(_ =>
         {
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 1 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=1}
+                    }
                 })
                 .ToUrl("/api/orders");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = postresult.ReadAsJson<ReturnOrder>();
+        var order = postResult.ReadAsJson<Order>();
 
         var putResult = await this._host.Scenario(_ =>
         {
             _.Delete
-                .Url($"/api/orders/{orders?.Id}");
+                .Url($"/api/orders/{order?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
@@ -227,35 +220,34 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     }
 
     [Fact]
-    public async Task<VerifyResult> RetireOrder_ValidId_IsRetired_ReturnsNotFound()
+    public async Task<VerifyResult> CancelOrder_ValidId_IsCanceled_ReturnsBadRequest()
     {
         var postResult = await this._host.Scenario(_ =>
         {
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    Categories = new List<long> { 1 }
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=1}
+                    }
                 })
                 .ToUrl("/api/orders");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
         });
 
-        var orders = postresult.ReadAsJson<ReturnOrder>();
+        var order = postResult.ReadAsJson<Order>();
 
         await this._host.Scenario(_ =>
         {
             _.Delete
-                .Url($"/api/orders/{orders?.Id}");
+                .Url($"/api/orders/{order?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
         var secondDeleteResult = await this._host.Scenario(_ =>
         {
             _.Delete
-                .Url($"/api/orders/{orders?.Id}");
+                .Url($"/api/orders/{order?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Gone);
         });
 

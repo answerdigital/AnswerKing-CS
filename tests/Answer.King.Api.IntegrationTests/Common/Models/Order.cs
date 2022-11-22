@@ -3,9 +3,9 @@ using Answer.King.Domain.Orders.Models;
 
 namespace Answer.King.Api.IntegrationTests.Common.Models;
 
-public class ReturnOrder
+public class Order
 {
-    public ReturnOrder()
+    public Order()
     {
         this.Id = 0;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
@@ -13,7 +13,7 @@ public class ReturnOrder
         this._LineItems = new List<LineItem>();
     }
 
-    private ReturnOrder(
+    private Order(
         long id,
         DateTime createdOn,
         DateTime lastUpdated,
