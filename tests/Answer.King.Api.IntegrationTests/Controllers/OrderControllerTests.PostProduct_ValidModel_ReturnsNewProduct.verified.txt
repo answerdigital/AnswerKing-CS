@@ -1,0 +1,10 @@
+﻿{
+  Id: 4,
+  Name: Burger,
+  Description: Juicy,
+  Price: 1.5,
+  Categories: [
+    1
+  ],
+  Retired: false
+}
