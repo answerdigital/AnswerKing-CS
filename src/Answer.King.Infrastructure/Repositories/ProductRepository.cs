@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
 using LiteDB;
@@ -46,7 +47,7 @@ public class ProductRepository : IProductRepository
 
     public Task<IEnumerable<Product>> GetByCategoryId(params long[] categoryIds)
     {
-        return Task.FromResult(
-            this.Collection.Find(c => c.Categories.Any(p => categoryIds.Contains(p))));
+        var query = Query.In("categories[*] ANY", categoryIds.Select(c => new BsonValue(c)));
+        return Task.FromResult(this.Collection.Find(query));
     }
 }
