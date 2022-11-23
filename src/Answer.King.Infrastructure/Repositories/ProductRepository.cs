@@ -37,4 +37,16 @@ public class ProductRepository : IProductRepository
     {
         return Task.FromResult(this.Collection.Upsert(product));
     }
+
+    public Task<IEnumerable<Product>> GetByCategoryId(long categoryId)
+    {
+        var query = Query.EQ("categories[*] ANY", categoryId);
+        return Task.FromResult(this.Collection.Find(query))!;
+    }
+
+    public Task<IEnumerable<Product>> GetByCategoryId(params long[] categoryIds)
+    {
+        return Task.FromResult(
+            this.Collection.Find(c => c.Categories.Any(p => categoryIds.Contains(p))));
+    }
 }
