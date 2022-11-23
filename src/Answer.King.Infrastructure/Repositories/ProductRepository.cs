@@ -15,6 +15,7 @@ public class ProductRepository : IProductRepository
         var db = connections.GetConnection();
 
         this.Collection = db.GetCollection<Product>();
+        this.Collection.EnsureIndex("categories");
     }
 
     private ILiteCollection<Product> Collection { get; }

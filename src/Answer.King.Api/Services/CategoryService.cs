@@ -72,43 +72,26 @@ public class CategoryService : ICategoryService
             return null;
         }
 
+        var productsToCheck = updateCategory.Products;
         var oldProducts = await this.Products.GetByCategoryId(categoryId);
 
-        if (!oldProducts.Any())
-        {
-            throw new CategoryServiceException("Could not find any products for this category id.");
-        }
-
-        foreach (var oldProduct in oldProducts.ToList())
+        foreach (var oldProduct in oldProducts)
         {
             // If old product is not still present in updated list, remove link between product and category.
-            if (!updateCategory.Products.Contains(oldProduct.Id))
+            if (!productsToCheck.Contains(oldProduct.Id))
             {
                 oldProduct.RemoveCategory(new CategoryId(categoryId));
                 await this.Products.AddOrUpdate(oldProduct);
 
                 category.RemoveProduct(new ProductId(oldProduct.Id));
-                continue;
             }
 
-            // Else check that the product is still in the database.
-            var product = await this.Products.Get(oldProduct.Id);
-
-            if (product == null)
-            {
-                throw new CategoryServiceException("The provided product id is not valid.");
-            }
-
-            product.AddCategory(new CategoryId(categoryId));
-            await this.Categories.Save(category);
-
-            category.AddProduct(new ProductId(product.Id));
-
-            updateCategory.Products.Remove(oldProduct.Id);
+            // Remove old products from list of products to be added
+            productsToCheck.Remove(oldProduct.Id);
         }
 
         // Add any new categories remaining in the list
-        foreach (var updateId in updateCategory.Products)
+        foreach (var updateId in productsToCheck)
         {
             var product = await this.Products.Get(updateId);
 
@@ -118,6 +101,9 @@ public class CategoryService : ICategoryService
             }
 
             category.AddProduct(new ProductId(product.Id));
+
+            product.AddCategory(new CategoryId(updateId));
+            await this.Products.AddOrUpdate(product);
         }
 
         category.Rename(updateCategory.Name, updateCategory.Description);

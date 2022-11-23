@@ -10,7 +10,6 @@ public class Product
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
         Guard.AgainstNegativeValue(nameof(price), price);
-        Guard.AgainstNullOrEmptyArgument(nameof(categories), categories);
 
         this.Id = id;
         this.Name = name;
