@@ -1,14 +1,57 @@
 ﻿[
   {
-    CreatedOn: DateTime_1,
-    LastUpdated: DateTime_1
+    Id: {Scrubbed},
+    CreatedOn: DateTimeOffset_1,
+    LastUpdated: DateTimeOffset_1,
+    OrderStatus: Created
   },
   {
-    CreatedOn: DateTime_2,
-    LastUpdated: DateTime_2
+    Id: {Scrubbed},
+    CreatedOn: DateTimeOffset_2,
+    LastUpdated: DateTimeOffset_3,
+    OrderStatus: Created,
+    OrderTotal: 11.97,
+    LineItems: [
+      {
+        Product: {
+          Id: {Scrubbed},
+          Name: Fish,
+          Description: Delicious and satisfying.,
+          Price: 5.99,
+          Categories: [
+            {
+              Id: {Scrubbed},
+              Name: Seafood,
+              Description: Food from the oceans
+            }
+          ]
+        },
+        Quantity: 1,
+        SubTotal: 5.99
+      },
+      {
+        Product: {
+          Id: {Scrubbed},
+          Name: Chips,
+          Description: Nothing more to say.,
+          Price: 2.99,
+          Categories: [
+            {
+              Id: {Scrubbed},
+              Name: Sundries,
+              Description: Things that go with things.
+            }
+          ]
+        },
+        Quantity: 2,
+        SubTotal: 5.98
+      }
+    ]
   },
   {
-    CreatedOn: DateTime_3,
-    LastUpdated: DateTime_3
+    Id: {Scrubbed},
+    CreatedOn: DateTimeOffset_4,
+    LastUpdated: DateTimeOffset_5,
+    OrderStatus: Cancelled
   }
 ]

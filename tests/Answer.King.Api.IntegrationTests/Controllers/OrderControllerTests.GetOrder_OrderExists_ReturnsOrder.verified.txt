@@ -1,4 +1,6 @@
 ﻿{
-  CreatedOn: DateTime_1,
-  LastUpdated: DateTime_1
+  Id: {Scrubbed},
+  CreatedOn: DateTimeOffset_1,
+  LastUpdated: DateTimeOffset_1,
+  OrderStatus: Created
 }

@@ -17,7 +17,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         this._host = app.AlbaHost;
 
         this._errorLevelSettings = new();
-        this._errorLevelSettings.ScrubMember("traceId");
+        this._errorLevelSettings.ScrubMembers("traceId", "id", "Id");
     }
 
     #region Get
@@ -31,7 +31,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var products = result.ReadAsJson<IEnumerable<Product>>();
-        return await Verify(products);
+        return await Verify(products, this._errorLevelSettings);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var products = result.ReadAsJson<Product>();
-        return await Verify(products);
+        return await Verify(products, this._errorLevelSettings);
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var products = result.ReadAsJson<Product>();
-        return await Verify(products);
+        return await Verify(products, this._errorLevelSettings);
     }
 
     [Fact]
@@ -133,7 +133,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var updatedProduct = putResult.ReadAsJson<Product>();
-        return await Verify(updatedProduct);
+        return await Verify(updatedProduct, this._errorLevelSettings);
     }
 
     [Fact]

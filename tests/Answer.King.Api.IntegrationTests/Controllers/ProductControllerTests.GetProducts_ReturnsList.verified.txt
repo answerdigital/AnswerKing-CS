@@ -1,6 +1,6 @@
 ﻿[
   {
-    Id: 1,
+    Id: {Scrubbed},
     Name: Fish,
     Description: Delicious and satisfying.,
     Price: 5.99,
@@ -10,7 +10,7 @@
     Retired: false
   },
   {
-    Id: 2,
+    Id: {Scrubbed},
     Name: Chips,
     Description: Nothing more to say.,
     Price: 2.99,

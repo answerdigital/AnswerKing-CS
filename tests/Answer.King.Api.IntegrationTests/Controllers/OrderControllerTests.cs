@@ -18,7 +18,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
         this._host = app.AlbaHost;
 
         this._errorLevelSettings = new();
-        this._errorLevelSettings.ScrubMember("traceId");
+        this._errorLevelSettings.ScrubMembers("traceId", "id", "Id");
     }
 
     #region Get

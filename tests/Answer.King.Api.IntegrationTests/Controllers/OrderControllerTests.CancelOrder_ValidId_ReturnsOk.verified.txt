@@ -1,0 +1,26 @@
+﻿{
+  id: {Scrubbed},
+  createdOn: DateTimeOffset_1,
+  lastUpdated: DateTimeOffset_2,
+  orderStatus: Cancelled,
+  orderTotal: 5.99,
+  lineItems: [
+    {
+      product: {
+        id: {Scrubbed},
+        name: Fish,
+        description: Delicious and satisfying.,
+        price: 5.99,
+        categories: [
+          {
+            id: {Scrubbed},
+            name: Seafood,
+            description: Food from the oceans
+          }
+        ]
+      },
+      quantity: 1,
+      subTotal: 5.99
+    }
+  ]
+}
