@@ -248,7 +248,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
         {
             _.Delete
                 .Url($"/api/orders/{order?.Id}");
-            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Gone);
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
         return await VerifyJson(secondDeleteResult.ReadAsTextAsync(), this._errorLevelSettings);

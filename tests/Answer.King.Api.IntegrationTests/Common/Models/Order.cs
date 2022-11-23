@@ -13,6 +13,7 @@ public class Order
         this._LineItems = new List<LineItem>();
     }
 
+    // ReSharper disable once UnusedMember.Local
     private Order(
         long id,
         DateTime createdOn,
