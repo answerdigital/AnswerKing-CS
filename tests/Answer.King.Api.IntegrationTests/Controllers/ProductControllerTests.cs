@@ -10,7 +10,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
 {
     private readonly IAlbaHost _host;
 
-    private VerifySettings _errorLevelSettings;
+    private readonly VerifySettings _errorLevelSettings;
 
     public ProductControllerTests(WebFixtures app)
     {

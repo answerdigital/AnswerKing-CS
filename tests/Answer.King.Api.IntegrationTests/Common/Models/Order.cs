@@ -56,7 +56,6 @@ public class LineItem
     public OrderProduct Product { get; set; }
     public long Quantity { get; set; }
     public double SubTotal { get; set; }
-
 }
 
 public class OrderProduct
@@ -84,7 +83,6 @@ public class OrderProduct
     public double Price { get; set; }
 
     public IList<OrderCategory> Categories { get; set; }
-
 }
 
 public class OrderCategory
