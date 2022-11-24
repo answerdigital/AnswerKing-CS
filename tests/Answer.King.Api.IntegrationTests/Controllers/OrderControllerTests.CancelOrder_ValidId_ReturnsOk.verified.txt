@@ -1,5 +1,5 @@
 ﻿{
-  id: {Scrubbed},
+  id: 4,
   createdOn: DateTimeOffset_1,
   lastUpdated: DateTimeOffset_2,
   orderStatus: Cancelled,
@@ -7,13 +7,13 @@
   lineItems: [
     {
       product: {
-        id: {Scrubbed},
+        id: 1,
         name: Fish,
         description: Delicious and satisfying.,
         price: 5.99,
         categories: [
           {
-            id: {Scrubbed},
+            id: 1,
             name: Seafood,
             description: Food from the oceans
           }

@@ -5,25 +5,21 @@ using Product = Answer.King.Api.IntegrationTests.Common.Models.Product;
 namespace Answer.King.Api.IntegrationTests.Controllers;
 
 [UsesVerify]
-public class ProductControllerTests : IClassFixture<WebFixtures>
+public class ProductControllerTests : WebFixtures
 {
-    private readonly IAlbaHost _host;
-
     private readonly VerifySettings _verifySettings;
 
-    public ProductControllerTests(WebFixtures app)
+    public ProductControllerTests()
     {
-        this._host = app.AlbaHost;
-
         this._verifySettings = new();
-        this._verifySettings.ScrubMembers("traceId", "id", "Id");
+        this._verifySettings.ScrubMembers("traceId");
     }
 
     #region Get
     [Fact]
     public async Task<VerifyResult> GetProducts_ReturnsList()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/products");
             _.StatusCodeShouldBeOk();
@@ -36,7 +32,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> GetProduct_ProductExists_ReturnsProduct()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/products/1");
             _.StatusCodeShouldBeOk();
@@ -49,7 +45,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> GetProduct_ProductDoesNotExist_Returns404()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/products/50");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
@@ -63,7 +59,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PostProduct_ValidModel_ReturnsNewProduct()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -83,7 +79,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PostProduct_InValidDTO_Fails()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -102,7 +98,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PutProduct_ValidDTO_ReturnsModel()
     {
-        var postResult = await this._host.Scenario(_ =>
+        var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -117,7 +113,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
 
         var products = postResult.ReadAsJson<Product>();
 
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
@@ -138,7 +134,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PutProduct_InvalidDTO_ReturnsBadRequest()
     {
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
@@ -155,7 +151,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PutProduct_InvalidId_ReturnsNotFound()
     {
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
@@ -177,7 +173,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> RetireProduct_InvalidId_ReturnsNotFound()
     {
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url("/api/products/5");
@@ -190,7 +186,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> RetireProduct_ValidId_ReturnsOk()
     {
-        var postResult = await this._host.Scenario(_ =>
+        var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -205,7 +201,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
 
         var products = postResult.ReadAsJson<Product>();
 
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url($"/api/products/{products?.Id}");
@@ -218,7 +214,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> RetireProduct_ValidId_IsRetired_ReturnsNotFound()
     {
-        var postResult = await this._host.Scenario(_ =>
+        var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -233,14 +229,14 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
 
         var products = postResult.ReadAsJson<Product>();
 
-        await this._host.Scenario(_ =>
+        await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url($"/api/products/{products?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
-        var secondDeleteResult = await this._host.Scenario(_ =>
+        var secondDeleteResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url($"/api/products/{products?.Id}");

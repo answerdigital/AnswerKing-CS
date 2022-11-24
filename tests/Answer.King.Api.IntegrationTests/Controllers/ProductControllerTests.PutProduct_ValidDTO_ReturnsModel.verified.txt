@@ -1,5 +1,5 @@
 ﻿{
-  Id: {Scrubbed},
+  Id: 3,
   Name: BBQ Burger,
   Description: Juicy,
   Price: 1.5,

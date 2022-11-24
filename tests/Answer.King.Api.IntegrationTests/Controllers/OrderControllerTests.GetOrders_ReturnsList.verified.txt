@@ -1,12 +1,12 @@
 ﻿[
   {
-    Id: {Scrubbed},
+    Id: 1,
     CreatedOn: DateTimeOffset_1,
     LastUpdated: DateTimeOffset_1,
     OrderStatus: Created
   },
   {
-    Id: {Scrubbed},
+    Id: 2,
     CreatedOn: DateTimeOffset_2,
     LastUpdated: DateTimeOffset_3,
     OrderStatus: Created,
@@ -14,13 +14,13 @@
     LineItems: [
       {
         Product: {
-          Id: {Scrubbed},
+          Id: 1,
           Name: Fish,
           Description: Delicious and satisfying.,
           Price: 5.99,
           Categories: [
             {
-              Id: {Scrubbed},
+              Id: 1,
               Name: Seafood,
               Description: Food from the oceans
             }
@@ -31,13 +31,13 @@
       },
       {
         Product: {
-          Id: {Scrubbed},
+          Id: 2,
           Name: Chips,
           Description: Nothing more to say.,
           Price: 2.99,
           Categories: [
             {
-              Id: {Scrubbed},
+              Id: 2,
               Name: Sundries,
               Description: Things that go with things.
             }
@@ -49,7 +49,7 @@
     ]
   },
   {
-    Id: {Scrubbed},
+    Id: 3,
     CreatedOn: DateTimeOffset_4,
     LastUpdated: DateTimeOffset_5,
     OrderStatus: Cancelled

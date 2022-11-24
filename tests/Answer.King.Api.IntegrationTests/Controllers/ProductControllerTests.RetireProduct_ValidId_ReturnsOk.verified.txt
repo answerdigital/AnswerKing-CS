@@ -1,5 +1,5 @@
 ﻿{
-  id: {Scrubbed},
+  id: 3,
   name: Burger,
   description: Juicy,
   price: 1.5,
