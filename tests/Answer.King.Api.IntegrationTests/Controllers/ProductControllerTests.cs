@@ -10,14 +10,14 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
 {
     private readonly IAlbaHost _host;
 
-    private readonly VerifySettings _errorLevelSettings;
+    private readonly VerifySettings _verifySettings;
 
     public ProductControllerTests(WebFixtures app)
     {
         this._host = app.AlbaHost;
 
-        this._errorLevelSettings = new();
-        this._errorLevelSettings.ScrubMembers("traceId", "id", "Id");
+        this._verifySettings = new();
+        this._verifySettings.ScrubMembers("traceId", "id", "Id");
     }
 
     #region Get
@@ -31,7 +31,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var products = result.ReadAsJson<IEnumerable<Product>>();
-        return await Verify(products, this._errorLevelSettings);
+        return await Verify(products, this._verifySettings);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var products = result.ReadAsJson<Product>();
-        return await Verify(products, this._errorLevelSettings);
+        return await Verify(products, this._verifySettings);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
-        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 
@@ -78,7 +78,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var products = result.ReadAsJson<Product>();
-        return await Verify(products, this._errorLevelSettings);
+        return await Verify(products, this._verifySettings);
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
-        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 
@@ -133,7 +133,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
         });
 
         var updatedProduct = putResult.ReadAsJson<Product>();
-        return await Verify(updatedProduct, this._errorLevelSettings);
+        return await Verify(updatedProduct, this._verifySettings);
     }
 
     [Fact]
@@ -150,7 +150,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
     [Fact]
@@ -170,7 +170,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 
@@ -185,7 +185,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
     [Fact]
@@ -213,7 +213,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
     [Fact]
@@ -248,7 +248,7 @@ public class ProductControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Gone);
         });
 
-        return await VerifyJson(secondDeleteResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(secondDeleteResult.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 }

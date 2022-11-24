@@ -11,14 +11,14 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
 {
     private readonly IAlbaHost _host;
 
-    private readonly VerifySettings _errorLevelSettings;
+    private readonly VerifySettings _verifySettings;
 
     public OrderControllerTests(WebFixtures app)
     {
         this._host = app.AlbaHost;
 
-        this._errorLevelSettings = new();
-        this._errorLevelSettings.ScrubMembers("traceId", "id", "Id");
+        this._verifySettings = new();
+        this._verifySettings.ScrubMembers("traceId", "id", "Id");
     }
 
     #region Get
@@ -32,7 +32,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
         });
 
         var orders = result.ReadAsJson<IEnumerable<Order>>();
-        return await Verify(orders, this._errorLevelSettings);
+        return await Verify(orders, this._verifySettings);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
         });
 
         var order = result.ReadAsJson<Order>();
-        return await Verify(order, this._errorLevelSettings);
+        return await Verify(order, this._verifySettings);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
-        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 
@@ -79,7 +79,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
         });
 
         var order = result.ReadAsJson<Order>();
-        return await Verify(order, this._errorLevelSettings);
+        return await Verify(order, this._verifySettings);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
-        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 
@@ -135,7 +135,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
         });
 
         var updatedOrder = putResult.ReadAsJson<Order>();
-        return await Verify(updatedOrder, this._errorLevelSettings);
+        return await Verify(updatedOrder, this._verifySettings);
     }
 
     [Fact]
@@ -154,7 +154,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
     [Fact]
@@ -173,7 +173,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 
@@ -188,7 +188,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
     [Fact]
@@ -216,7 +216,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
-        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
     [Fact]
@@ -251,7 +251,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
-        return await VerifyJson(secondDeleteResult.ReadAsTextAsync(), this._errorLevelSettings);
+        return await VerifyJson(secondDeleteResult.ReadAsTextAsync(), this._verifySettings);
     }
     #endregion
 }
