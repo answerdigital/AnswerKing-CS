@@ -1,7 +1,4 @@
 ﻿using Answer.King.Domain;
-using OrderStatus = Answer.King.Domain.Orders.OrderStatus;
-using Baseline;
-using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Api.IntegrationTests.Common.Models;
 

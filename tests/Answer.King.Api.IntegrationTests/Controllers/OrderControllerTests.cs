@@ -1,7 +1,6 @@
 ﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
-using Answer.King.Api.RequestModels;
-using Microsoft.Extensions.Hosting;
+using Xunit.Abstractions;
 using Order = Answer.King.Api.IntegrationTests.Common.Models.Order;
 using RMLineItems = Answer.King.Api.RequestModels.LineItem;
 
@@ -10,10 +9,12 @@ namespace Answer.King.Api.IntegrationTests.Controllers;
 [UsesVerify]
 public class OrderControllerTests : WebFixtures
 {
+    private readonly ITestOutputHelper _testOutputHelper;
     private readonly VerifySettings _verifySettings;
 
-    public OrderControllerTests()
+    public OrderControllerTests(ITestOutputHelper testOutputHelper)
     {
+        this._testOutputHelper = testOutputHelper;
         this._verifySettings = new();
         this._verifySettings.ScrubMembers("traceId", "id", "Id");
     }
@@ -22,6 +23,7 @@ public class OrderControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> GetOrders_ReturnsList()
     {
+        this._testOutputHelper.WriteLine(this.TestDbName);
         var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/orders");
@@ -35,6 +37,7 @@ public class OrderControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> GetOrder_OrderExists_ReturnsOrder()
     {
+        this._testOutputHelper.WriteLine(this.TestDbName);
         var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/orders/1");
@@ -48,6 +51,7 @@ public class OrderControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> GetOrder_OrderDoesNotExist_Returns404()
     {
+        this._testOutputHelper.WriteLine(this.TestDbName);
         var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/orders/50");
@@ -191,6 +195,7 @@ public class OrderControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> CancelOrder_ValidId_ReturnsOk()
     {
+        this._testOutputHelper.WriteLine(this.TestDbName);
         var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
@@ -219,6 +224,7 @@ public class OrderControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> CancelOrder_ValidId_IsCanceled_ReturnsBadRequest()
     {
+        this._testOutputHelper.WriteLine(this.TestDbName);
         var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post

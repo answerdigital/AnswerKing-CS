@@ -6,7 +6,7 @@ public class WebFixtures : IAsyncLifetime
 {
     public IAlbaHost AlbaHost = null!;
 
-    private readonly string TestDbName = $"Answer.King.{Guid.NewGuid()}.db";
+    public readonly string TestDbName = $"Answer.King.{Guid.NewGuid()}.db";
 
     public async Task InitializeAsync()
     {

@@ -1,6 +1,5 @@
 ﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
-using Answer.King.Api.RequestModels;
 using Product = Answer.King.Api.IntegrationTests.Common.Models.Product;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
