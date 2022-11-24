@@ -1,22 +1,19 @@
 ﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
 using Answer.King.Api.RequestModels;
+using Microsoft.Extensions.Hosting;
 using Order = Answer.King.Api.IntegrationTests.Common.Models.Order;
 using RMLineItems = Answer.King.Api.RequestModels.LineItem;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
 
 [UsesVerify]
-public class OrderControllerTests : IClassFixture<WebFixtures>
+public class OrderControllerTests : WebFixtures
 {
-    private readonly IAlbaHost _host;
-
     private readonly VerifySettings _verifySettings;
 
-    public OrderControllerTests(WebFixtures app)
+    public OrderControllerTests()
     {
-        this._host = app.AlbaHost;
-
         this._verifySettings = new();
         this._verifySettings.ScrubMembers("traceId", "id", "Id");
     }
@@ -25,7 +22,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> GetOrders_ReturnsList()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/orders");
             _.StatusCodeShouldBeOk();
@@ -38,7 +35,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> GetOrder_OrderExists_ReturnsOrder()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/orders/1");
             _.StatusCodeShouldBeOk();
@@ -51,7 +48,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> GetOrder_OrderDoesNotExist_Returns404()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Get.Url("/api/orders/50");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
@@ -65,7 +62,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PostOrder_ValidModel_ReturnsNewOrder()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -85,7 +82,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PostOrder_InValidDTO_Fails()
     {
-        var result = await this._host.Scenario(_ =>
+        var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -106,7 +103,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PutOrder_ValidDTO_ReturnsModel()
     {
-        var postResult = await this._host.Scenario(_ =>
+        var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -121,7 +118,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
 
         var order = postResult.ReadAsJson<Order>();
 
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
@@ -141,7 +138,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PutOrder_InvalidDTO_ReturnsBadRequest()
     {
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
@@ -160,7 +157,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> PutOrder_InvalidId_ReturnsNotFound()
     {
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
@@ -181,7 +178,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> CancelOrder_InvalidId_ReturnsNotFound()
     {
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url("/api/orders/5");
@@ -194,7 +191,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> CancelOrder_ValidId_ReturnsOk()
     {
-        var postResult = await this._host.Scenario(_ =>
+        var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -209,7 +206,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
 
         var order = postResult.ReadAsJson<Order>();
 
-        var putResult = await this._host.Scenario(_ =>
+        var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url($"/api/orders/{order?.Id}");
@@ -222,7 +219,7 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
     [Fact]
     public async Task<VerifyResult> CancelOrder_ValidId_IsCanceled_ReturnsBadRequest()
     {
-        var postResult = await this._host.Scenario(_ =>
+        var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
@@ -237,14 +234,14 @@ public class OrderControllerTests : IClassFixture<WebFixtures>
 
         var order = postResult.ReadAsJson<Order>();
 
-        await this._host.Scenario(_ =>
+        await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url($"/api/orders/{order?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
 
-        var secondDeleteResult = await this._host.Scenario(_ =>
+        var secondDeleteResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
                 .Url($"/api/orders/{order?.Id}");
