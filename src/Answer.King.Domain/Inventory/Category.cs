@@ -9,6 +9,7 @@ public class Category : IAggregateRoot
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
+        Guard.AgainstNullArgument(nameof(products), products);
 
         this.Id = 0;
         this.Name = name;
