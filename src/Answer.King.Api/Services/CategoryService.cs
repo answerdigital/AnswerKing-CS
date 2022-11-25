@@ -22,7 +22,6 @@ public class CategoryService : ICategoryService
 
     private IProductRepository Products { get; }
 
-
     public async Task<Category?> GetCategory(long categoryId)
     {
         return await this.Categories.Get(categoryId);

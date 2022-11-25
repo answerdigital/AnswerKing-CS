@@ -26,7 +26,7 @@ public class Category : IAggregateRoot
         string description,
         DateTime createdOn,
         DateTime lastUpdated,
-        IList<ProductId>? products,
+        IList<ProductId> products,
         bool retired)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
@@ -34,13 +34,14 @@ public class Category : IAggregateRoot
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
         Guard.AgainstDefaultValue(nameof(createdOn), createdOn);
         Guard.AgainstDefaultValue(nameof(lastUpdated), lastUpdated);
+        Guard.AgainstNullArgument(nameof(products), products);
 
         this.Id = id;
         this.Name = name;
         this.Description = description;
         this.CreatedOn = createdOn;
         this.LastUpdated = lastUpdated;
-        this._Products = new HashSet<ProductId>(products ?? Array.Empty<ProductId>());
+        this._Products = new HashSet<ProductId>(products);
         this.Retired = retired;
     }
 
