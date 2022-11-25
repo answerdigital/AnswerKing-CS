@@ -15,18 +15,13 @@ public class Product
     }
     public long Id { get; }
 
-    public string Name { get; set; }
+    public string Name { get; }
 
-    public string Description { get; set; }
+    public string Description { get; }
 
-    public double Price { get; set; }
+    public double Price { get; }
 
-    public IList<long> Categories { get; set; }
+    public IList<long> Categories { get; }
 
-    public bool Retired { get; private set; }
-
-    public void Retire()
-    {
-        this.Retired = true;
-    }
+    public bool Retired { get; }
 }
