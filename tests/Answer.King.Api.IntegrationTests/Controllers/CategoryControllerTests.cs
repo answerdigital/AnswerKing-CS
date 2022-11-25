@@ -114,6 +114,25 @@ public class CategoryControllerTests : IClassFixture<WebFixtures>
 
         return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
     }
+
+    [Fact]
+    public async Task<VerifyResult> PostCategory_InvalidProductId_Fails()
+    {
+        var result = await this._host.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Seafood",
+                    Description = "Food from the oceans",
+                    Products = new List<long> { 5 }
+                })
+                .ToUrl("/api/categories");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._errorLevelSettings);
+    }
     #endregion
 
     #region Put
@@ -180,6 +199,25 @@ public class CategoryControllerTests : IClassFixture<WebFixtures>
                     Name = "Seafood",
                     Description = "Food from the oceans",
                     Products = new List<long> { }
+                })
+                .ToUrl("/api/categories/50");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._errorLevelSettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutCategory_InvalidProductId_ReturnsNotFound()
+    {
+        var putResult = await this._host.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    Name = "Seafood",
+                    Description = "Food from the oceans",
+                    Products = new List<long> { 5 }
                 })
                 .ToUrl("/api/categories/50");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
