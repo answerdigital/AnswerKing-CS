@@ -1,4 +1,6 @@
-﻿namespace Answer.King.Domain.Repositories.Models;
+﻿using System.Runtime.Serialization;
+
+namespace Answer.King.Domain.Repositories.Models;
 
 public class Product
 {
@@ -83,7 +85,11 @@ public class ProductLifecycleException : Exception
     {
     }
 
-    public ProductLifecycleException() : base()
+    public ProductLifecycleException()
+    {
+    }
+
+    protected ProductLifecycleException(SerializationInfo info, StreamingContext context)
     {
     }
 

@@ -144,7 +144,7 @@ public class CategoryService : ICategoryService
 }
 
 [Serializable]
-internal class CategoryServiceException : Exception
+public class CategoryServiceException : Exception
 {
     public CategoryServiceException(string message, Exception innerException) : base(message, innerException)
     {
