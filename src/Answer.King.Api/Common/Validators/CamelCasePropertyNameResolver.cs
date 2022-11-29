@@ -5,7 +5,6 @@ using System.Reflection;
 
 namespace Answer.King.Api.Common.Validators;
 
-// ReSharper disable once UnusedMember.Local
 public static class CamelCasePropertyNameResolver
 {
     public static string? ResolvePropertyName(Type type, MemberInfo memberInfo, LambdaExpression expression)
@@ -13,7 +12,10 @@ public static class CamelCasePropertyNameResolver
         return ToCamelCase(DefaultPropertyNameResolver(type, memberInfo, expression));
     }
 
+    // ReSharper disable once UnusedMember.Local
+#pragma warning disable RCS1163, IDE0060// Remove unused private members
     private static string? DefaultPropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
+#pragma warning restore RCS1163, IDE0060// Remove unused private members
     {
         if (expression != null)
         {
