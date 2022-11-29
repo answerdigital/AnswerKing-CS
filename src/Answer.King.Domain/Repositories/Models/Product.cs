@@ -88,15 +88,18 @@ public class ProductLifecycleException : Exception
     {
     }
 
-    public ProductLifecycleException(string message) : base(message)
+    public ProductLifecycleException(string message)
+        : base(message)
     {
     }
 
-    public ProductLifecycleException(string message, Exception innerException) : base(message, innerException)
+    public ProductLifecycleException(string message, Exception innerException)
+        : base(message, innerException)
     {
     }
 
     protected ProductLifecycleException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
     {
     }
 }
