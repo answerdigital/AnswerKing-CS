@@ -143,15 +143,15 @@ public class CategoryService : ICategoryService
 [Serializable]
 public class CategoryServiceException : Exception
 {
+    public CategoryServiceException()
+    {
+    }
+
+    public CategoryServiceException(string message) : base(message)
+    {
+    }
+
     public CategoryServiceException(string message, Exception innerException) : base(message, innerException)
-    {
-    }
-
-    public CategoryServiceException() : base()
-    {
-    }
-
-    public CategoryServiceException(string? message) : base(message)
     {
     }
 }
