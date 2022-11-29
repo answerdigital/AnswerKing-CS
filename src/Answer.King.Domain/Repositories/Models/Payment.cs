@@ -1,5 +1,6 @@
 ﻿namespace Answer.King.Domain.Repositories.Models;
 
+// ReSharper disable once UnusedMember.Local
 public class Payment
 {
     public Payment(long orderId, double amount, double orderTotal)

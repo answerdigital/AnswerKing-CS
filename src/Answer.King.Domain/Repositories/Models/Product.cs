@@ -2,6 +2,7 @@
 
 namespace Answer.King.Domain.Repositories.Models;
 
+// ReSharper disable once UnusedMember.Local
 public class Product
 {
     public Product(string name, string description, double price)
