@@ -7,15 +7,12 @@ namespace Answer.King.Api.Common.Validators;
 
 public static class CamelCasePropertyNameResolver
 {
-    public static string? ResolvePropertyName(Type type, MemberInfo memberInfo, LambdaExpression expression)
+    public static string? ResolvePropertyName(Type _, MemberInfo memberInfo, LambdaExpression expression)
     {
-        return ToCamelCase(DefaultPropertyNameResolver(type, memberInfo, expression));
+        return ToCamelCase(DefaultPropertyNameResolver(_, memberInfo, expression));
     }
 
-    // ReSharper disable once UnusedMember.Local
-#pragma warning disable RCS1163, IDE0060// Remove unused private members
-    private static string? DefaultPropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
-#pragma warning restore RCS1163, IDE0060// Remove unused private members
+    private static string? DefaultPropertyNameResolver(Type _, MemberInfo memberInfo, LambdaExpression expression)
     {
         if (expression != null)
         {
