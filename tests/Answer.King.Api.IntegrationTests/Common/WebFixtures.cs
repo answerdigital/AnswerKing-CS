@@ -1,4 +1,5 @@
 ﻿using Alba;
+using Answer.King.Infrastructure.SeedData;
 
 namespace Answer.King.Api.IntegrationTests.Common;
 
