@@ -17,10 +17,7 @@ public class Product
         this._Categories = new HashSet<CategoryId>();
     }
 
-    // ReSharper disable once UnusedMember.Local
-#pragma warning disable IDE0051 // Remove unused private members
-    private Product(long id,
-#pragma warning restore IDE0051 // Remove unused private members
+    public Product(long id,
         string name,
         string description,
         double price,
