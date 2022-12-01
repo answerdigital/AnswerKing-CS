@@ -71,7 +71,7 @@ jobs:
           message: Tests run with ${{ steps.report-tests.outputs.passed }} passed and ${{ steps.report-tests.outputs.failed }} failed in ${{ steps.report-tests.outputs.time }}ms.
 
   analysis:
-      name: Analyse
+      name: Analyse but not
       runs-on: ubuntu-latest
       needs: [build]
       steps:            
