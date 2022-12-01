@@ -11,7 +11,7 @@ on:
 
 jobs:
   analyze-ql:
-    name: Analyze
+    name: Analyze QL
     runs-on: ubuntu-latest
     permissions:
       actions: read
