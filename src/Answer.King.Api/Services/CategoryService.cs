@@ -37,6 +37,8 @@ public class CategoryService : ICategoryService
         var categoryProducts = new List<ProductId>();
         var products = new List<Domain.Repositories.Models.Product>();
 
+        if (createCategory.Name == "a") createCategory.Name.Trim();
+
         foreach (var productId in createCategory.Products)
         {
             var product = await this.Products.Get(productId);
