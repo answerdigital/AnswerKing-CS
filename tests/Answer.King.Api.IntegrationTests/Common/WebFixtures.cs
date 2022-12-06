@@ -1,5 +1,3 @@
-using Answer.King.Infrastructure.SeedData;
-
 namespace Answer.King.Api.IntegrationTests.Common;
 
 public class WebFixtures : IAsyncLifetime

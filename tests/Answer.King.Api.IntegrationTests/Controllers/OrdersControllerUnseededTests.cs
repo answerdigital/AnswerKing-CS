@@ -1,20 +1,17 @@
-﻿using Alba;
 using Answer.King.Api.IntegrationTests.Common;
-using Xunit.Abstractions;
 using Order = Answer.King.Api.IntegrationTests.Common.Models.Order;
-using RMLineItems = Answer.King.Api.RequestModels.LineItem;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
 
 [UsesVerify]
-public class OrderControllerUnseededTests : UnseededWebFixtures
+public class OrdersControllerUnseededTests : UnseededWebFixtures
 {
-    private readonly VerifySettings _verifySettings;
+    private readonly VerifySettings verifySettings;
 
-    public OrderControllerUnseededTests()
+    public OrdersControllerUnseededTests()
     {
-        this._verifySettings = new();
-        this._verifySettings.ScrubMembers("traceId");
+        this.verifySettings = new();
+        this.verifySettings.ScrubMembers("traceId");
     }
 
     #region Get
@@ -28,7 +25,7 @@ public class OrderControllerUnseededTests : UnseededWebFixtures
         });
 
         var orders = result.ReadAsJson<IEnumerable<Order>>();
-        return await Verify(orders, this._verifySettings);
+        return await Verify(orders, this.verifySettings);
     }
     #endregion
 }
