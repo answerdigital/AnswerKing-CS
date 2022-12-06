@@ -1,7 +1,10 @@
 ﻿{
-  id: 3,
-  name: Burger,
-  description: Juicy,
-  price: 1.5,
+  id: 1,
+  name: Fish,
+  description: Delicious and satisfying.,
+  price: 5.99,
+  categories: [
+    1
+  ],
   retired: true
 }

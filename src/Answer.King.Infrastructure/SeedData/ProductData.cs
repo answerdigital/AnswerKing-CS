@@ -22,7 +22,14 @@ internal static class ProductData
             "Nothing more to say.",
             2.99,
             Categories(2),
-            false)
+            false),
+        ProductFactory.CreateProduct(
+            3,
+            "Gravy",
+            "Side",
+            0.99,
+            Categories(2),
+            true)
     };
 
 

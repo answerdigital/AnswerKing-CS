@@ -1,5 +1,7 @@
 ﻿using Alba;
+using Answer.King.Api.Controllers;
 using Answer.King.Api.IntegrationTests.Common;
+using Assert = Xunit.Assert;
 using Product = Answer.King.Api.IntegrationTests.Common.Models.Product;
 
 namespace Answer.King.Api.IntegrationTests.Controllers;
@@ -53,6 +55,18 @@ public class ProductControllerTests : WebFixtures
 
         return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
     }
+
+    [Fact]
+    public async Task<VerifyResult> GetProduct_UsingInvalidID_Returns400()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Get.Url("/api/products/invalidid");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+    }
     #endregion
 
     #region Post
@@ -88,6 +102,20 @@ public class ProductControllerTests : WebFixtures
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostProduct_InValidJSONFormat_Fails()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+            .Text("InvalidJSON")
+            .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.UnsupportedMediaType);
         });
 
         return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
@@ -148,7 +176,7 @@ public class ProductControllerTests : WebFixtures
     }
 
     [Fact]
-    public async Task<VerifyResult> PutProduct_InvalidId_ReturnsNotFound()
+    public async Task<VerifyResult> PutProduct_NonExistentID_ReturnsNotFound()
     {
         var putResult = await this.AlbaHost.Scenario(_ =>
         {
@@ -165,6 +193,61 @@ public class ProductControllerTests : WebFixtures
 
         return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
+
+    [Fact]
+    public async Task<VerifyResult> PutProduct_InvalidID_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    Name = "BBQ Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Categories = new List<long> { 1 }
+                })
+                .ToUrl("/api/products/InvalidID");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutProduct_InvalidJSON_Returns415()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Text("InvalidJSON")
+                .ToUrl("/api/products/InvalidID");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.UnsupportedMediaType);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutProduct_RetiredProduct_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    Name = "BBQ Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    Categories = new List<long> { 1 }
+                })
+                .ToUrl("/api/products/3");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
     #endregion
 
     #region Retire
@@ -184,27 +267,29 @@ public class ProductControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> RetireProduct_ValidId_ReturnsOk()
     {
-        var postResult = await this.AlbaHost.Scenario(_ =>
-        {
-            _.Post
-                .Json(new
-                {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50
-                })
-                .ToUrl("/api/products");
-            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
-        });
-
-        var products = postResult.ReadAsJson<Product>();
-
         var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Delete
-                .Url($"/api/products/{products?.Id}");
+                .Url($"/api/products/1");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
         });
+
+
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Get.Url("/api/products/1");
+            _.StatusCodeShouldBeOk();
+        });
+
+        var product = result.ReadAsJson<Product>();
+        if (product != null)
+        {
+            Assert.True(product.Retired);
+        }
+        else
+        {
+            throw new Exception("Product should not be null");
+        };
 
         return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
