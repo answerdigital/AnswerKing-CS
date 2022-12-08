@@ -8,7 +8,7 @@ on:
 
 jobs:
   pull-request:
-    name: Test, Report & Analyse
+    name: test, report, and analyse
     uses: ./.github/workflows/build-test-analyse.yml
     secrets: inherit
 
