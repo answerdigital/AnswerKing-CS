@@ -6,13 +6,13 @@ on:
 jobs:
   push-develop:
     name: Build, Test & Analyse
-    if: github.ref == 'refs/heads/develop'
+    if: ${{ always() && format('refs/heads/{0}', ) == github.ref }}
     uses: ./.github/workflows/build-test-analyse.yml
     secrets: inherit
 
   build:
     name: Build & Test
-    if: github.ref != 'refs/heads/develop'
+    if: ${{ always() && format('refs/heads/{0}', ) != github.ref }}
     runs-on: ubuntu-latest
 
     steps:
