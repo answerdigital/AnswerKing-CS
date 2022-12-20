@@ -31,6 +31,12 @@ public class OrderEntityMappings : IEntityMapping
                             ["name"] = c.Name,
                             ["description"] = c.Description
                         })),
+                        ["tags"] = new BsonArray(li.Product.Tags.Select(t => new BsonDocument
+                        {
+                            ["_id"] = t.Id,
+                            ["name"] = t.Name,
+                            ["description"] = t.Description
+                        })),
                         ["price"] = li.Product.Price
                     },
                     ["quantity"] = li.Quantity
@@ -90,6 +96,13 @@ public class OrderEntityMappings : IEntityMapping
                         p.AsDocument["_id"].AsInt64,
                         p.AsDocument["name"].AsString,
                         p.AsDocument["description"].AsString
+                     )
+                ).ToList(),
+                product["Tags"].AsArray.Select(p =>
+                    new Tag(
+                        p.AsDocument["_id"].AsInt64,
+                        p.AsDocument["name"].AsString,
+                        p.AsDocument["descriptiob"].AsString
                      )
                 ).ToList()
             )

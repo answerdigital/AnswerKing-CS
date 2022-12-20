@@ -168,7 +168,7 @@ public class CategoriesController : ControllerBase
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist.</response>
     // GET api/categories/{ID}/products
     [HttpGet("{id}/products")]
-    [ProducesResponseType(typeof(IEnumerable<Answer.King.Domain.Repositories.Models.Product>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<Domain.Repositories.Models.Product>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> GetProducts(long id)

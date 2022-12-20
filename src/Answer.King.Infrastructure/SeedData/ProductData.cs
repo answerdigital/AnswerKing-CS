@@ -15,6 +15,7 @@ internal static class ProductData
             "Delicious and satisfying.",
             5.99,
             Categories(1),
+            Tags(1),
             false),
         ProductFactory.CreateProduct(
             2,
@@ -22,6 +23,7 @@ internal static class ProductData
             "Nothing more to say.",
             2.99,
             Categories(2),
+            Tags(2),
             false)
     };
 
@@ -30,5 +32,11 @@ internal static class ProductData
     {
         return CategoryData.Categories.Where(c => c.Id == id)
             .Select(x => new CategoryId(x.Id)).ToList();
+    }
+
+    private static IList<TagId> Tags(long id)
+    {
+        return TagData.Tags.Where(c => c.Id == id)
+            .Select(x => new TagId(x.Id)).ToList();
     }
 }

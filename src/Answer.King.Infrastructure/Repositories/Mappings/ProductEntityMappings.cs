@@ -18,6 +18,7 @@ public class ProductEntityMappings : IEntityMapping
             serialize: product =>
             {
                 var categories = product.Categories.Select(c => new BsonValue(c.Value));
+                var tags = product.Tags.Select(c => new BsonValue(c.Value));
 
                 var doc = new BsonDocument
                 {
@@ -26,6 +27,7 @@ public class ProductEntityMappings : IEntityMapping
                     ["description"] = product.Description,
                     ["price"] = product.Price,
                     ["categories"] = new BsonArray(categories),
+                    ["tags"] = new BsonArray(tags),
                     ["retired"] = product.Retired
                 };
 
@@ -35,6 +37,7 @@ public class ProductEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
                 var categories = doc["categories"].AsArray.Select(c => new CategoryId(c)).ToList();
+                var tags = doc["tags"].AsArray.Select(c => new TagId(c)).ToList();
 
                 return ProductFactory.CreateProduct(
                     doc["_id"].AsInt64,
@@ -42,6 +45,7 @@ public class ProductEntityMappings : IEntityMapping
                     doc["description"].AsString,
                     doc["price"].AsDouble,
                     categories,
+                    tags,
                     doc["retired"].AsBoolean);
             }
         );

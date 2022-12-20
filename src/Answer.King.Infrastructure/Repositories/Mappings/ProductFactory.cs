@@ -16,13 +16,14 @@ internal static class ProductFactory
         string description,
         double price,
         IList<CategoryId> categories,
+        IList<TagId> tags,
         bool retired)
     {
         var ctor = typeof(Product)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate);
 
-        var parameters = new object[] { id, name, description, price, categories, retired };
+        var parameters = new object[] { id, name, description, price, categories, tags, retired };
 
         /* invoking a private constructor will wrap up any exception into a
          * TargetInvocationException so here I unwrap it

@@ -30,7 +30,12 @@ internal static class OrderData
             .Select(x => new Category(x.Id, x.Name, x.Description))
             .ToList();
 
-        var fishOrder = new Product(fish!.Id, fish.Name, fish.Description, fish.Price, fishCategories);
+        var fishTags = TagData.Tags
+            .Where(c => fish!.Tags.Select(cs => cs.Value).Contains(c.Id))
+            .Select(x => new Tag(x.Id, x.Name, x.Description))
+            .ToList();
+
+        var fishOrder = new Product(fish!.Id, fish.Name, fish.Description, fish.Price, fishCategories, fishTags);
 
         var lineItem1 = new LineItem(fishOrder);
         lineItem1.AddQuantity(1);
@@ -42,7 +47,12 @@ internal static class OrderData
             .Select(x => new Category(x.Id, x.Name, x.Description))
             .ToList();
 
-        var chipsOrder = new Product(chips!.Id, chips.Name, chips.Description, chips.Price, chipsCategories);
+        var chipsTags = TagData.Tags
+            .Where(c => chips!.Tags.Select(cs => cs.Value).Contains(c.Id))
+            .Select(x => new Tag(x.Id, x.Name, x.Description))
+            .ToList();
+
+        var chipsOrder = new Product(chips!.Id, chips.Name, chips.Description, chips.Price, chipsCategories, chipsTags);
 
         var lineItem2 = new LineItem(chipsOrder);
         lineItem2.AddQuantity(2);
