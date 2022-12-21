@@ -102,7 +102,7 @@ public class OrderEntityMappings : IEntityMapping
                     new Tag(
                         p.AsDocument["_id"].AsInt64,
                         p.AsDocument["name"].AsString,
-                        p.AsDocument["descriptiob"].AsString
+                        p.AsDocument["description"].AsString
                      )
                 ).ToList()
             )

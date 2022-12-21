@@ -10,6 +10,10 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class ProductFactory
 {
+    private static ConstructorInfo? ProductConstructor { get; } = typeof(Product)
+    .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+    .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
+
     public static Product CreateProduct(
         long id,
         string name,
@@ -19,10 +23,6 @@ internal static class ProductFactory
         IList<TagId> tags,
         bool retired)
     {
-        var ctor = typeof(Product)
-            .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
-            .SingleOrDefault(c => c.IsPrivate);
-
         var parameters = new object[] { id, name, description, price, categories, tags, retired };
 
         /* invoking a private constructor will wrap up any exception into a
@@ -30,7 +30,7 @@ internal static class ProductFactory
          */
         try
         {
-            return (Product)ctor?.Invoke(parameters)!;
+            return (Product)ProductConstructor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {

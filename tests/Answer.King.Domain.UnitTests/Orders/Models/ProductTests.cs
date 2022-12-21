@@ -20,6 +20,10 @@ public class ProductTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
 
         // Act / Assert
 
@@ -28,7 +32,8 @@ public class ProductTests
             name,
             description,
             price,
-            categories)
+            categories,
+            tags)
         );
     }
 
@@ -44,6 +49,10 @@ public class ProductTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
 
         // Act Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => new Product(
@@ -51,7 +60,8 @@ public class ProductTests
             name,
             description,
             price,
-            categories)
+            categories,
+            tags)
         );
     }
 }

@@ -57,7 +57,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = ProductFactory.CreateProduct(1,
-            "product", "desc", 12.00, new List<CategoryId> { new(1) }, false);
+            "product", "desc", 12.00, new List<CategoryId> { new(1) }, new List<TagId> { new(1) }, false);
 
         this.ProductRepository.Get(product.Id).Returns(product);
 

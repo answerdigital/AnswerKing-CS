@@ -28,7 +28,6 @@ public class TagsController : ControllerBase
     // GET api/tags
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<Domain.Inventory.Tag>), StatusCodes.Status200OK)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> GetAll()
     {
         return this.Ok(await this.Tags.GetTags());
@@ -45,7 +44,6 @@ public class TagsController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> GetOne(long id)
     {
         var tag = await this.Tags.GetTag(id);
@@ -67,20 +65,11 @@ public class TagsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> Post([FromBody] Tag createTag)
     {
-        try
-        {
-            var tag = await this.Tags.CreateTag(createTag);
+        var tag = await this.Tags.CreateTag(createTag);
 
-            return this.CreatedAtAction(nameof(this.GetOne), new { tag.Id }, tag);
-        }
-        catch (TagServiceException ex)
-        {
-            this.ModelState.AddModelError("products", ex.Message);
-            return this.ValidationProblem();
-        }
+        return this.CreatedAtAction(nameof(this.GetOne), new { tag.Id }, tag);
     }
 
     /// <summary>
@@ -96,24 +85,15 @@ public class TagsController : ControllerBase
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> Put(long id, [FromBody] Tag updateTag)
     {
-        try
+        var tag = await this.Tags.UpdateTag(id, updateTag);
+        if (tag == null)
         {
-            var tag = await this.Tags.UpdateTag(id, updateTag);
-            if (tag == null)
-            {
-                return this.NotFound();
-            }
+            return this.NotFound();
+        }
 
-            return this.Ok(tag);
-        }
-        catch (TagServiceException ex)
-        {
-            this.ModelState.AddModelError("products", ex.Message);
-            return this.ValidationProblem();
-        }
+        return this.Ok(tag);
     }
 
     /// <summary>
@@ -130,7 +110,6 @@ public class TagsController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status410Gone)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> Retire(long id)
     {
         try
@@ -170,7 +149,6 @@ public class TagsController : ControllerBase
     [HttpGet("{id}/products")]
     [ProducesResponseType(typeof(IEnumerable<Domain.Repositories.Models.Product>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> GetProducts(long id)
     {
         var tag = await this.Tags.GetTag(id);
@@ -200,7 +178,6 @@ public class TagsController : ControllerBase
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> AddProducts(long id, [FromBody] TagProducts addProducts)
     {
         try
@@ -233,7 +210,6 @@ public class TagsController : ControllerBase
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerOperation(Tags = new[] { "Tags" })]
     public async Task<IActionResult> RemoveProducts(long id, [FromBody] TagProducts removeProducts)
     {
         try

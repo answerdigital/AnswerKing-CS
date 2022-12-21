@@ -8,6 +8,7 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 using CategoryId = Answer.King.Domain.Repositories.Models.CategoryId;
+using TagId = Answer.King.Domain.Repositories.Models.TagId;
 using Order = Answer.King.Domain.Orders.Order;
 using Product = Answer.King.Domain.Repositories.Models.Product;
 
@@ -51,10 +52,11 @@ public class OrderServiceTests
     {
         // Arrange
         var categoryIds = new List<CategoryId> { new(1) };
+        var tagIds = new List<TagId> { new(1) };
         var products = new[]
         {
-            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, categoryIds, false),
-            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, categoryIds, false)
+            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, categoryIds, tagIds, false),
+            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, categoryIds, tagIds, false)
         };
 
         var orderRequest = new RequestModels.Order
@@ -114,10 +116,11 @@ public class OrderServiceTests
         this.OrderRepository.Get(Arg.Any<long>()).Returns(order);
 
         var categoryIds = new List<CategoryId> { new(1) };
+        var tagIds = new List<TagId> { new(1) };
         var products = new[]
         {
-            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, categoryIds, false),
-            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, categoryIds, false)
+            ProductFactory.CreateProduct(1, "product 1", "desc", 2.0, categoryIds, tagIds, false),
+            ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, categoryIds, tagIds, false)
         };
 
         var orderRequest = new RequestModels.Order
@@ -249,10 +252,11 @@ public class OrderServiceTests
     private readonly IOrderRepository OrderRepository = Substitute.For<IOrderRepository>();
     private readonly IProductRepository ProductRepository = Substitute.For<IProductRepository>();
     private readonly ICategoryRepository CategoryRepository = Substitute.For<ICategoryRepository>();
+    private readonly ITagRepository TagRepository = Substitute.For<ITagRepository>();
 
     private IOrderService GetServiceUnderTest()
     {
-        return new OrderService(this.OrderRepository, this.ProductRepository, this.CategoryRepository);
+        return new OrderService(this.OrderRepository, this.ProductRepository, this.CategoryRepository, this.TagRepository);
     }
 
     #endregion

@@ -9,6 +9,10 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class OrderFactory
 {
+    private static ConstructorInfo? OrderConstructor { get; } = typeof(Order)
+            .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+            .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
+
     public static Order CreateOrder(
         long id,
         DateTime createdOn,
@@ -16,10 +20,6 @@ internal static class OrderFactory
         OrderStatus status,
         IList<LineItem> lineItems)
     {
-        var ctor = typeof(Order)
-            .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
-            .SingleOrDefault(c => c.IsPrivate);
-
         var parameters = new object[] { id, createdOn, lastUpdated, status, lineItems };
 
         /* invoking a private constructor will wrap up any exception into a
@@ -27,7 +27,7 @@ internal static class OrderFactory
          */
         try
         {
-            return (Order)ctor?.Invoke(parameters)!;
+            return (Order)OrderConstructor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {

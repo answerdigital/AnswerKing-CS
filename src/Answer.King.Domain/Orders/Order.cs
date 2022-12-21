@@ -1,4 +1,5 @@
-﻿using Answer.King.Domain.Orders.Models;
+﻿using System.Runtime.Serialization;
+using Answer.King.Domain.Orders.Models;
 
 namespace Answer.King.Domain.Orders;
 
@@ -14,6 +15,7 @@ public class Order : IAggregateRoot
     }
 
     // ReSharper disable once UnusedMember.Local
+#pragma warning disable IDE0051 // Remove unused private members
     private Order(
         long id,
         DateTime createdOn,
@@ -21,6 +23,7 @@ public class Order : IAggregateRoot
         OrderStatus status,
         IList<LineItem>? lineItems)
     {
+#pragma warning restore IDE0051 // Remove unused private members
         Guard.AgainstDefaultValue(nameof(createdOn), createdOn);
         Guard.AgainstDefaultValue(nameof(lastUpdated), lastUpdated);
 
@@ -137,6 +140,10 @@ public class OrderPaymentException : Exception
     public OrderPaymentException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
+
+    protected OrderPaymentException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
 }
 
 [Serializable]
@@ -151,6 +158,10 @@ public class OrderLifeCycleException : Exception
     }
 
     public OrderLifeCycleException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+
+    protected OrderLifeCycleException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }

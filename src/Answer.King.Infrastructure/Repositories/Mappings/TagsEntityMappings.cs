@@ -52,7 +52,7 @@ public class TagsEntityMappings : IEntityMapping
 
     public void ResolveMember(Type type, MemberInfo memberInfo, MemberMapper memberMapper)
     {
-        if (type == typeof(Category) && memberMapper.MemberName == "Id")
+        if (type == typeof(Tag) && memberMapper.MemberName == "Id")
         {
             memberMapper.Setter =
                 (obj, value) => TagIdFieldInfo?.SetValue(obj, value);

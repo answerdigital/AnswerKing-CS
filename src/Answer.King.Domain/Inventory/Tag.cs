@@ -1,4 +1,5 @@
-﻿using Answer.King.Domain.Inventory.Models;
+﻿using System.Runtime.Serialization;
+using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Domain.Inventory;
 
@@ -19,6 +20,7 @@ public class Tag : IAggregateRoot
     }
 
     // ReSharper disable once UnusedMember.Local
+#pragma warning disable IDE0051 // Remove unused private members
     private Tag(
         long id,
         string name,
@@ -28,6 +30,7 @@ public class Tag : IAggregateRoot
         IList<ProductId> products,
         bool retired)
     {
+#pragma warning restore IDE0051 // Remove unused private members
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -63,8 +66,10 @@ public class Tag : IAggregateRoot
     public void Rename(string name, string description)
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
+        Guard.AgainstNullOrEmptyArgument(nameof(description), description);
 
         this.Name = name;
+        this.Description = description;
         this.LastUpdated = DateTime.UtcNow;
     }
 
@@ -124,6 +129,10 @@ public class TagLifecycleException : Exception
     }
 
     public TagLifecycleException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+
+    protected TagLifecycleException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }

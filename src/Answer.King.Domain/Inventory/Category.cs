@@ -1,4 +1,5 @@
-﻿using Answer.King.Domain.Inventory.Models;
+﻿using System.Runtime.Serialization;
+using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Domain.Inventory;
 
@@ -20,6 +21,7 @@ public class Category : IAggregateRoot
     }
 
     // ReSharper disable once UnusedMember.Local
+#pragma warning disable IDE0051 // Remove unused private members
     private Category(
         long id,
         string name,
@@ -29,6 +31,7 @@ public class Category : IAggregateRoot
         IList<ProductId> products,
         bool retired)
     {
+#pragma warning restore IDE0051 // Remove unused private members
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -127,6 +130,10 @@ public class CategoryLifecycleException : Exception
     }
 
     public CategoryLifecycleException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+
+    protected CategoryLifecycleException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }

@@ -4,7 +4,6 @@ using Answer.King.Domain.Inventory;
 using System.Collections.Generic;
 using System;
 
-
 namespace Answer.King.Infrastructure.SeedData;
 
 public static class TagData

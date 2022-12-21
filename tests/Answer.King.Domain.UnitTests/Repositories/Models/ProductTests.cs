@@ -16,6 +16,7 @@ public class ProductTests
         const string productName = "Product Name";
         const string productDescription = "Product Description";
         var categories = new List<CategoryId> { new(1) };
+        var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
         var createdOn = DateTime.Now;
@@ -29,6 +30,7 @@ public class ProductTests
             productDescription,
             price,
             categories,
+            tags,
             retired)
         );
     }
@@ -41,6 +43,7 @@ public class ProductTests
         var productName = null as string;
         const string productDescription = "Product Description";
         var categories = new List<CategoryId> { new(1) };
+        var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
 
@@ -51,6 +54,7 @@ public class ProductTests
             productDescription,
             price,
             categories,
+            tags,
             retired)
         );
     }
@@ -63,6 +67,7 @@ public class ProductTests
         const string productName = "";
         const string productDescription = "Product Description";
         var categories = new List<CategoryId> { new(1) };
+        var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
 
@@ -73,6 +78,7 @@ public class ProductTests
             productDescription,
             price,
             categories,
+            tags,
             retired)
         );
     }
@@ -85,6 +91,7 @@ public class ProductTests
         const string productName = "Product Name";
         var productDescription = null as string;
         var categories = new List<CategoryId> { new(1) };
+        var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
 
@@ -95,6 +102,7 @@ public class ProductTests
             productDescription!,
             price,
             categories,
+            tags,
             retired)
         );
     }
@@ -107,6 +115,7 @@ public class ProductTests
         const string productName = "Product Name";
         const string productDescription = "";
         var categories = new List<CategoryId> { new(1) };
+        var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
 
@@ -117,6 +126,7 @@ public class ProductTests
             productDescription,
             price,
             categories,
+            tags,
             retired)
         );
     }
@@ -129,6 +139,7 @@ public class ProductTests
         const string productName = "Product Name";
         const string productDescription = "Product Description";
         var categories = new List<CategoryId> { new(1) };
+        var tags = new List<TagId> { new(1) };
         const int price = -1;
         const bool retired = false;
 
@@ -139,6 +150,7 @@ public class ProductTests
             productDescription,
             price,
             categories,
+            tags,
             retired)
         );
     }

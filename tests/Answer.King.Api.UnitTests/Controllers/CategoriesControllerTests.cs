@@ -6,6 +6,7 @@ using Answer.King.Test.Common.CustomAsserts;
 using Answer.King.Test.Common.CustomTraits;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Answer.King.Api.UnitTests.Controllers;
@@ -20,7 +21,7 @@ public class CategoriesControllerTests
     {
         // Assert
         AssertController.HasRouteAttribute<CategoriesController>("api/[controller]");
-        Assert.Equal(nameof(CategoriesController), "CategoriesController");
+        Assert.Equal("CategoriesController", nameof(CategoriesController));
     }
 
     #endregion GenericControllerTests
@@ -102,14 +103,27 @@ public class CategoriesControllerTests
             nameof(CategoriesController.Post));
     }
 
-    [Fact(Skip = "This test needs to be written, but not sure due best way due to Domain.Inventory.Category protection level")]
-    public void Post_ValidRequestCallsGetAction_ReturnsNewCategory()
+    [Fact]
+    public async void Post_ValidRequestCallsGetAction_ReturnsNewCategory()
     {
         // Arrange
+        var categoryRequestModel = new RequestModels.Category
+        {
+            Name = "CATEGORY_NAME",
+            Description = "CATEGORY_DESCRIPTION"
+        };
+
+        var category = new Category("CATEGORY_NAME", "CATEGORY_DESCRIPTION", new List<ProductId>());
+
+        CategoryService.CreateCategory(categoryRequestModel).Returns(category);
 
         // Act
+        var result = await GetSubjectUnderTest.Post(categoryRequestModel);
 
         // Assert
+        Assert.Equal(categoryRequestModel.Name, categoryRequestModel.Name);
+        Assert.Equal(categoryRequestModel.Description, categoryRequestModel.Description);
+        Assert.IsType<CreatedAtActionResult>(result);
     }
 
     #endregion Post
@@ -135,6 +149,27 @@ public class CategoriesControllerTests
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
+    }
+
+    [Fact]
+    public async void Put_ProductIdNotValid_ReturnsValidationProblem()
+    {
+        // Arrange
+        const int id = 1;
+        var categoryRequestModel = new RequestModels.Category
+        {
+            Name = "CATEGORY_NAME",
+            Description = "CATEGORY_DESCRIPTION",
+            Products = new List<long> { 1 }
+        };
+
+        CategoryService.UpdateCategory(id, categoryRequestModel).Throws(new CategoryServiceException("The provided product id is not valid."));
+
+        // Act
+        var result = await GetSubjectUnderTest.Put(id, categoryRequestModel);
+
+        // Assert
+        Assert.IsType<ObjectResult>(result);
     }
 
     [Fact]
@@ -184,7 +219,22 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Retire_ValidRequest_ReturnsOkObjectResult()
+    public async void Retire_ProductsStillAssigned_ReturnsValidationProblem()
+    {
+        // Arrange
+        const int id = 1;
+
+        CategoryService.RetireCategory(id).ThrowsAsync(new CategoryServiceException("Cannot retire category whilst there are still products assigned."));
+
+        // Act
+        var result = await GetSubjectUnderTest.Retire(id);
+
+        // Assert
+        Assert.IsType<ObjectResult>(result);
+    }
+
+    [Fact]
+    public async void Retire_ValidRequest_ReturnsNoContentResult()
     {
         // Arrange
         const int id = 1;

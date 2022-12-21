@@ -9,6 +9,10 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class CategoryFactory
 {
+    private static ConstructorInfo? CategoryConstructor { get; } = typeof(Category)
+            .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+            .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
+
     public static Category CreateCategory(
         long id,
         string name,
@@ -18,10 +22,6 @@ internal static class CategoryFactory
         IList<ProductId> products,
         bool retired)
     {
-        var ctor = typeof(Category)
-            .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
-            .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Any());
-
         var parameters = new object[]
         {
             id,
@@ -38,7 +38,7 @@ internal static class CategoryFactory
          */
         try
         {
-            return (Category)ctor?.Invoke(parameters)!;
+            return (Category)CategoryConstructor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {

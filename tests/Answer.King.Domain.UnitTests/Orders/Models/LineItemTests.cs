@@ -140,6 +140,10 @@ public class LineItemTests
         new List<Category>
         {
             new Category(1, "name", "description")
+        },
+        new List<Tag>
+        {
+            new Tag(1, "name", "description")
         }
     );
 

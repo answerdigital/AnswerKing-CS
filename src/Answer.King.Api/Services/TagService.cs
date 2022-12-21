@@ -30,7 +30,6 @@ public class TagService : ITagService
         return await this.Tags.Get();
     }
 
-
     public async Task<Tag> CreateTag(RequestModels.Tag createTag)
     {
         var tag = new Tag(createTag.Name, createTag.Description, new List<ProductId>());

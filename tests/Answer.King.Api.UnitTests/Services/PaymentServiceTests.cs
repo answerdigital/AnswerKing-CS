@@ -5,6 +5,7 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Category = Answer.King.Domain.Orders.Models.Category;
+using Tag = Answer.King.Domain.Orders.Models.Tag;
 using Order = Answer.King.Domain.Orders.Order;
 using Payment = Answer.King.Api.RequestModels.Payment;
 
@@ -36,6 +37,10 @@ public class PaymentServiceTests
             new List<Category>
             {
                 new Category(1, "category", "desc")
+            },
+            new List<Tag>
+            {
+                new Tag(1, "tag", "desc")
             }, 2);
 
         var makePayment = new Payment { OrderId = order.Id, Amount = 20.00 };
@@ -57,6 +62,10 @@ public class PaymentServiceTests
             new List<Category>
             {
                 new Category(1, "category", "desc")
+            },
+            new List<Tag>
+            {
+                new Tag(1, "tag", "desc")
             }, 2);
         order.CompleteOrder();
 
@@ -96,6 +105,10 @@ public class PaymentServiceTests
             new List<Category>
             {
                 new Category(1, "category", "desc")
+            },
+            new List<Tag>
+            {
+                new Tag(1, "tag", "desc")
             }, 2);
 
         var makePayment = new Payment { OrderId = order.Id, Amount = 24.00 };

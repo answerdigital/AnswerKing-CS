@@ -50,6 +50,10 @@ public class OrderTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const double price = 1.24;
         const int quantity = 2;
 
@@ -57,7 +61,7 @@ public class OrderTests
 
         // Act / Assert
         Assert.Throws<OrderLifeCycleException>(() =>
-            order.AddLineItem(id, name, description, price, categories, quantity));
+            order.AddLineItem(id, name, description, price, categories, tags, quantity));
     }
 
     [Fact]
@@ -72,6 +76,10 @@ public class OrderTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const double price = 1.24;
         const int quantity = 2;
 
@@ -79,7 +87,7 @@ public class OrderTests
 
         // Act / Assert
         Assert.Throws<OrderLifeCycleException>(() =>
-            order.AddLineItem(id, name, description, price, categories, quantity));
+            order.AddLineItem(id, name, description, price, categories, tags, quantity));
     }
 
     [Fact]
@@ -94,11 +102,15 @@ public class OrderTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const double price = 1.24;
         const int quantity = 2;
 
         // Act
-        order.AddLineItem(id, name, description, price, categories, quantity);
+        order.AddLineItem(id, name, description, price, categories, tags, quantity);
 
         var lineItem = order.LineItems.FirstOrDefault();
 
@@ -122,11 +134,15 @@ public class OrderTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const double price = 1.24;
         const int quantity = 2;
 
         // Act
-        order.AddLineItem(id, name, description, price, categories, quantity);
+        order.AddLineItem(id, name, description, price, categories, tags, quantity);
 
         var lineItem = order.LineItems.FirstOrDefault();
 
@@ -147,11 +163,15 @@ public class OrderTests
         {
             new Category(1, "name", "description")
         };
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const double price = 1.24;
         const int quantity = 2;
 
         // Act
-        order.AddLineItem(id, name, description, price, categories, quantity);
+        order.AddLineItem(id, name, description, price, categories, tags, quantity);
 
         var lineItem = order.LineItems.FirstOrDefault();
 
@@ -225,10 +245,14 @@ public class OrderTests
             "CATEGORY_NAME",
             "CATEGORY_DESCRIPTION"
         )};
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const int quantity = 5;
         const double price = 1.25;
 
-        order.AddLineItem(id, productName, productDescription, price, categories, quantity);
+        order.AddLineItem(id, productName, productDescription, price, categories, tags, quantity);
 
         // Act
         order.RemoveLineItem(id, 3);
@@ -255,10 +279,14 @@ public class OrderTests
             "CATEGORY_NAME",
             "CATEGORY_DESCRIPTION"
         )};
+        var tags = new List<Tag>
+        {
+            new Tag(1, "name", "description")
+        };
         const int quantity = 3;
         const double price = 1.25;
 
-        order.AddLineItem(id, productName, productDescription, price, categories, quantity);
+        order.AddLineItem(id, productName, productDescription, price, categories, tags, quantity);
 
         // Act
         order.RemoveLineItem(id, 3);

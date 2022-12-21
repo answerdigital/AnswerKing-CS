@@ -4,11 +4,16 @@ using System.Linq;
 using System.Reflection;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
+using Answer.King.Domain.Repositories.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class TagFactory
 {
+    private static ConstructorInfo? TagConstructor { get; } = typeof(Tag)
+        .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+        .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
+
     public static Tag CreateTag(
         long id,
         string name,
@@ -18,10 +23,6 @@ internal static class TagFactory
         IList<ProductId> products,
         bool retired)
     {
-        var ctor = typeof(Tag)
-            .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
-            .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Any());
-
         var parameters = new object[]
         {
             id,
@@ -38,7 +39,7 @@ internal static class TagFactory
          */
         try
         {
-            return (Tag)ctor?.Invoke(parameters)!;
+            return (Tag)TagConstructor?.Invoke(parameters)!;
         }
         catch (TargetInvocationException ex)
         {
