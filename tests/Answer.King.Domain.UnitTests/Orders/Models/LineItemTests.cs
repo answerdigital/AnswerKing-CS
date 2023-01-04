@@ -136,15 +136,7 @@ public class LineItemTests
         1,
         "name",
         "description",
-        142,
-        new List<Category>
-        {
-            new Category(1, "name", "description")
-        },
-        new List<Tag>
-        {
-            new Tag(1, "name", "description")
-        }
+        142
     );
 
     #endregion Helpers

@@ -37,7 +37,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void GetAll_ValidRequest_ReturnsOkObjectResult()
+    public async Task GetAll_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         var data = new List<Category>();

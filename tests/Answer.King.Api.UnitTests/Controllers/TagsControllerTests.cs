@@ -37,7 +37,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void GetAll_ValidRequest_ReturnsOkObjectResult()
+    public async Task GetAll_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         var data = new List<Tag>();
@@ -104,7 +104,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void Post_ValidRequestCallsGetAction_ReturnsNewTag()
+    public async Task Post_ValidRequestCallsGetAction_ReturnsNewTag()
     {
         // Arrange
         var tagRequestModel = new RequestModels.Tag
@@ -139,7 +139,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void Put_NullTag_ReturnsNotFoundResult()
+    public async Task Put_NullTag_ReturnsNotFoundResult()
     {
         // Arrange
         const int id = 1;
@@ -152,7 +152,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void Put_ValidRequest_ReturnsOkObjectResult()
+    public async Task Put_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         const int id = 1;
@@ -188,7 +188,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void PutProducts_NullTag_ReturnsNotFoundResult()
+    public async Task PutProducts_NullTag_ReturnsNotFoundResult()
     {
         // Arrange
         const int id = 1;
@@ -201,7 +201,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void PutProducts_ProductIdNotValid_ReturnsValidationProblem()
+    public async Task PutProducts_ProductIdNotValid_ReturnsValidationProblem()
     {
         // Arrange
         const int id = 1;
@@ -220,7 +220,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void PutProducts_ValidRequest_ReturnsOkObjectResult()
+    public async Task PutProducts_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         const int id = 1;
@@ -254,7 +254,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void DeleteProducts_NullTag_ReturnsNotFoundResult()
+    public async Task DeleteProducts_NullTag_ReturnsNotFoundResult()
     {
         // Arrange
         const int id = 1;
@@ -267,7 +267,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void DeleteProducts_ProductIdNotValid_ReturnsValidationProblem()
+    public async Task DeleteProducts_ProductIdNotValid_ReturnsValidationProblem()
     {
         // Arrange
         const int id = 1;
@@ -286,7 +286,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void DeleteProducts_ValidRequest_ReturnsOkObjectResult()
+    public async Task DeleteProducts_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         const int id = 1;
@@ -320,7 +320,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void Retire_NullTag_ReturnsNotFound()
+    public async Task Retire_NullTag_ReturnsNotFound()
     {
         // Arrange / Act
         var result = await GetSubjectUnderTest.Retire(Arg.Any<long>());
@@ -330,7 +330,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void Retire_ProductsStillAssigned_ReturnsValidationProblem()
+    public async Task Retire_ProductsStillAssigned_ReturnsValidationProblem()
     {
         // Arrange
         const int id = 1;
@@ -345,7 +345,7 @@ public class TagsControllerTests
     }
 
     [Fact]
-    public async void Retire_ValidRequest_ReturnsNoContentResult()
+    public async Task Retire_ValidRequest_ReturnsNoContentResult()
     {
         // Arrange
         const int id = 1;

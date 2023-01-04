@@ -16,7 +16,7 @@ public class CategoryServiceTests
     #region Retire
 
     [Fact]
-    public async void RetireCategory_InvalidCategoryIdReceived_ReturnsNull()
+    public async Task RetireCategory_InvalidCategoryIdReceived_ReturnsNull()
     {
         // Arrange
         this.CategoryRepository.Get(Arg.Any<long>()).Returns(null as Category);
@@ -27,7 +27,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void RetireCategory_CategoryContainsProducts_ThrowsException()
+    public async Task RetireCategory_CategoryContainsProducts_ThrowsException()
     {
         // Arrange
         var category = new Category("category", "desc", new List<ProductId>());
@@ -42,7 +42,21 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void RetireCategory_NoProductsAssociatedWithCategory_ReturnsRetiredCategory()
+    public async Task RetireCategory_AlreadyRetired_ThrowsException()
+    {
+        // Arrange
+        var category = new Category("category", "desc", new List<ProductId>());
+        category.RetireCategory();
+        this.CategoryRepository.Get(category.Id).Returns(category);
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<CategoryServiceException>(() =>
+            sut.RetireCategory(category.Id));
+    }
+
+    [Fact]
+    public async Task RetireCategory_NoProductsAssociatedWithCategory_ReturnsRetiredCategory()
     {
         // Arrange
         var category = new Category("category", "desc", new List<ProductId>());
@@ -61,7 +75,7 @@ public class CategoryServiceTests
     #region Create
 
     [Fact]
-    public async void CreateCategory_InvalidProductIdInCategory_ThrowsException()
+    public async Task CreateCategory_InvalidProductIdInCategory_ThrowsException()
     {
         // Arrange
         var categoryRequest = new RequestModels.Category
@@ -83,7 +97,7 @@ public class CategoryServiceTests
     #region Get
 
     [Fact]
-    public async void GetCategory_ValdidCategoryId_ReturnsCategory()
+    public async Task GetCategory_ValdidCategoryId_ReturnsCategory()
     {
         // Arrange
         var category = new Category("category", "desc", new List<ProductId>());
@@ -101,7 +115,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void GetCategories_ReturnsAllCategories()
+    public async Task GetCategories_ReturnsAllCategories()
     {
         // Arrange
         var categories = new[]
@@ -126,7 +140,7 @@ public class CategoryServiceTests
     #region Update
 
     [Fact]
-    public async void UpdateCategory_InvalidCategoryId_ReturnsNull()
+    public async Task UpdateCategory_InvalidCategoryId_ReturnsNull()
     {
         // Arrange
         var updateCategoryRequest = new RequestModels.Category();
@@ -141,7 +155,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void UpdateCategory_ValidCategoryIdAndRequest_ReturnsUpdatedCategory()
+    public async Task UpdateCategory_ValidCategoryIdAndRequest_ReturnsUpdatedCategory()
     {
         // Arrange
         var oldCategory = new Category("old category", "old desc", new List<ProductId>());
@@ -169,7 +183,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void UpdateCategory_InvalidCategoryNotAssociatedWithProduct_ThrowsException()
+    public async Task UpdateCategory_InvalidCategoryNotAssociatedWithProduct_ThrowsException()
     {
         // Arrange
         var product = new List<ProductId> { new(1) };
@@ -192,7 +206,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void UpdateCategory_InvalidUpdatedProduct_ThrowsException()
+    public async Task UpdateCategory_InvalidUpdatedProduct_ThrowsException()
     {
         // Arrange
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);
@@ -214,7 +228,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async void UpdateCategory_ValidUpdatedProduct_UpdatesProductCorrectly()
+    public async Task UpdateCategory_ValidUpdatedProduct_UpdatesProductCorrectly()
     {
         // Arrange
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);
@@ -240,6 +254,8 @@ public class CategoryServiceTests
         // Act / Assert
         var sut = this.GetServiceUnderTest();
         var category = await sut.UpdateCategory(oldCategory.Id, updatedCategory);
+
+        await this.ProductRepository.Received().GetByCategoryId(oldCategory.Id);
         Assert.Equal(updatedProduct.Id, category?.Products.First().Value);
     }
 

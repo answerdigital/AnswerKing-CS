@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Answer.King.Domain.Inventory.Models;
+using Answer.King.Domain.Orders.Models;
 
 namespace Answer.King.Domain.Inventory;
 
@@ -103,12 +104,13 @@ public class Tag : IAggregateRoot
     {
         if (this.Retired)
         {
-            return;
+            throw new TagLifecycleException("The tag is already retired.");
         }
 
         if (this._Products.Count > 0)
         {
-            throw new TagLifecycleException("Cannot retire tag whilst there are still products assigned.");
+            throw new TagLifecycleException(
+                $"Cannot retire tag whilst there are still products assigned. {string.Join(',', this.Products.Select(p => p.Value))}");
         }
 
         this.Retired = true;

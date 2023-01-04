@@ -25,18 +25,6 @@ public class OrderEntityMappings : IEntityMapping
                         ["_id"] = li.Product.Id,
                         ["name"] = li.Product.Name,
                         ["description"] = li.Product.Description,
-                        ["categories"] = new BsonArray(li.Product.Categories.Select(c => new BsonDocument
-                        {
-                            ["_id"] = c.Id,
-                            ["name"] = c.Name,
-                            ["description"] = c.Description
-                        })),
-                        ["tags"] = new BsonArray(li.Product.Tags.Select(t => new BsonDocument
-                        {
-                            ["_id"] = t.Id,
-                            ["name"] = t.Name,
-                            ["description"] = t.Description
-                        })),
                         ["price"] = li.Product.Price
                     },
                     ["quantity"] = li.Quantity
@@ -90,21 +78,7 @@ public class OrderEntityMappings : IEntityMapping
                 product["_id"].AsInt64,
                 product["name"].AsString,
                 product["description"].AsString,
-                product["price"].AsDouble,
-                product["Categories"].AsArray.Select(p =>
-                    new Category(
-                        p.AsDocument["_id"].AsInt64,
-                        p.AsDocument["name"].AsString,
-                        p.AsDocument["description"].AsString
-                     )
-                ).ToList(),
-                product["Tags"].AsArray.Select(p =>
-                    new Tag(
-                        p.AsDocument["_id"].AsInt64,
-                        p.AsDocument["name"].AsString,
-                        p.AsDocument["description"].AsString
-                     )
-                ).ToList()
+                product["price"].AsDouble
             )
         );
 

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Answer.King.Domain.Inventory.Models;
+using Answer.King.Domain.Orders.Models;
 
 namespace Answer.King.Domain.Inventory;
 
@@ -104,12 +105,13 @@ public class Category : IAggregateRoot
     {
         if (this.Retired)
         {
-            return;
+            throw new CategoryLifecycleException("The category is already retired.");
         }
 
         if (this._Products.Count > 0)
         {
-            throw new CategoryLifecycleException("Cannot retire category whilst there are still products assigned.");
+            throw new CategoryLifecycleException(
+                $"Cannot retire category whilst there are still products assigned. {string.Join(',', this.Products.Select(p => p.Value))}");
         }
 
         this.Retired = true;

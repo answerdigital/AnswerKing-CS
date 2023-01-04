@@ -25,34 +25,14 @@ internal static class OrderData
     {
         var fish = ProductData.Products.SingleOrDefault(p => p.Id == 1);
 
-        var fishCategories = CategoryData.Categories
-            .Where(c => fish!.Categories.Select(cs => cs.Value).Contains(c.Id))
-            .Select(x => new Category(x.Id, x.Name, x.Description))
-            .ToList();
-
-        var fishTags = TagData.Tags
-            .Where(c => fish!.Tags.Select(cs => cs.Value).Contains(c.Id))
-            .Select(x => new Tag(x.Id, x.Name, x.Description))
-            .ToList();
-
-        var fishOrder = new Product(fish!.Id, fish.Name, fish.Description, fish.Price, fishCategories, fishTags);
+        var fishOrder = new Product(fish!.Id, fish.Name, fish.Description, fish.Price);
 
         var lineItem1 = new LineItem(fishOrder);
         lineItem1.AddQuantity(1);
 
         var chips = ProductData.Products.SingleOrDefault(p => p.Id == 2);
 
-        var chipsCategories = CategoryData.Categories
-            .Where(c => chips!.Categories.Select(cs => cs.Value).Contains(c.Id))
-            .Select(x => new Category(x.Id, x.Name, x.Description))
-            .ToList();
-
-        var chipsTags = TagData.Tags
-            .Where(c => chips!.Tags.Select(cs => cs.Value).Contains(c.Id))
-            .Select(x => new Tag(x.Id, x.Name, x.Description))
-            .ToList();
-
-        var chipsOrder = new Product(chips!.Id, chips.Name, chips.Description, chips.Price, chipsCategories, chipsTags);
+        var chipsOrder = new Product(chips!.Id, chips.Name, chips.Description, chips.Price);
 
         var lineItem2 = new LineItem(chipsOrder);
         lineItem2.AddQuantity(2);

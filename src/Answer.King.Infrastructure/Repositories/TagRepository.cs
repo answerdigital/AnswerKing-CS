@@ -33,16 +33,4 @@ public class TagRepository : ITagRepository
     {
         return Task.FromResult(this.Collection.Upsert(item));
     }
-
-    public Task<IEnumerable<Tag>> GetByProductId(long productId)
-    {
-        var query = Query.EQ("products[*] ANY", productId);
-        return Task.FromResult(this.Collection.Find(query))!;
-    }
-
-    public Task<IEnumerable<Tag>> GetByProductId(params long[] productIds)
-    {
-        var query = Query.In("products[*] ANY", productIds.Select(c => new BsonValue(c)));
-        return Task.FromResult(this.Collection.Find(query));
-    }
 }

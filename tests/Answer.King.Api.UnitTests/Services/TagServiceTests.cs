@@ -16,7 +16,7 @@ public class TagServiceTests
     #region Retire
 
     [Fact]
-    public async void RetireTag_InvalidTagIdReceived_ReturnsNull()
+    public async Task RetireTag_InvalidTagIdReceived_ReturnsNull()
     {
         // Arrange
         this.TagRepository.Get(Arg.Any<long>()).Returns(null as Tag);
@@ -27,7 +27,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void RetireTag_TagContainsProducts_ThrowsException()
+    public async Task RetireTag_TagContainsProducts_ThrowsException()
     {
         // Arrange
         var tag = new Tag("tag", "desc", new List<ProductId>());
@@ -42,7 +42,21 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void RetireTag_NoProductsAssociatedWithTag_ReturnsRetiredTag()
+    public async Task RetireTag_AlreadyRetired_ThrowsException()
+    {
+        // Arrange
+        var tag = new Tag("tag", "desc", new List<ProductId>());
+        tag.RetireTag();
+        this.TagRepository.Get(tag.Id).Returns(tag);
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<TagServiceException>(() =>
+            sut.RetireTag(tag.Id));
+    }
+
+    [Fact]
+    public async Task RetireTag_NoProductsAssociatedWithTag_ReturnsRetiredTag()
     {
         // Arrange
         var tag = new Tag("tag", "desc", new List<ProductId>());
@@ -61,7 +75,7 @@ public class TagServiceTests
     #region Create
 
     [Fact]
-    public async void CreateTag_ValidTag_ReturnsNewTag()
+    public async Task CreateTag_ValidTag_ReturnsNewTag()
     {
         // Arrange
         var tagRequest = new RequestModels.Tag
@@ -84,7 +98,7 @@ public class TagServiceTests
     #region Get
 
     [Fact]
-    public async void GetCategory_ValidCategoryId_ReturnsCategory()
+    public async Task GetCategory_ValidCategoryId_ReturnsCategory()
     {
         // Arrange
         var tag = new Tag("tag", "desc", new List<ProductId>());
@@ -102,7 +116,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void GetCategories_ReturnsAllCategories()
+    public async Task GetCategories_ReturnsAllCategories()
     {
         // Arrange
         var tags = new[]
@@ -127,7 +141,7 @@ public class TagServiceTests
     #region Update
 
     [Fact]
-    public async void UpdateTag_InvalidTagId_ReturnsNull()
+    public async Task UpdateTag_InvalidTagId_ReturnsNull()
     {
         // Arrange
         var updateTagRequest = new RequestModels.Tag();
@@ -142,7 +156,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void UpdateTag_ValidTagIdAndRequest_ReturnsUpdatedTag()
+    public async Task UpdateTag_ValidTagIdAndRequest_ReturnsUpdatedTag()
     {
         // Arrange
         var oldTag = new Tag("old tag", "old desc", new List<ProductId>());
@@ -173,7 +187,7 @@ public class TagServiceTests
     #region Update: Add Products
 
     [Fact]
-    public async void AddTagProducts_InvalidTagId_ReturnsNull()
+    public async Task AddTagProducts_InvalidTagId_ReturnsNull()
     {
         // Arrange
         var updateTagRequest = new RequestModels.TagProducts();
@@ -188,7 +202,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void AddTagProducts_ValidTagIdAndRequest_ReturnsUpdatedTag()
+    public async Task AddTagProducts_ValidTagIdAndRequest_ReturnsUpdatedTag()
     {
         // Arrange
         var oldTag = CreateTag(1, "old tag", "old desc", new List<ProductId>());
@@ -217,7 +231,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void AddTagProducts_InvalidTagNotAssociatedWithProduct_ThrowsException()
+    public async Task AddTagProducts_InvalidTagNotAssociatedWithProduct_ThrowsException()
     {
         // Arrange
         var product = new List<ProductId> { new(1) };
@@ -238,7 +252,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void AddTagProducts_InvalidUpdatedProduct_ThrowsException()
+    public async Task AddTagProducts_InvalidUpdatedProduct_ThrowsException()
     {
         // Arrange
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);
@@ -263,7 +277,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void AddTagProducts_ValidUpdatedProduct_UpdatesProductCorrectly()
+    public async Task AddTagProducts_ValidUpdatedProduct_UpdatesProductCorrectly()
     {
         // Arrange
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);
@@ -296,7 +310,7 @@ public class TagServiceTests
     #region Delete: Remove Products
 
     [Fact]
-    public async void RemoveTagProducts_InvalidTagId_ReturnsNull()
+    public async Task RemoveTagProducts_InvalidTagId_ReturnsNull()
     {
         // Arrange
         var updateTagRequest = new RequestModels.TagProducts();
@@ -311,7 +325,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void RemoveTagProducts_ValidTagIdAndRequest_ReturnsUpdatedTag()
+    public async Task RemoveTagProducts_ValidTagIdAndRequest_ReturnsUpdatedTag()
     {
         // Arrange
         var product = CreateProduct(1, "Product", "desc", 1);
@@ -340,7 +354,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void RemoveTagProducts_InvalidTagNotAssociatedWithProduct_ThrowsException()
+    public async Task RemoveTagProducts_InvalidTagNotAssociatedWithProduct_ThrowsException()
     {
         // Arrange
         var product = new List<ProductId> { new(1) };
@@ -361,7 +375,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void RemoveTagProducts_InvalidUpdatedProduct_ThrowsException()
+    public async Task RemoveTagProducts_InvalidUpdatedProduct_ThrowsException()
     {
         // Arrange
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);
@@ -386,7 +400,7 @@ public class TagServiceTests
     }
 
     [Fact]
-    public async void RemoveTagProducts_ValidUpdatedProduct_UpdatesProductCorrectly()
+    public async Task RemoveTagProducts_ValidUpdatedProduct_UpdatesProductCorrectly()
     {
         // Arrange
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);

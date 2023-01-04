@@ -62,11 +62,6 @@ public class TagService : ITagService
             return null;
         }
 
-        if (tag.Retired)
-        {
-            throw new TagServiceException("The tag is already retired.");
-        }
-
         try
         {
             tag.RetireTag();
@@ -77,10 +72,7 @@ public class TagService : ITagService
         }
         catch (TagLifecycleException ex)
         {
-            // ignored
-            throw new TagServiceException(
-                $"Cannot retire tag whilst there are still products assigned. {string.Join(',', tag.Products.Select(p => p.Value))}"
-                , ex);
+            throw new TagServiceException(ex.Message, ex);
         }
     }
 

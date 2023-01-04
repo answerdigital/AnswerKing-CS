@@ -17,7 +17,7 @@ public class ProductServiceTests
     #region Create
 
     [Fact]
-    public async void CreateProduct_ValidProduct_ReturnsNewlyCreatedProduct()
+    public async Task CreateProduct_ValidProduct_ReturnsNewlyCreatedProduct()
     {
         // Arrange
         var request = new RequestModels.Product
@@ -42,7 +42,7 @@ public class ProductServiceTests
     #region Retire
 
     [Fact]
-    public async void RetireProduct_InvalidProductId_ReturnsNull()
+    public async Task RetireProduct_InvalidProductId_ReturnsNull()
     {
         // Arrange
         this.ProductRepository.Get(Arg.Any<long>()).Returns(null as Domain.Repositories.Models.Product);
@@ -53,7 +53,7 @@ public class ProductServiceTests
     }
 
     [Fact]
-    public async void RetireProduct_ValidProductId_ReturnsProductAsRetired()
+    public async Task RetireProduct_ValidProductId_ReturnsProductAsRetired()
     {
         // Arrange
         var product = ProductFactory.CreateProduct(1,
@@ -85,7 +85,7 @@ public class ProductServiceTests
     #region Update
 
     [Fact]
-    public async void UpdateProduct_InvalidProductId_ReturnsNull()
+    public async Task UpdateProduct_InvalidProductId_ReturnsNull()
     {
         // Arrange
         this.ProductRepository.Get(Arg.Any<long>()).Returns(null as Product);
@@ -100,7 +100,7 @@ public class ProductServiceTests
     #region Get
 
     [Fact]
-    public async void GetProducts_ReturnsAllProducts()
+    public async Task GetProducts_ReturnsAllProducts()
     {
         // Arrange
         var products = new[]
@@ -121,7 +121,7 @@ public class ProductServiceTests
     }
 
     [Fact]
-    public async void GetProduct_ValidProductId_ReturnsProduct()
+    public async Task GetProduct_ValidProductId_ReturnsProduct()
     {
         // Arrange
         var categories = new List<Domain.Repositories.Models.CategoryId> { new(1) };
