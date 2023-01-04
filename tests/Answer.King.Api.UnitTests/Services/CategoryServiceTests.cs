@@ -1,12 +1,13 @@
 using Answer.King.Api.Services;
-using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
 using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
+using System.Collections.Generic;
 using Xunit;
+using Category = Answer.King.Domain.Inventory.Category;
 
 namespace Answer.King.Api.UnitTests.Services;
 
@@ -338,7 +339,7 @@ public class CategoryServiceTests
 
     private static Product CreateProduct(long id, string name, string description, double price)
     {
-        return ProductFactory.CreateProduct(id, name, description, price, new List<CategoryId>(), new List<TagId>(), false);
+        return ProductFactory.CreateProduct(id, name, description, price, new Domain.Repositories.Models.Category(1, "name", "description"), new List<TagId>(), false);
     }
 
     #endregion

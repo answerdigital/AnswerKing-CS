@@ -31,7 +31,7 @@ public static class SwaggerGenOptionsExtensions
 
             if (modelType.Namespace!.Contains("Domain.Repositories", StringComparison.OrdinalIgnoreCase))
             {
-                schemaId = $"Inventory.{schemaId}.Response";
+                schemaId = $"Repositories.{schemaId}.Response";
             }
 
             return schemaId;

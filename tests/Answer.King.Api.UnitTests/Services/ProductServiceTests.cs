@@ -1,7 +1,7 @@
+using Answer.King.Api.RequestModels;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
-using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
@@ -23,24 +23,21 @@ public class ProductServiceTests
     #region Create
 
     [Fact]
-    public async Task CreateProduct_ValidProduct_ReturnsNewlyCreatedProduct()
+    public async Task CreateProduct_InValidCategoryId_ThrowsException()
     {
         // Arrange
         var request = new RequestModels.Product
         {
             Name = "product",
             Description = "desc",
+            Price = 1500.00,
+            Category = new CategoryId { Id = 2 }
         };
+        this.CategoryRepository.Get(Arg.Any<long>()).Returns(null as Category);
 
-        // Act
+        // Act / Assert
         var sut = this.GetServiceUnderTest();
-        var category = await sut.CreateProduct(request);
-
-        // Assert
-        Assert.Equal(request.Name, category.Name);
-        Assert.Equal(request.Description, category.Description);
-
-        await this.productRepository.Received().AddOrUpdate(Arg.Any<Product>());
+        await Assert.ThrowsAsync<ProductServiceException>(() => sut.CreateProduct(request));
     }
 
     #endregion
@@ -63,7 +60,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = ProductFactory.CreateProduct(
-            1, "product", "desc", 12.00, new List<CategoryId> { new(1) }, new List<TagId> { new(1) }, false);
+            1, "product", "desc", 12.00, new Domain.Repositories.Models.Category(1, "category", "desc"), new List<TagId> { new(1) }, false);
 
         this.productRepository.GetOne(product.Id).Returns(product);
 
@@ -111,8 +108,8 @@ public class ProductServiceTests
         // Arrange
         var products = new[]
         {
-            new Product("product 1", "desc", 10.00),
-            new Product("product 2", "desc", 5.00),
+            new Product("product 1", "desc", 10.00, new Domain.Repositories.Models.Category(1, "category", "desc")),
+            new Product("product 2", "desc", 5.00, new Domain.Repositories.Models.Category(2, "category", "desc"))
         };
 
         this.productRepository.GetAll().Returns(products);
@@ -130,7 +127,7 @@ public class ProductServiceTests
     public async Task GetProduct_ValidProductId_ReturnsProduct()
     {
         // Arrange
-        var product = new Product("product 1", "desc", 10.00);
+        var product = new Product("product 1", "desc", 10.00, new Domain.Repositories.Models.Category(2, "category", "desc"));
 
         this.productRepository.GetOne(product.Id).Returns(product);
 

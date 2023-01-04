@@ -15,13 +15,15 @@ public class ProductTests
         const string name = "name";
         const string description = "description";
         const int price = 142;
+        var category = new Category(1, "name", "description");
 
         // Act / Assert
         Assert.Throws<Guard.DefaultValueException>(() => new Product(
             id,
             name,
             description,
-            price));
+            price,
+            category));
     }
 
     [Fact]
@@ -32,12 +34,14 @@ public class ProductTests
         const string name = "name";
         const string description = "description";
         const int price = -1;
+        var category = new Category(1, "name", "description");
 
         // Act Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => new Product(
             id,
             name,
             description,
-            price));
+            price,
+            category));
     }
 }

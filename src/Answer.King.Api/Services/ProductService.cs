@@ -37,12 +37,22 @@ public class ProductService : IProductService
 
     public async Task<Product> CreateProduct(RequestModels.Product createProduct)
     {
+        var category = await this.Categories.Get(createProduct.Category.Id);
+
+        if (category == null)
+        {
+            throw new ProductServiceException("The provided category is not valid.");
+        }
+
         var product = new Product(
             createProduct.Name,
             createProduct.Description,
-            createProduct.Price);
-
+            createProduct.Price,
+            new Category(category.Id, category.Name, category.Description));
         await this.Products.AddOrUpdate(product);
+        category.AddProduct(new ProductId(product.Id));
+
+        await this.Categories.Save(category);
 
         return product;
     }

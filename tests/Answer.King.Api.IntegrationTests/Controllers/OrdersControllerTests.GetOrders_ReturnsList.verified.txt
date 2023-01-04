@@ -17,7 +17,12 @@
           Id: 1,
           Name: Fish,
           Description: Delicious and satisfying.,
-          Price: 5.99
+          Price: 5.99,
+          Category: {
+            Id: 1,
+            Name: Seafood,
+            Description: Food from the oceans
+          }
         },
         Quantity: 1,
         SubTotal: 5.99
@@ -27,7 +32,12 @@
           Id: 2,
           Name: Chips,
           Description: Nothing more to say.,
-          Price: 2.99
+          Price: 2.99,
+          Category: {
+            Id: 2,
+            Name: Sundries,
+            Description: Things that go with things.
+          }
         },
         Quantity: 2,
         SubTotal: 5.98

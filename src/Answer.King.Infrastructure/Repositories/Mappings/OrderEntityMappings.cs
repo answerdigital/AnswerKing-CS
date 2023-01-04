@@ -72,6 +72,7 @@ public class OrderEntityMappings : IEntityMapping
     {
         var lineItem = item.AsDocument;
         var product = lineItem["product"].AsDocument;
+        var category = product["Category"].AsDocument;
 
         var result = new LineItem(
             new Product(
@@ -79,6 +80,9 @@ public class OrderEntityMappings : IEntityMapping
                 product["name"].AsString,
                 product["description"].AsString,
                 product["price"].AsDouble));
+                ).ToList()
+            )
+        );
 
         result.AddQuantity(lineItem["quantity"].AsInt32);
 
