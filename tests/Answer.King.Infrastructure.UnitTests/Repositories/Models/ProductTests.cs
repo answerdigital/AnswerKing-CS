@@ -1,9 +1,10 @@
-﻿using Answer.King.Domain.Repositories.Models;
-using Answer.King.Test.Common.CustomTraits;
+﻿using Answer.King.Domain;
+using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
+using Answer.King.Test.Common.CustomTraits;
 using Xunit;
 
-namespace Answer.King.Domain.UnitTests.Repositories.Models;
+namespace Answer.King.Infrastructure.UnitTests.Repositories.Models;
 
 [TestCategory(TestType.Unit)]
 public class ProductTests

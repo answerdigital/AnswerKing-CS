@@ -23,7 +23,7 @@ internal static class PaymentFactory
         {
             return (Payment)PaymentConstructor?.Invoke(parameters)!;
         }
-        catch (TargetInvocationException ex)
+        catch (Exception ex)
         {
             var exception = ex.InnerException ?? ex;
             throw exception;

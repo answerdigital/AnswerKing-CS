@@ -29,7 +29,7 @@ internal static class OrderFactory
         {
             return (Order)OrderConstructor?.Invoke(parameters)!;
         }
-        catch (TargetInvocationException ex)
+        catch (Exception ex)
         {
             var exception = ex.InnerException ?? ex;
             throw exception;

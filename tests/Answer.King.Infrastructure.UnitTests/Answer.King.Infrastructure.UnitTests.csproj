@@ -1,14 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-  
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
@@ -23,9 +22,9 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Answer.King.Infrastructure\Answer.King.Infrastructure.csproj" />
-    <ProjectReference Include="..\Answer.King.Test.Common\Answer.King.Test.Common.csproj" />
-    <ProjectReference Include="..\..\src\Answer.King.Domain\Answer.King.Domain.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Answer.King.Infrastructure\Answer.King.Infrastructure.csproj" />
+      <ProjectReference Include="..\Answer.King.Test.Common\Answer.King.Test.Common.csproj" />
+    </ItemGroup>
+
 </Project>

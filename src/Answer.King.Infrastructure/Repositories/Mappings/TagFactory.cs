@@ -10,7 +10,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class TagFactory
 {
-    private static ConstructorInfo? TagConstructor { get; } = typeof(Tag)
+    public static ConstructorInfo? TagConstructor { get; private set; } = typeof(Tag)
         .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
         .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
@@ -41,7 +41,7 @@ internal static class TagFactory
         {
             return (Tag)TagConstructor?.Invoke(parameters)!;
         }
-        catch (TargetInvocationException ex)
+        catch (Exception ex)
         {
             var exception = ex.InnerException ?? ex;
             throw exception;

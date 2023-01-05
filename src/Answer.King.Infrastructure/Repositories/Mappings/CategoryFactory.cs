@@ -40,7 +40,7 @@ internal static class CategoryFactory
         {
             return (Category)CategoryConstructor?.Invoke(parameters)!;
         }
-        catch (TargetInvocationException ex)
+        catch (Exception ex)
         {
             var exception = ex.InnerException ?? ex;
             throw exception;
