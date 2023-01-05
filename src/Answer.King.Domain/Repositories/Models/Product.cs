@@ -62,6 +62,39 @@ public class Product
 
     public bool Retired { get; private set; }
 
+    public void AddCategory(CategoryId category)
+    {
+        if (this.Retired)
+        {
+            throw new ProductLifecycleException("Cannot add category to retired product.");
+        }
+        this._Categories.Add(category);
+    }
+    public void RemoveCategory(CategoryId category)
+    {
+        if (this.Retired)
+        {
+            throw new ProductLifecycleException("Cannot remove category from retired product.");
+        }
+        this._Categories.Remove(category);
+    }
+    public void AddTag(TagId tag)
+    {
+        if (this.Retired)
+        {
+            throw new ProductLifecycleException("Cannot add tag to retired product.");
+        }
+        this._Tags.Add(tag);
+    }
+    public void RemoveTag(TagId tag)
+    {
+        if (this.Retired)
+        {
+            throw new ProductLifecycleException("Cannot remove tag from retired product.");
+        }
+        this._Tags.Remove(tag);
+    }
+
     public void Retire()
     {
         this.Retired = true;

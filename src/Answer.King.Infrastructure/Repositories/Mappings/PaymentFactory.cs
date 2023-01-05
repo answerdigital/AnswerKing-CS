@@ -8,7 +8,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class PaymentFactory
 {
-    private static ConstructorInfo? PaymentConstructor { get; } = typeof(Payment)
+    private static ConstructorInfo? PaymentConstructor { get; set; } = typeof(Payment)
         .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
         .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 

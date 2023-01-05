@@ -10,7 +10,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal static class ProductFactory
 {
-    private static ConstructorInfo? ProductConstructor { get; } = typeof(Product)
+    private static ConstructorInfo? ProductConstructor { get; set; } = typeof(Product)
     .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
     .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
