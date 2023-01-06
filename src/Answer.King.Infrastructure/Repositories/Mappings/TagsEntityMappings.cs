@@ -9,6 +9,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class TagsEntityMappings : IEntityMapping
 {
+    private static TagFactory TagFactory = new();
+
     private static readonly FieldInfo? TagIdFieldInfo =
         typeof(Tag).GetField($"<{nameof(Tag.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 

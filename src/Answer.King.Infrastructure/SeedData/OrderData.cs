@@ -9,6 +9,8 @@ namespace Answer.King.Infrastructure.SeedData;
 
 internal static class OrderData
 {
+    private static OrderFactory OrderFactory = new();
+
     public static IList<Order> Orders { get; } = GetOrders();
 
     private static IList<Order> GetOrders()

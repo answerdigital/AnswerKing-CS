@@ -7,17 +7,21 @@ using Xunit;
 
 namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 
+[UsesVerify]
 [TestCategory(TestType.Unit)]
 public class ProductFactoryTests
 {
+    private static ProductFactory ProductFactory = new();
+
     [Fact]
-    public void CreateProduct_ConstructorExists_ReturnsProduct()
+    public Task CreateProduct_ConstructorExists_ReturnsProduct()
     {
         // Arrange / Act
         var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false);
 
         // Assert
         Assert.IsType<Product>(result);
+        return Verify(result);
     }
 
     [Fact]
@@ -25,19 +29,19 @@ public class ProductFactoryTests
     {
         // Arrange
         var productFactoryConstructorPropertyInfo =
-        typeof(ProductFactory).GetProperty("ProductConstructor", BindingFlags.Static | BindingFlags.NonPublic);
+        typeof(ProductFactory).GetProperty("ProductConstructor", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var constructor = productFactoryConstructorPropertyInfo?.GetValue(null);
+        var constructor = productFactoryConstructorPropertyInfo?.GetValue(ProductFactory);
 
         var wrongConstructor = typeof(Category).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-        productFactoryConstructorPropertyInfo?.SetValue(null, wrongConstructor);
+        productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, wrongConstructor);
 
         // Act // Assert
         Assert.Throws<ArgumentException>(() =>
             ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false));
 
-        productFactoryConstructorPropertyInfo?.SetValue(null, constructor);
+        productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, constructor);
     }
 }

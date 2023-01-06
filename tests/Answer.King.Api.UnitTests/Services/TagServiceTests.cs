@@ -13,6 +13,10 @@ namespace Answer.King.Api.UnitTests.Services;
 [TestCategory(TestType.Unit)]
 public class TagServiceTests
 {
+    private static ProductFactory ProductFactory { get; } = new();
+
+    private static TagFactory TagFactory { get; } = new();
+
     #region Retire
 
     [Fact]

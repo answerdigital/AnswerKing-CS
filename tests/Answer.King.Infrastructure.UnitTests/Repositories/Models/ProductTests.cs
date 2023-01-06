@@ -9,6 +9,8 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Models;
 [TestCategory(TestType.Unit)]
 public class ProductTests
 {
+    private static ProductFactory ProductFactory = new();
+
     [Fact]
     public void Product_InitWithDefaultId_ThrowsDefaultValueException()
     {

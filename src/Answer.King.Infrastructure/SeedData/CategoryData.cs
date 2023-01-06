@@ -8,6 +8,8 @@ namespace Answer.King.Infrastructure.SeedData;
 
 public static class CategoryData
 {
+    private static CategoryFactory CategoryFactory { get; } = new();
+
     public static IList<Category> Categories { get; } = new List<Category>
     {
         CategoryFactory.CreateCategory(

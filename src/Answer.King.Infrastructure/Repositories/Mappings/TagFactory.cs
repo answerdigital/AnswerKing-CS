@@ -8,13 +8,13 @@ using Answer.King.Domain.Repositories.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
-internal static class TagFactory
+internal class TagFactory
 {
-    public static ConstructorInfo? TagConstructor { get; private set; } = typeof(Tag)
+    private ConstructorInfo? TagConstructor { get; set; } = typeof(Tag)
         .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
         .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-    public static Tag CreateTag(
+    public Tag CreateTag(
         long id,
         string name,
         string description,
@@ -39,7 +39,7 @@ internal static class TagFactory
          */
         try
         {
-            return (Tag)TagConstructor?.Invoke(parameters)!;
+            return (Tag)this.TagConstructor?.Invoke(parameters)!;
         }
         catch (Exception ex)
         {

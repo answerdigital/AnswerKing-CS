@@ -7,13 +7,13 @@ using Answer.King.Domain.Inventory.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
-internal static class CategoryFactory
+internal class CategoryFactory
 {
-    private static ConstructorInfo? CategoryConstructor { get; set; } = typeof(Category)
+    private ConstructorInfo? CategoryConstructor { get; set; } = typeof(Category)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-    public static Category CreateCategory(
+    public Category CreateCategory(
         long id,
         string name,
         string description,
@@ -38,7 +38,7 @@ internal static class CategoryFactory
          */
         try
         {
-            return (Category)CategoryConstructor?.Invoke(parameters)!;
+            return (Category)this.CategoryConstructor?.Invoke(parameters)!;
         }
         catch (Exception ex)
         {

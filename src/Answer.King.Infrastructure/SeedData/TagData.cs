@@ -8,6 +8,8 @@ namespace Answer.King.Infrastructure.SeedData;
 
 public static class TagData
 {
+    private static TagFactory TagFactory = new();
+
     public static IList<Tag> Tags { get; } = new List<Tag>
     {
         TagFactory.CreateTag(

@@ -14,6 +14,10 @@ namespace Answer.King.Api.UnitTests.Services;
 [TestCategory(TestType.Unit)]
 public class ProductServiceTests
 {
+    private static CategoryFactory CategoryFactory { get; } = new();
+
+    private static ProductFactory ProductFactory { get; } = new();
+
     #region Create
 
     [Fact]

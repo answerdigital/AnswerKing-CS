@@ -6,13 +6,13 @@ using Answer.King.Domain.Repositories.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
-internal static class PaymentFactory
+internal class PaymentFactory
 {
-    private static ConstructorInfo? PaymentConstructor { get; set; } = typeof(Payment)
+    private ConstructorInfo? PaymentConstructor { get; set; } = typeof(Payment)
         .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
         .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-    public static Payment CreatePayment(long id, long orderId, double amount, double orderTotal, DateTime date)
+    public Payment CreatePayment(long id, long orderId, double amount, double orderTotal, DateTime date)
     {
         var parameters = new object[] { id, orderId, amount, orderTotal, date };
 
@@ -21,7 +21,7 @@ internal static class PaymentFactory
          */
         try
         {
-            return (Payment)PaymentConstructor?.Invoke(parameters)!;
+            return (Payment)this.PaymentConstructor?.Invoke(parameters)!;
         }
         catch (Exception ex)
         {

@@ -8,6 +8,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class ProductEntityMappings : IEntityMapping
 {
+    private static ProductFactory ProductFactory = new();
+
     private static readonly FieldInfo? ProductIdFieldInfo =
         typeof(Product).GetField($"<{nameof(Product.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 

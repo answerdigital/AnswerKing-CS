@@ -9,6 +9,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class CategoryEntityMappings : IEntityMapping
 {
+    private static CategoryFactory CategoryFactory { get; } = new();
+
     private static readonly FieldInfo? CategoryIdFieldInfo =
         typeof(Category).GetField($"<{nameof(Category.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 

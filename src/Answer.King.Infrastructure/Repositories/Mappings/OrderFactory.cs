@@ -7,13 +7,13 @@ using Answer.King.Domain.Orders.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
-internal static class OrderFactory
+internal class OrderFactory
 {
-    private static ConstructorInfo? OrderConstructor { get; set; } = typeof(Order)
+    private ConstructorInfo? OrderConstructor { get; set; } = typeof(Order)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-    public static Order CreateOrder(
+    public Order CreateOrder(
         long id,
         DateTime createdOn,
         DateTime lastUpdated,
@@ -27,7 +27,7 @@ internal static class OrderFactory
          */
         try
         {
-            return (Order)OrderConstructor?.Invoke(parameters)!;
+            return (Order)this.OrderConstructor?.Invoke(parameters)!;
         }
         catch (Exception ex)
         {

@@ -7,6 +7,8 @@ namespace Answer.King.Infrastructure.SeedData;
 
 internal static class ProductData
 {
+    private static ProductFactory ProductFactory = new();
+
     public static IList<Product> Products { get; } = new List<Product>
     {
         ProductFactory.CreateProduct(
@@ -26,7 +28,6 @@ internal static class ProductData
             Tags(2),
             false)
     };
-
 
     private static IList<CategoryId> Categories(long id)
     {

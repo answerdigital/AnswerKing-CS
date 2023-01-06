@@ -7,6 +7,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class PaymentEntityMappings : IEntityMapping
 {
+    private static PaymentFactory PaymentFactory = new();
+
     private static readonly FieldInfo? PaymentIdFieldInfo =
         typeof(Payment).GetField($"<{nameof(Payment.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 

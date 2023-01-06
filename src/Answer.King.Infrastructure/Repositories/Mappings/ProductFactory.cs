@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -8,13 +9,13 @@ using Answer.King.Domain.Repositories.Models;
 
 namespace Answer.King.Infrastructure.Repositories.Mappings;
 
-internal static class ProductFactory
+internal class ProductFactory
 {
-    private static ConstructorInfo? ProductConstructor { get; set; } = typeof(Product)
+    private ConstructorInfo? ProductConstructor { get; set; } = typeof(Product)
         .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
         .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-    public static Product CreateProduct(
+    public Product CreateProduct(
         long id,
         string name,
         string description,
@@ -30,9 +31,9 @@ internal static class ProductFactory
          */
         try
         {
-            return (Product)ProductConstructor?.Invoke(parameters)!;
+            return (Product)this.ProductConstructor?.Invoke(parameters)!;
         }
-        catch (TargetInvocationException ex)
+        catch (Exception ex)
         {
             var exception = ex.InnerException ?? ex;
             throw exception;

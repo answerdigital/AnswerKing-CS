@@ -9,6 +9,8 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class OrderEntityMappings : IEntityMapping
 {
+    private static OrderFactory OrderFactory = new();
+
     private static readonly FieldInfo? OrderIdFieldInfo =
         typeof(Order).GetField($"<{nameof(Order.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
