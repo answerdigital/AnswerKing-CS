@@ -8,15 +8,12 @@ public class TagIdJsonConverter : JsonConverter<TagId>
 {
     public override TagId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        try
+        if (reader.TryGetInt64(out long id))
         {
-            reader.TryGetInt64(out long id);
             return new TagId(id);
         }
-        catch (InvalidOperationException)
-        {
-            return null;
-        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, TagId value, JsonSerializerOptions options)

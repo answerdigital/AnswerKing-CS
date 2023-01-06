@@ -9,15 +9,12 @@ public class CategoryIdJsonConverter : JsonConverter<CategoryId>
 {
     public override CategoryId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        try
+        if (reader.TryGetInt64(out long id))
         {
-            reader.TryGetInt64(out long id);
             return new CategoryId(id);
         }
-        catch (InvalidOperationException)
-        {
-            return null;
-        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, CategoryId value, JsonSerializerOptions options)

@@ -9,15 +9,12 @@ public class ProductIdJsonConverter : JsonConverter<ProductId>
 {
     public override ProductId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        try
+        if (reader.TryGetInt64(out long id))
         {
-            reader.TryGetInt64(out long id);
             return new ProductId(id);
         }
-        catch (InvalidOperationException)
-        {
-            return null;
-        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, ProductId value, JsonSerializerOptions options)

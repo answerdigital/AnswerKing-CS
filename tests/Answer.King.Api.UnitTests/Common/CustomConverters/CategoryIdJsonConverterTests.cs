@@ -35,7 +35,7 @@ public class CategoryIdJsonConverterTests
     public void Read_InvalidInt64_ReturnsNull()
     {
         // Arrange
-        const string json = "\"string\"";
+        const string json = "1.0";
         byte[] jsonUtf8Bytes = Encoding.UTF8.GetBytes(json);
         var jsonReader = new Utf8JsonReader(jsonUtf8Bytes);
         jsonReader.Read();
