@@ -55,6 +55,18 @@ public class OrderControllerTests : WebFixtures
 
         return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
     }
+
+    [Fact]
+    public async Task<VerifyResult> GetOrder_UsingInvalidID_Returns400()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Get.Url("/api/orders/invalidid");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+    }
     #endregion
 
     #region Post
@@ -95,6 +107,104 @@ public class OrderControllerTests : WebFixtures
         });
 
         return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostOrder_UnsupportedMediaType_Fails()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Text("{lineItems: [{ProductId: 1, Quantity: -1}]}")
+                .ToUrl("/api/orders");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.UnsupportedMediaType);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostOrder_InvalidProductID_Fails()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    lineItems = new List<RMLineItems>() {
+                    new RMLineItems(){ProductId = 9999,Quantity=1}
+                    }
+                })
+                .ToUrl("/api/orders");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+
+        //var order = result.ReadAsJson<Order>();
+        //return await Verify(order, this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostOrder_LineItemsMissing_Fails()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    //lineItems = new List<RMLineItems>()
+                })
+                .ToUrl("/api/orders");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostOrder_LineItems_ProductIDMissing_Fails()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    lineItems = new List<RMLineItems>() {
+                    new RMLineItems(){Quantity=1}
+                    }
+                })
+                .ToUrl("/api/orders");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+
+        //var order = result.ReadAsJson<Order>();
+        //return await Verify(order, this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostOrder_LineItems_QuantityMissing_Fails()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    lineItems = new List<RMLineItems>() {
+                    new RMLineItems(){ProductId= 1}
+                    }
+                })
+                .ToUrl("/api/orders");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this._verifySettings);
+
+        //var order = result.ReadAsJson<Order>();
+        //return await Verify(order, this._verifySettings);
     }
     #endregion
 
@@ -154,7 +264,7 @@ public class OrderControllerTests : WebFixtures
     }
 
     [Fact]
-    public async Task<VerifyResult> PutOrder_InvalidId_ReturnsNotFound()
+    public async Task<VerifyResult> PutOrder_InvalidIdNumber_ReturnsNotFound()
     {
         var putResult = await this.AlbaHost.Scenario(_ =>
         {
@@ -165,12 +275,101 @@ public class OrderControllerTests : WebFixtures
                         new RMLineItems(){ProductId= 1,Quantity=1}
                     }
                 })
-                .ToUrl("/api/orders/5");
+                .ToUrl("/api/orders/99");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
         });
 
         return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
+
+    [Fact]
+    public async Task<VerifyResult> PutOrder_InvalidIdFormat_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId= 1,Quantity=1}
+                    }
+                })
+                .ToUrl("/api/orders/abc");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutOrder_LineItemsMissing_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+
+                })
+                .ToUrl("/api/orders/1");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutOrder_LineItems_ProductIDMissing_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){Quantity=1}
+                    }
+                })
+                .ToUrl("/api/orders/1");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutOrder_LineItems_QuantityMissing_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    lineItems = new List<RMLineItems>() {
+                        new RMLineItems(){ProductId=1}
+                    }
+                })
+                .ToUrl("/api/orders/1");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutOrder_InvalidJSON_ReturnsUnsupportedMediaType()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Text("{lineItems: [{ProductId: 1, Quantity: -1}]}")
+                .ToUrl("/api/orders/1");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.UnsupportedMediaType);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
     #endregion
 
     #region Retire

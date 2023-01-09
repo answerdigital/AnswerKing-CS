@@ -70,17 +70,20 @@ public class ProductControllerTests : WebFixtures
     #endregion
 
     #region Post
-    [Fact]
-    public async Task<VerifyResult> PostProduct_ValidModel_ReturnsNewProduct()
+    [Theory]
+    [InlineData("Burger", "Juicy", 1.50)]
+    [InlineData("Kebab", "Chicken", 2.50)]
+    [InlineData("Milkshake", "Banana", 1.00)]
+    public async Task<VerifyResult> PostProduct_ValidModel_ReturnsNewProduct(string name, string description, double price)
     {
         var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50
+                    Name = name,
+                    Description = description,
+                    Price = price
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -90,15 +93,18 @@ public class ProductControllerTests : WebFixtures
         return await Verify(products, this._verifySettings);
     }
 
-    [Fact]
-    public async Task<VerifyResult> PostProduct_InValidDTO_Fails()
+    [Theory]
+    [InlineData("Icecream")]
+    [InlineData("Kebab")]
+    [InlineData("Juice")]
+    public async Task<VerifyResult> PostProduct_InValidDTO_Fails(string name)
     {
         var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
                 {
-                    Name = "Burger"
+                    Name = name
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -123,17 +129,20 @@ public class ProductControllerTests : WebFixtures
     #endregion
 
     #region Put
-    [Fact]
-    public async Task<VerifyResult> PutProduct_ValidDTO_ReturnsModel()
+    [Theory]
+    [InlineData("Burger", "Juicy", 1.50)]
+    [InlineData("Kebab", "Chicken", 2.50)]
+    [InlineData("Milkshake", "Banana", 1.00)]
+    public async Task<VerifyResult> PutProduct_ValidDTO_ReturnsModel(string name, string description, double price)
     {
         var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50
+                    Name = name,
+                    Description = description,
+                    Price = price
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -158,15 +167,18 @@ public class ProductControllerTests : WebFixtures
         return await Verify(updatedProduct, this._verifySettings);
     }
 
-    [Fact]
-    public async Task<VerifyResult> PutProduct_InvalidDTO_ReturnsBadRequest()
+    [Theory]
+    [InlineData("Burger")]
+    [InlineData("Kebab")]
+    [InlineData("Milkshake")]
+    public async Task<VerifyResult> PutProduct_InvalidDTO_ReturnsBadRequest(string name)
     {
         var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
                 {
-                    Name = "BBQ Burger"
+                    Name = name
                 })
                 .ToUrl("/api/products/1");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -175,17 +187,20 @@ public class ProductControllerTests : WebFixtures
         return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
-    [Fact]
-    public async Task<VerifyResult> PutProduct_NonExistentID_ReturnsNotFound()
+    [Theory]
+    [InlineData("Burger", "Juicy", 1.50)]
+    [InlineData("Kebab", "Chicken", 2.50)]
+    [InlineData("Milkshake", "Banana", 1.00)]
+    public async Task<VerifyResult> PutProduct_NonExistentID_ReturnsNotFound(string name, string description, double price)
     {
         var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
                 {
-                    Name = "BBQ Burger",
-                    Description = "Juicy",
-                    Price = 1.50
+                    Name = name,
+                    Description = description,
+                    Price = price
                 })
                 .ToUrl("/api/products/5");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
@@ -228,17 +243,21 @@ public class ProductControllerTests : WebFixtures
         return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
     }
 
-    [Fact(Skip = "BUG: Expecting response 400 but receiving 200")]
-    public async Task<VerifyResult> PutProduct_RetiredProduct_ReturnsBadRequest()
+
+    [Theory(Skip = "BUG: Expecting response 400 but receiving 200")]
+    [InlineData("Burger", "Juicy", 1.50)]
+    [InlineData("Kebab", "Chicken", 2.50)]
+    [InlineData("Milkshake", "Banana", 1.00)]
+    public async Task<VerifyResult> PutProduct_RetiredProduct_ReturnsBadRequest(string name, string description, double price)
     {
         var putResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Put
                 .Json(new
                 {
-                    Name = "BBQ Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
+                    Name = name,
+                    Description = description,
+                    Price = price,
                     Categories = new List<long> { 1 }
                 })
                 .ToUrl("/api/products/3");
@@ -295,16 +314,39 @@ public class ProductControllerTests : WebFixtures
     }
 
     [Fact]
-    public async Task<VerifyResult> RetireProduct_ValidId_IsRetired_ReturnsNotFound()
+    public async Task<VerifyResult> RetireProduct_InvalidId_Returns400()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Delete
+                .Url($"/api/products/abc");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Get.Url("/api/products/abc");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this._verifySettings);
+    }
+
+    [Theory]
+    [InlineData("Burger", "Juicy", 1.50)]
+    [InlineData("Kebab", "Chicken", 2.50)]
+    [InlineData("Milkshake", "Banana", 1.00)]
+    public async Task<VerifyResult> RetireProduct_ValidId_IsRetired_ReturnsNotFound(string name, string description, double price)
     {
         var postResult = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
                 .Json(new
                 {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50
+                    Name = name,
+                    Description = description,
+                    Price = price
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);

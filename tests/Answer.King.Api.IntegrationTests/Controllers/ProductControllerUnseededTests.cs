@@ -15,7 +15,6 @@ public class ProductControllerUnseededTests : UnseededWebFixtures
     {
         this._verifySettings = new();
         this._verifySettings.ScrubMembers("traceId");
-        //this._verifySettings.UseStreamComparer("[]");
     }
 
     #region Get
@@ -33,3 +32,5 @@ public class ProductControllerUnseededTests : UnseededWebFixtures
     }
     #endregion
 }
+
+
