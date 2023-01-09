@@ -9,7 +9,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal class CategoryFactory
 {
-    private ConstructorInfo? CategoryConstructor { get; set; } = typeof(Category)
+    private ConstructorInfo? CategoryConstructor { get; } = typeof(Category)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 

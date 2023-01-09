@@ -14,9 +14,9 @@ namespace Answer.King.Api.UnitTests.Services;
 [TestCategory(TestType.Unit)]
 public class ProductServiceTests
 {
-    private static CategoryFactory CategoryFactory { get; } = new();
+    private static readonly CategoryFactory categoryFactory = new();
 
-    private static ProductFactory ProductFactory { get; } = new();
+    private static readonly ProductFactory productFactory = new();
 
     #region Create
 
@@ -60,7 +60,7 @@ public class ProductServiceTests
     public async Task RetireProduct_ValidProductId_ReturnsProductAsRetired()
     {
         // Arrange
-        var product = ProductFactory.CreateProduct(1,
+        var product = productFactory.CreateProduct(1,
             "product", "desc", 12.00, new List<CategoryId> { new(1) }, new List<TagId> { new(1) }, false);
 
         this.ProductRepository.Get(product.Id).Returns(product);
@@ -148,7 +148,7 @@ public class ProductServiceTests
 
     public static Category CreateCategory(long id, string name, string description)
     {
-        return CategoryFactory.CreateCategory(id, name, description, DateTime.UtcNow, DateTime.UtcNow, new List<Answer.King.Domain.Inventory.Models.ProductId>(), false);
+        return categoryFactory.CreateCategory(id, name, description, DateTime.UtcNow, DateTime.UtcNow, new List<Answer.King.Domain.Inventory.Models.ProductId>(), false);
     }
 
     #endregion

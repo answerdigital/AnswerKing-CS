@@ -9,7 +9,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal class OrderFactory
 {
-    private ConstructorInfo? OrderConstructor { get; set; } = typeof(Order)
+    private ConstructorInfo? OrderConstructor { get; } = typeof(Order)
             .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 

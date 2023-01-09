@@ -11,13 +11,13 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 [TestCategory(TestType.Unit)]
 public class ProductFactoryTests
 {
-    private static ProductFactory ProductFactory = new();
+    private static readonly ProductFactory productFactory = new();
 
     [Fact]
     public Task CreateProduct_ConstructorExists_ReturnsProduct()
     {
         // Arrange / Act
-        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false);
+        var result = productFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false);
 
         // Assert
         Assert.IsType<Product>(result);
@@ -29,19 +29,19 @@ public class ProductFactoryTests
     {
         // Arrange
         var productFactoryConstructorPropertyInfo =
-        typeof(ProductFactory).GetProperty("ProductConstructor", BindingFlags.Instance | BindingFlags.NonPublic);
+        typeof(ProductFactory).GetField("<ProductConstructor>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var constructor = productFactoryConstructorPropertyInfo?.GetValue(ProductFactory);
+        var constructor = productFactoryConstructorPropertyInfo?.GetValue(productFactory);
 
         var wrongConstructor = typeof(Category).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-        productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, wrongConstructor);
+        productFactoryConstructorPropertyInfo?.SetValue(productFactory, wrongConstructor);
 
         // Act // Assert
         Assert.Throws<ArgumentException>(() =>
-            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false));
+            productFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false));
 
-        productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, constructor);
+        productFactoryConstructorPropertyInfo?.SetValue(productFactory, constructor);
     }
 }

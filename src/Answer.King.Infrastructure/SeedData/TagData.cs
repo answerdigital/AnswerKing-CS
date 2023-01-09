@@ -8,11 +8,11 @@ namespace Answer.King.Infrastructure.SeedData;
 
 public static class TagData
 {
-    private static TagFactory TagFactory = new();
+    private static readonly TagFactory tagFactory = new();
 
     public static IList<Tag> Tags { get; } = new List<Tag>
     {
-        TagFactory.CreateTag(
+        tagFactory.CreateTag(
             1,
             "Vegan",
             "Non-animal products",
@@ -23,7 +23,7 @@ public static class TagData
                 new(1)
             },
             false),
-        TagFactory.CreateTag(
+        tagFactory.CreateTag(
             2,
             "BOGOF",
             "Buy one get one free!",

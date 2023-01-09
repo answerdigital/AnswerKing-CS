@@ -13,9 +13,9 @@ namespace Answer.King.Api.UnitTests.Services;
 [TestCategory(TestType.Unit)]
 public class TagServiceTests
 {
-    private static ProductFactory ProductFactory { get; } = new();
+    private static readonly ProductFactory productFactory = new();
 
-    private static TagFactory TagFactory { get; } = new();
+    private static readonly TagFactory tagFactory = new();
 
     #region Retire
 
@@ -437,12 +437,12 @@ public class TagServiceTests
 
     public static Tag CreateTag(long id, string name, string description, IList<ProductId> products)
     {
-        return TagFactory.CreateTag(id, name, description, DateTime.UtcNow, DateTime.UtcNow, products, false);
+        return tagFactory.CreateTag(id, name, description, DateTime.UtcNow, DateTime.UtcNow, products, false);
     }
 
     public static Product CreateProduct(long id, string name, string description, double price)
     {
-        return ProductFactory.CreateProduct(id, name, description, price, new List<CategoryId>(), new List<TagId>(), false);
+        return productFactory.CreateProduct(id, name, description, price, new List<CategoryId>(), new List<TagId>(), false);
     }
 
     #endregion

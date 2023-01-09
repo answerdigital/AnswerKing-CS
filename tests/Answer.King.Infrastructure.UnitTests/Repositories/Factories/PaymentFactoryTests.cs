@@ -11,13 +11,13 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 [TestCategory(TestType.Unit)]
 public class PaymentFactoryTests
 {
-    private static PaymentFactory PaymentFactory = new();
+    private static readonly PaymentFactory paymentFactory = new();
 
     [Fact]
     public Task CreatePayment_ConstructorExists_ReturnsPayment()
     {
         // Arrange / Act
-        var result = PaymentFactory.CreatePayment(1, 1, 1, 1, DateTime.UtcNow);
+        var result = paymentFactory.CreatePayment(1, 1, 1, 1, DateTime.UtcNow);
 
         // Assert
         Assert.IsType<Payment>(result);
@@ -29,19 +29,19 @@ public class PaymentFactoryTests
     {
         // Arrange
         var paymentFactoryConstructorPropertyInfo =
-        typeof(PaymentFactory).GetProperty("PaymentConstructor", BindingFlags.Instance | BindingFlags.NonPublic);
+        typeof(PaymentFactory).GetField("<PaymentConstructor>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var constructor = paymentFactoryConstructorPropertyInfo?.GetValue(PaymentFactory);
+        var constructor = paymentFactoryConstructorPropertyInfo?.GetValue(paymentFactory);
 
         var wrongConstructor = typeof(Category).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-        paymentFactoryConstructorPropertyInfo?.SetValue(PaymentFactory, wrongConstructor);
+        paymentFactoryConstructorPropertyInfo?.SetValue(paymentFactory, wrongConstructor);
 
         // Act // Assert
         Assert.Throws<TargetParameterCountException>(() =>
-            PaymentFactory.CreatePayment(1, 1, 1, 1, DateTime.UtcNow));
+            paymentFactory.CreatePayment(1, 1, 1, 1, DateTime.UtcNow));
 
-        paymentFactoryConstructorPropertyInfo?.SetValue(PaymentFactory, constructor);
+        paymentFactoryConstructorPropertyInfo?.SetValue(paymentFactory, constructor);
     }
 }

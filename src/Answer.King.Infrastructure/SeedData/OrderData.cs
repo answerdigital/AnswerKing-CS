@@ -9,7 +9,7 @@ namespace Answer.King.Infrastructure.SeedData;
 
 internal static class OrderData
 {
-    private static OrderFactory OrderFactory = new();
+    private static readonly OrderFactory orderFactory = new();
 
     public static IList<Order> Orders { get; } = GetOrders();
 
@@ -45,7 +45,7 @@ internal static class OrderData
             lineItem2
         };
 
-        return OrderFactory.CreateOrder(
+        return orderFactory.CreateOrder(
             0,
             DateTime.UtcNow.AddHours(-1),
             DateTime.UtcNow.AddMinutes(-10),
@@ -58,7 +58,7 @@ internal static class OrderData
     {
         var lineItems = new List<LineItem>();
 
-        return OrderFactory.CreateOrder(
+        return orderFactory.CreateOrder(
             0,
             DateTime.UtcNow.AddHours(-3),
             DateTime.UtcNow.AddMinutes(-50),

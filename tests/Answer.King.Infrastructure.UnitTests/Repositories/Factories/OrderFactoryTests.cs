@@ -12,13 +12,13 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 [TestCategory(TestType.Unit)]
 public class OrderFactoryTests
 {
-    private static OrderFactory OrderFactory = new();
+    private static readonly OrderFactory orderFactory = new();
 
     [Fact]
     public Task CreateOrder_ConstructorExists_ReturnsOrder()
     {
         // Arrange / Act
-        var result = OrderFactory.CreateOrder(1, DateTime.UtcNow, DateTime.UtcNow, OrderStatus.Created, new List<LineItem>());
+        var result = orderFactory.CreateOrder(1, DateTime.UtcNow, DateTime.UtcNow, OrderStatus.Created, new List<LineItem>());
 
         // Assert
         Assert.IsType<Order>(result);
@@ -30,20 +30,20 @@ public class OrderFactoryTests
     {
         // Arrange
         var orderFactoryConstructorPropertyInfo =
-        typeof(OrderFactory).GetProperty("OrderConstructor", BindingFlags.Instance | BindingFlags.NonPublic);
+        typeof(OrderFactory).GetField("<OrderConstructor>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var constructor = orderFactoryConstructorPropertyInfo?.GetValue(OrderFactory);
+        var constructor = orderFactoryConstructorPropertyInfo?.GetValue(orderFactory);
 
         var wrongConstructor = typeof(Domain.Inventory.Category).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-        orderFactoryConstructorPropertyInfo?.SetValue(OrderFactory, wrongConstructor);
+        orderFactoryConstructorPropertyInfo?.SetValue(orderFactory, wrongConstructor);
 
         // Act // Assert
         Assert.Throws<TargetParameterCountException>(() =>
-            OrderFactory.CreateOrder(1, DateTime.UtcNow, DateTime.UtcNow, OrderStatus.Created, new List<LineItem>()));
+            orderFactory.CreateOrder(1, DateTime.UtcNow, DateTime.UtcNow, OrderStatus.Created, new List<LineItem>()));
 
         //Reset static constructor to correct value
-        orderFactoryConstructorPropertyInfo?.SetValue(OrderFactory, constructor);
+        orderFactoryConstructorPropertyInfo?.SetValue(orderFactory, constructor);
     }
 }

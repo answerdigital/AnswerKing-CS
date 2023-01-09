@@ -8,9 +8,9 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class ProductEntityMappings : IEntityMapping
 {
-    private static ProductFactory ProductFactory = new();
+    private static readonly ProductFactory productFactory = new();
 
-    private static readonly FieldInfo? ProductIdFieldInfo =
+    private static readonly FieldInfo? productIdFieldInfo =
         typeof(Product).GetField($"<{nameof(Product.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public void RegisterMapping(BsonMapper mapper)
@@ -41,7 +41,7 @@ public class ProductEntityMappings : IEntityMapping
                 var categories = doc["categories"].AsArray.Select(c => new CategoryId(c)).ToList();
                 var tags = doc["tags"].AsArray.Select(c => new TagId(c)).ToList();
 
-                return ProductFactory.CreateProduct(
+                return productFactory.CreateProduct(
                     doc["_id"].AsInt64,
                     doc["name"].AsString,
                     doc["description"].AsString,
@@ -58,7 +58,7 @@ public class ProductEntityMappings : IEntityMapping
         if (type == typeof(Product) && memberMapper.MemberName == "Id")
         {
             memberMapper.Setter =
-                (obj, value) => ProductIdFieldInfo?.SetValue(obj, value);
+                (obj, value) => productIdFieldInfo?.SetValue(obj, value);
         }
     }
 }

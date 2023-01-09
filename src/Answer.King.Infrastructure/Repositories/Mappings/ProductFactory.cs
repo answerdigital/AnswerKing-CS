@@ -11,7 +11,7 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 internal class ProductFactory
 {
-    private ConstructorInfo? ProductConstructor { get; set; } = typeof(Product)
+    private ConstructorInfo? ProductConstructor { get; } = typeof(Product)
         .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
         .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 

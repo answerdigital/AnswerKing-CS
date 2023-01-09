@@ -9,7 +9,7 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Models;
 [TestCategory(TestType.Unit)]
 public class ProductTests
 {
-    private static ProductFactory ProductFactory = new();
+    private static readonly ProductFactory productFactory = new();
 
     [Fact]
     public void Product_InitWithDefaultId_ThrowsDefaultValueException()
@@ -27,7 +27,7 @@ public class ProductTests
 
         // Act / Assert
 
-        Assert.Throws<Guard.DefaultValueException>(() => ProductFactory.CreateProduct(
+        Assert.Throws<Guard.DefaultValueException>(() => productFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -51,7 +51,7 @@ public class ProductTests
         const bool retired = false;
 
         // Act / Assert
-        Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
+        Assert.Throws<ArgumentNullException>(() => productFactory.CreateProduct(
             id,
             productName!,
             productDescription,
@@ -75,7 +75,7 @@ public class ProductTests
         const bool retired = false;
 
         // Act / Assert
-        Assert.Throws<Guard.EmptyStringException>(() => ProductFactory.CreateProduct(
+        Assert.Throws<Guard.EmptyStringException>(() => productFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -99,7 +99,7 @@ public class ProductTests
         const bool retired = false;
 
         // Act / Assert
-        Assert.Throws<ArgumentNullException>(() => ProductFactory.CreateProduct(
+        Assert.Throws<ArgumentNullException>(() => productFactory.CreateProduct(
             id,
             productName,
             productDescription!,
@@ -123,7 +123,7 @@ public class ProductTests
         const bool retired = false;
 
         // Act / Assert
-        Assert.Throws<Guard.EmptyStringException>(() => ProductFactory.CreateProduct(
+        Assert.Throws<Guard.EmptyStringException>(() => productFactory.CreateProduct(
             id,
             productName,
             productDescription,
@@ -147,7 +147,7 @@ public class ProductTests
         const bool retired = false;
 
         // Act Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => ProductFactory.CreateProduct(
+        Assert.Throws<ArgumentOutOfRangeException>(() => productFactory.CreateProduct(
             id,
             productName,
             productDescription,

@@ -7,9 +7,9 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class PaymentEntityMappings : IEntityMapping
 {
-    private static PaymentFactory PaymentFactory = new();
+    private static readonly PaymentFactory paymentFactory = new();
 
-    private static readonly FieldInfo? PaymentIdFieldInfo =
+    private static readonly FieldInfo? paymentIdFieldInfo =
         typeof(Payment).GetField($"<{nameof(Payment.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public void RegisterMapping(BsonMapper mapper)
@@ -33,7 +33,7 @@ public class PaymentEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
 
-                return PaymentFactory.CreatePayment(
+                return paymentFactory.CreatePayment(
                     doc["_id"].AsInt64,
                     doc["orderId"].AsInt64,
                     doc["amount"].AsDouble,
@@ -48,7 +48,7 @@ public class PaymentEntityMappings : IEntityMapping
         if (type == typeof(Payment) && memberMapper.MemberName == "Id")
         {
             memberMapper.Setter =
-                (obj, value) => PaymentIdFieldInfo?.SetValue(obj, value);
+                (obj, value) => paymentIdFieldInfo?.SetValue(obj, value);
         }
     }
 }

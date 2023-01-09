@@ -9,9 +9,9 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class TagsEntityMappings : IEntityMapping
 {
-    private static TagFactory TagFactory = new();
+    private static readonly TagFactory tagFactory = new();
 
-    private static readonly FieldInfo? TagIdFieldInfo =
+    private static readonly FieldInfo? tagIdFieldInfo =
         typeof(Tag).GetField($"<{nameof(Tag.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public void RegisterMapping(BsonMapper mapper)
@@ -39,7 +39,7 @@ public class TagsEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
 
-                return TagFactory.CreateTag(
+                return tagFactory.CreateTag(
                     doc["_id"].AsInt64,
                     doc["name"].AsString,
                     doc["description"].AsString,
@@ -57,7 +57,7 @@ public class TagsEntityMappings : IEntityMapping
         if (type == typeof(Tag) && memberMapper.MemberName == "Id")
         {
             memberMapper.Setter =
-                (obj, value) => TagIdFieldInfo?.SetValue(obj, value);
+                (obj, value) => tagIdFieldInfo?.SetValue(obj, value);
         }
     }
 }

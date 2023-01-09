@@ -12,13 +12,13 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 [TestCategory(TestType.Unit)]
 public class TagFactoryTests
 {
-    private static TagFactory TagFactory = new();
+    private static readonly TagFactory tagFactory = new();
 
     [Fact]
     public Task CreateTag_ConstructorExists_ReturnsTag()
     {
         // Arrange / Act
-        var result = TagFactory.CreateTag(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false);
+        var result = tagFactory.CreateTag(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false);
 
         // Assert
         Assert.IsType<Tag>(result);
@@ -30,19 +30,19 @@ public class TagFactoryTests
     {
         // Arrange
         var tagFactoryConstructorPropertyInfo =
-        typeof(TagFactory).GetProperty("TagConstructor", BindingFlags.Instance | BindingFlags.NonPublic);
+        typeof(TagFactory).GetField("<TagConstructor>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var constructor = tagFactoryConstructorPropertyInfo?.GetValue(TagFactory);
+        var constructor = tagFactoryConstructorPropertyInfo?.GetValue(tagFactory);
 
         var wrongConstructor = typeof(Product).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-        tagFactoryConstructorPropertyInfo?.SetValue(TagFactory, wrongConstructor);
+        tagFactoryConstructorPropertyInfo?.SetValue(tagFactory, wrongConstructor);
 
         // Act // Assert
         Assert.Throws<ArgumentException>(() =>
-            TagFactory.CreateTag(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false));
+            tagFactory.CreateTag(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false));
 
-        tagFactoryConstructorPropertyInfo?.SetValue(TagFactory, constructor);
+        tagFactoryConstructorPropertyInfo?.SetValue(tagFactory, constructor);
     }
 }

@@ -9,9 +9,9 @@ namespace Answer.King.Infrastructure.Repositories.Mappings;
 
 public class CategoryEntityMappings : IEntityMapping
 {
-    private static CategoryFactory CategoryFactory { get; } = new();
+    private static readonly CategoryFactory categoryFactory = new();
 
-    private static readonly FieldInfo? CategoryIdFieldInfo =
+    private static readonly FieldInfo? categoryIdFieldInfo =
         typeof(Category).GetField($"<{nameof(Category.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public void RegisterMapping(BsonMapper mapper)
@@ -39,7 +39,7 @@ public class CategoryEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
 
-                return CategoryFactory.CreateCategory(
+                return categoryFactory.CreateCategory(
                     doc["_id"].AsInt64,
                     doc["name"].AsString,
                     doc["description"].AsString,
@@ -57,7 +57,7 @@ public class CategoryEntityMappings : IEntityMapping
         if (type == typeof(Category) && memberMapper.MemberName == "Id")
         {
             memberMapper.Setter =
-                (obj, value) => CategoryIdFieldInfo?.SetValue(obj, value);
+                (obj, value) => categoryIdFieldInfo?.SetValue(obj, value);
         }
     }
 }

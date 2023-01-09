@@ -7,11 +7,11 @@ namespace Answer.King.Infrastructure.SeedData;
 
 internal static class ProductData
 {
-    private static ProductFactory ProductFactory = new();
+    private static readonly ProductFactory productFactory = new();
 
     public static IList<Product> Products { get; } = new List<Product>
     {
-        ProductFactory.CreateProduct(
+        productFactory.CreateProduct(
             1,
             "Fish",
             "Delicious and satisfying.",
@@ -19,7 +19,7 @@ internal static class ProductData
             Categories(1),
             Tags(1),
             false),
-        ProductFactory.CreateProduct(
+        productFactory.CreateProduct(
             2,
             "Chips",
             "Nothing more to say.",

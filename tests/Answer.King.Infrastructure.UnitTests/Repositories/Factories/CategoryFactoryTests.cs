@@ -12,13 +12,13 @@ namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 [TestCategory(TestType.Unit)]
 public class CategoryFactoryTests
 {
-    private static CategoryFactory CategoryFactory { get; } = new();
+    private static readonly CategoryFactory categoryFactory = new();
 
     [Fact]
     public Task CreateCategory_ConstructorExists_ReturnsCategory()
     {
         // Arrange / Act
-        var result = CategoryFactory.CreateCategory(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false);
+        var result = categoryFactory.CreateCategory(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false);
 
         // Assert
         Assert.IsType<Category>(result);
@@ -30,20 +30,20 @@ public class CategoryFactoryTests
     {
         // Arrange
         var categoryFactoryConstructorPropertyInfo =
-        typeof(CategoryFactory).GetProperty("CategoryConstructor", BindingFlags.Instance | BindingFlags.NonPublic);
+        typeof(CategoryFactory).GetField("<CategoryConstructor>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var constructor = categoryFactoryConstructorPropertyInfo?.GetValue(CategoryFactory);
+        var constructor = categoryFactoryConstructorPropertyInfo?.GetValue(categoryFactory);
 
         var wrongConstructor = typeof(Product).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
-        categoryFactoryConstructorPropertyInfo?.SetValue(CategoryFactory, wrongConstructor);
+        categoryFactoryConstructorPropertyInfo?.SetValue(categoryFactory, wrongConstructor);
 
         // Act // Assert
         Assert.Throws<ArgumentException>(() =>
-            CategoryFactory.CreateCategory(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false));
+            categoryFactory.CreateCategory(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false));
 
         //Reset static constructor to correct value
-        categoryFactoryConstructorPropertyInfo?.SetValue(CategoryFactory, constructor);
+        categoryFactoryConstructorPropertyInfo?.SetValue(categoryFactory, constructor);
     }
 }

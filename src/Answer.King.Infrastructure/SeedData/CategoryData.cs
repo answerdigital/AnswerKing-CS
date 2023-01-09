@@ -8,11 +8,11 @@ namespace Answer.King.Infrastructure.SeedData;
 
 public static class CategoryData
 {
-    private static CategoryFactory CategoryFactory { get; } = new();
+    private static readonly CategoryFactory categoryFactory = new();
 
     public static IList<Category> Categories { get; } = new List<Category>
     {
-        CategoryFactory.CreateCategory(
+        categoryFactory.CreateCategory(
             1,
             "Seafood",
             "Food from the oceans",
@@ -23,7 +23,7 @@ public static class CategoryData
                 new(1)
             },
             false),
-        CategoryFactory.CreateCategory(
+        categoryFactory.CreateCategory(
             2,
             "Sundries",
             "Things that go with things.",
