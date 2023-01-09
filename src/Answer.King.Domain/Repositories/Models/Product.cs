@@ -70,6 +70,7 @@ public class Product
         }
         this._Categories.Add(category);
     }
+
     public void RemoveCategory(CategoryId category)
     {
         if (this.Retired)
@@ -78,6 +79,7 @@ public class Product
         }
         this._Categories.Remove(category);
     }
+
     public void AddTag(TagId tag)
     {
         if (this.Retired)
@@ -86,6 +88,7 @@ public class Product
         }
         this._Tags.Add(tag);
     }
+
     public void RemoveTag(TagId tag)
     {
         if (this.Retired)

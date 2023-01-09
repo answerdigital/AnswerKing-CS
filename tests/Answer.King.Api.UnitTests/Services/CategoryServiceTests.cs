@@ -232,6 +232,66 @@ public class CategoryServiceTests
     }
 
     [Fact]
+    public async Task UpdateCategory_AddProductRetired_ThrowsException()
+    {
+        // Arrange
+        var oldProduct = CreateProduct(1, "product", "desc", 1.0);
+        var oldProducts = new Product[]
+        {
+            oldProduct
+        };
+        var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
+
+        var updatedProduct = CreateProduct(2, "updated product", "desc", 10.0);
+        updatedProduct.Retire();
+
+        this.CategoryRepository.Get(Arg.Any<long>()).Returns(oldCategory);
+        this.ProductRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
+        this.ProductRepository.Get(updatedProduct.Id).Returns(updatedProduct);
+
+        var updatedCategory = new RequestModels.Category
+        {
+            Name = "updated category",
+            Description = "desc",
+            Products = new List<long> { updatedProduct.Id }
+        };
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<ProductLifecycleException>(() =>
+            sut.UpdateCategory(oldCategory.Id, updatedCategory));
+    }
+
+    [Fact]
+    public async Task UpdateCategory_RemoveProductRetired_ThrowsException()
+    {
+        // Arrange
+        var oldProduct = CreateProduct(1, "product", "desc", 1.0);
+        var oldProducts = new Product[]
+        {
+            oldProduct
+        };
+        var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
+
+        oldProduct.Retire();
+
+        this.CategoryRepository.Get(Arg.Any<long>()).Returns(oldCategory);
+        this.ProductRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
+
+        var updatedCategory = new RequestModels.Category
+        {
+            Name = "updated category",
+            Description = "desc",
+            Products = new List<long>()
+        };
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<ProductLifecycleException>(() =>
+            sut.UpdateCategory(oldCategory.Id, updatedCategory));
+    }
+
+    [Fact]
     public async Task UpdateCategory_ValidUpdatedProduct_UpdatesProductCorrectly()
     {
         // Arrange

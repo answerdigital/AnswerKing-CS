@@ -281,6 +281,29 @@ public class TagServiceTests
     }
 
     [Fact]
+    public async Task AddTagProducts_TagRetired_ThrowsException()
+    {
+        // Arrange
+        var oldTag = CreateTag(1, "tag", "desc", new List<ProductId>());
+
+        var updatedProduct = CreateProduct(2, "updated product", "desc", 1.0);
+        updatedProduct.Retire();
+
+        this.TagRepository.Get(Arg.Any<long>()).Returns(oldTag);
+        this.ProductRepository.Get(updatedProduct.Id).Returns(updatedProduct);
+
+        var addProducts = new RequestModels.TagProducts
+        {
+            Products = new List<long> { updatedProduct.Id }
+        };
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<ProductLifecycleException>(() =>
+            sut.AddProducts(oldTag.Id, addProducts));
+    }
+
+    [Fact]
     public async Task AddTagProducts_ValidUpdatedProduct_UpdatesProductCorrectly()
     {
         // Arrange
@@ -400,6 +423,29 @@ public class TagServiceTests
         // Act / Assert
         var sut = this.GetServiceUnderTest();
         await Assert.ThrowsAsync<TagServiceException>(() =>
+            sut.RemoveProducts(oldTag.Id, removeProducts));
+    }
+
+    [Fact]
+    public async Task RemoveTagProducts_ProductRetired_ThrowsException()
+    {
+        // Arrange
+        var oldTag = CreateTag(1, "tag", "desc", new List<ProductId>());
+
+        var updatedProduct = CreateProduct(2, "updated product", "desc", 1.0);
+        updatedProduct.Retire();
+
+        this.TagRepository.Get(Arg.Any<long>()).Returns(oldTag);
+        this.ProductRepository.Get(updatedProduct.Id).Returns(updatedProduct);
+
+        var removeProducts = new RequestModels.TagProducts
+        {
+            Products = new List<long> { updatedProduct.Id }
+        };
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<ProductLifecycleException>(() =>
             sut.RemoveProducts(oldTag.Id, removeProducts));
     }
 
