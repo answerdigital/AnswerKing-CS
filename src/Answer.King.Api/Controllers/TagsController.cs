@@ -23,7 +23,6 @@ public class TagsController : ControllerBase
     /// <summary>
     /// Get all tags.
     /// </summary>
-    /// <returns></returns>
     /// <response code="200">When all the tags have been returned.</response>
     // GET api/tags
     [HttpGet]
@@ -37,7 +36,6 @@ public class TagsController : ControllerBase
     /// Get a single tag.
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
     /// <response code="200">When the tag with the provided <paramref name="id"/> has been found.</response>
     /// <response code="404">When the tag with the given <paramref name="id"/> does not exist.</response>
     // GET api/tags/{ID}

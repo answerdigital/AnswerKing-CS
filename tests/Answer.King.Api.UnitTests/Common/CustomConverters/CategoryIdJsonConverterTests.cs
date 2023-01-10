@@ -19,12 +19,12 @@ public class CategoryIdJsonConverterTests
         var jsonReader = new Utf8JsonReader(jsonUtf8Bytes);
         jsonReader.Read();
 
-        var tagIdJsonConverter = new CategoryIdJsonConverter();
+        var categoryIdJsonConverter = new CategoryIdJsonConverter();
 
         var expected = new CategoryId(1);
 
         // Act
-        var result = tagIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
+        var result = categoryIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
 
         // Assert
         Assert.IsType<CategoryId>(result);
@@ -40,10 +40,10 @@ public class CategoryIdJsonConverterTests
         var jsonReader = new Utf8JsonReader(jsonUtf8Bytes);
         jsonReader.Read();
 
-        var tagIdJsonConverter = new CategoryIdJsonConverter();
+        var categoryIdJsonConverter = new CategoryIdJsonConverter();
 
         // Act
-        var result = tagIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
+        var result = categoryIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
 
         // Act / Assert
         Assert.Null(result);

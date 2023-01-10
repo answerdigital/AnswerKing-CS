@@ -23,7 +23,6 @@ public class CategoriesController : ControllerBase
     /// <summary>
     /// Get all categories.
     /// </summary>
-    /// <returns></returns>
     /// <response code="200">When all the categories have been returned.</response>
     // GET api/categories
     [HttpGet]
@@ -38,7 +37,6 @@ public class CategoriesController : ControllerBase
     /// Get a single category.
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
     /// <response code="200">When the category with the provided <paramref name="id"/> has been found.</response>
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist.</response>
     // GET api/categories/{ID}
