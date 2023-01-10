@@ -16,7 +16,7 @@ public class Tag : IAggregateRoot
         this.Name = name;
         this.Description = description;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
-        this._Products = new HashSet<ProductId>(products);
+        this._products = new HashSet<ProductId>(products);
         this.Retired = false;
     }
 
@@ -44,7 +44,7 @@ public class Tag : IAggregateRoot
         this.Description = description;
         this.CreatedOn = createdOn;
         this.LastUpdated = lastUpdated;
-        this._Products = new HashSet<ProductId>(products);
+        this._products = new HashSet<ProductId>(products);
         this.Retired = retired;
     }
 
@@ -58,9 +58,9 @@ public class Tag : IAggregateRoot
 
     public DateTime LastUpdated { get; private set; }
 
-    private HashSet<ProductId> _Products { get; }
+    private HashSet<ProductId> _products { get; }
 
-    public IReadOnlyCollection<ProductId> Products => this._Products;
+    public IReadOnlyCollection<ProductId> Products => this._products;
 
     public bool Retired { get; private set; }
 
@@ -81,7 +81,7 @@ public class Tag : IAggregateRoot
             throw new TagLifecycleException("Cannot add product to retired tag.");
         }
 
-        if (this._Products.Add(productId))
+        if (this._products.Add(productId))
         {
             this.LastUpdated = DateTime.UtcNow;
         }
@@ -94,7 +94,7 @@ public class Tag : IAggregateRoot
             throw new TagLifecycleException("Cannot remove product from retired tag.");
         }
 
-        if (this._Products.Remove(productId))
+        if (this._products.Remove(productId))
         {
             this.LastUpdated = DateTime.UtcNow;
         }
@@ -107,7 +107,7 @@ public class Tag : IAggregateRoot
             throw new TagLifecycleException("The tag is already retired.");
         }
 
-        if (this._Products.Count > 0)
+        if (this._products.Count > 0)
         {
             throw new TagLifecycleException(
                 $"Cannot retire tag whilst there are still products assigned. {string.Join(',', this.Products.Select(p => p.Value))}");

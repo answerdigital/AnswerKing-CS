@@ -104,7 +104,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Post_ValidRequestCallsGetAction_ReturnsNewCategory()
+    public async Task Post_ValidRequestCallsGetAction_ReturnsNewCategory()
     {
         // Arrange
         var categoryRequestModel = new RequestModels.Category
@@ -139,7 +139,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Put_NullCategory_ReturnsNotFoundResult()
+    public async Task Put_NullCategory_ReturnsNotFoundResult()
     {
         // Arrange
         const int id = 1;
@@ -152,7 +152,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Put_ProductIdNotValid_ReturnsValidationProblem()
+    public async Task Put_ProductIdNotValid_ReturnsValidationProblem()
     {
         // Arrange
         const int id = 1;
@@ -173,7 +173,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Put_ValidRequest_ReturnsOkObjectResult()
+    public async Task Put_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         const int id = 1;
@@ -209,7 +209,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Retire_NullCategory_ReturnsNotFound()
+    public async Task Retire_NullCategory_ReturnsNotFound()
     {
         // Arrange / Act
         var result = await GetSubjectUnderTest.Retire(Arg.Any<long>());
@@ -219,7 +219,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Retire_ProductsStillAssigned_ReturnsValidationProblem()
+    public async Task Retire_ProductsStillAssigned_ReturnsValidationProblem()
     {
         // Arrange
         const int id = 1;
@@ -234,7 +234,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async void Retire_ValidRequest_ReturnsNoContentResult()
+    public async Task Retire_ValidRequest_ReturnsNoContentResult()
     {
         // Arrange
         const int id = 1;

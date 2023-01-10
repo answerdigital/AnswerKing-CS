@@ -17,7 +17,7 @@ public class Category : IAggregateRoot
         this.Name = name;
         this.Description = description;
         this.LastUpdated = this.CreatedOn = DateTime.UtcNow;
-        this._Products = new HashSet<ProductId>(products);
+        this._products = new HashSet<ProductId>(products);
         this.Retired = false;
     }
 
@@ -45,7 +45,7 @@ public class Category : IAggregateRoot
         this.Description = description;
         this.CreatedOn = createdOn;
         this.LastUpdated = lastUpdated;
-        this._Products = new HashSet<ProductId>(products);
+        this._products = new HashSet<ProductId>(products);
         this.Retired = retired;
     }
 
@@ -59,9 +59,9 @@ public class Category : IAggregateRoot
 
     public DateTime LastUpdated { get; private set; }
 
-    private HashSet<ProductId> _Products { get; }
+    private HashSet<ProductId> _products { get; }
 
-    public IReadOnlyCollection<ProductId> Products => this._Products;
+    public IReadOnlyCollection<ProductId> Products => this._products;
 
     public bool Retired { get; private set; }
 
@@ -82,7 +82,7 @@ public class Category : IAggregateRoot
             throw new CategoryLifecycleException("Cannot add product to retired catgory.");
         }
 
-        if (this._Products.Add(productId))
+        if (this._products.Add(productId))
         {
             this.LastUpdated = DateTime.UtcNow;
         }
@@ -95,7 +95,7 @@ public class Category : IAggregateRoot
             throw new CategoryLifecycleException("Cannot remove product from retired catgory.");
         }
 
-        if (this._Products.Remove(productId))
+        if (this._products.Remove(productId))
         {
             this.LastUpdated = DateTime.UtcNow;
         }
@@ -108,7 +108,7 @@ public class Category : IAggregateRoot
             throw new CategoryLifecycleException("The category is already retired.");
         }
 
-        if (this._Products.Count > 0)
+        if (this._products.Count > 0)
         {
             throw new CategoryLifecycleException(
                 $"Cannot retire category whilst there are still products assigned. {string.Join(',', this.Products.Select(p => p.Value))}");
