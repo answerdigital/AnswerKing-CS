@@ -45,7 +45,7 @@ public class ProductIdJsonConverterTests
         // Act
         var result = productIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
 
-        // Act / Assert
+        // Assert
         Assert.Null(result);
     }
 }

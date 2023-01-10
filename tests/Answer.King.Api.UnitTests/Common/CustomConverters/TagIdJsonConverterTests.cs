@@ -45,7 +45,7 @@ public class TagIdJsonConverterTests
         // Act
         var result = tagIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
 
-        // Act / Assert
+        // Assert
         Assert.Null(result);
     }
 }

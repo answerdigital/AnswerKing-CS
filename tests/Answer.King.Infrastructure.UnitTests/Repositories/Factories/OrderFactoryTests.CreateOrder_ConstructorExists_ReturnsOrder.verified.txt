@@ -1,5 +1,5 @@
 ﻿{
   Id: 1,
   CreatedOn: DateTime_1,
-  LastUpdated: DateTime_2
+  LastUpdated: DateTime_1
 }

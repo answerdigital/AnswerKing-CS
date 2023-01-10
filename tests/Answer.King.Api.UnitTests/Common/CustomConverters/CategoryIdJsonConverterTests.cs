@@ -45,7 +45,7 @@ public class CategoryIdJsonConverterTests
         // Act
         var result = categoryIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
 
-        // Act / Assert
+        // Assert
         Assert.Null(result);
     }
 }

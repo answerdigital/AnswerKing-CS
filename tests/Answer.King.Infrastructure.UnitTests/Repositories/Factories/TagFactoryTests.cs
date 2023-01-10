@@ -18,7 +18,8 @@ public class TagFactoryTests
     public Task CreateTag_ConstructorExists_ReturnsTag()
     {
         // Arrange / Act
-        var result = tagFactory.CreateTag(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false);
+        var now = DateTime.UtcNow;
+        var result = tagFactory.CreateTag(1, "NAME", "DESC", now, now, new List<ProductId>(), false);
 
         // Assert
         Assert.IsType<Tag>(result);
@@ -39,9 +40,11 @@ public class TagFactoryTests
 
         tagFactoryConstructorPropertyInfo?.SetValue(tagFactory, wrongConstructor);
 
+        var now = DateTime.UtcNow;
+
         // Act // Assert
         Assert.Throws<ArgumentException>(() =>
-            tagFactory.CreateTag(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false));
+            tagFactory.CreateTag(1, "NAME", "DESC", now, now, new List<ProductId>(), false));
 
         tagFactoryConstructorPropertyInfo?.SetValue(tagFactory, constructor);
     }

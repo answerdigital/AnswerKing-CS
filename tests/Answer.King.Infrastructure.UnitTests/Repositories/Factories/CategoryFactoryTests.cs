@@ -18,7 +18,8 @@ public class CategoryFactoryTests
     public Task CreateCategory_ConstructorExists_ReturnsCategory()
     {
         // Arrange / Act
-        var result = categoryFactory.CreateCategory(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false);
+        var now = DateTime.UtcNow;
+        var result = categoryFactory.CreateCategory(1, "NAME", "DESC", now, now, new List<ProductId>(), false);
 
         // Assert
         Assert.IsType<Category>(result);
@@ -39,9 +40,11 @@ public class CategoryFactoryTests
 
         categoryFactoryConstructorPropertyInfo?.SetValue(categoryFactory, wrongConstructor);
 
+        var now = DateTime.UtcNow;
+
         // Act // Assert
         Assert.Throws<ArgumentException>(() =>
-            categoryFactory.CreateCategory(1, "NAME", "DESC", DateTime.UtcNow, DateTime.UtcNow, new List<ProductId>(), false));
+            categoryFactory.CreateCategory(1, "NAME", "DESC", now, now, new List<ProductId>(), false));
 
         //Reset static constructor to correct value
         categoryFactoryConstructorPropertyInfo?.SetValue(categoryFactory, constructor);

@@ -3,6 +3,6 @@
   Name: NAME,
   Description: DESC,
   CreatedOn: DateTime_1,
-  LastUpdated: DateTime_2,
+  LastUpdated: DateTime_1,
   Retired: false
 }

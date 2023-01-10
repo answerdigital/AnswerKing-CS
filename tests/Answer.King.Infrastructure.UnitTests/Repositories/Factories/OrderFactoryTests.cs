@@ -18,7 +18,8 @@ public class OrderFactoryTests
     public Task CreateOrder_ConstructorExists_ReturnsOrder()
     {
         // Arrange / Act
-        var result = orderFactory.CreateOrder(1, DateTime.UtcNow, DateTime.UtcNow, OrderStatus.Created, new List<LineItem>());
+        var now = DateTime.UtcNow;
+        var result = orderFactory.CreateOrder(1, now, now, OrderStatus.Created, new List<LineItem>());
 
         // Assert
         Assert.IsType<Order>(result);
@@ -39,9 +40,11 @@ public class OrderFactoryTests
 
         orderFactoryConstructorPropertyInfo?.SetValue(orderFactory, wrongConstructor);
 
+        var now = DateTime.UtcNow;
+
         // Act // Assert
         Assert.Throws<TargetParameterCountException>(() =>
-            orderFactory.CreateOrder(1, DateTime.UtcNow, DateTime.UtcNow, OrderStatus.Created, new List<LineItem>()));
+            orderFactory.CreateOrder(1, now, now, OrderStatus.Created, new List<LineItem>()));
 
         //Reset static constructor to correct value
         orderFactoryConstructorPropertyInfo?.SetValue(orderFactory, constructor);
