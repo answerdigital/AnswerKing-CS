@@ -110,7 +110,7 @@ public class OrdersControllerTests
         var orderRequestModel = new InputOrder { LineItems = new List<LineItem> { new LineItem { ProductId = 1, Quantity = 1 } } };
 
         var order = new OutputOrder();
-        order.AddLineItem(1, "PRODUCT_NAME", "PRODUCT_NAME", 0, new List<Domain.Orders.Models.Category>());
+        order.AddLineItem(1, "PRODUCT_NAME", "PRODUCT_DESC", 0);
 
         OrderService.CreateOrder(orderRequestModel).Returns(order);
 
@@ -118,9 +118,8 @@ public class OrdersControllerTests
         var result = await GetSubjectUnderTest.Post(orderRequestModel);
 
         // Assert
-        var Received = await OrderService.Received().CreateOrder(orderRequestModel);
-        Assert.NotNull(Received);
-        Assert.IsType<OkObjectResult>(result);
+        await OrderService.Received().CreateOrder(orderRequestModel);
+        Assert.IsType<CreatedAtActionResult>(result);
     }
 
     #endregion Post
@@ -156,7 +155,7 @@ public class OrdersControllerTests
         var orderRequestModel = new InputOrder { LineItems = new List<LineItem> { new LineItem { ProductId = 1, Quantity = 1 } } };
 
         var order = new OutputOrder();
-        order.AddLineItem(1, "PRODUCT_NAME", "PRODUCT_NAME", 0, new List<Domain.Orders.Models.Category>());
+        order.AddLineItem(1, "PRODUCT_NAME", "PRODUCT_NAME", 0);
 
         OrderService.UpdateOrder(id, orderRequestModel).Returns(order);
 
