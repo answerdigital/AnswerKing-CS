@@ -21,13 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Answer.King.Api.UnitTests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{B13B327D-8EF3-4B55-A522-648B46176A62}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-		README.md = README.md
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Answer.King.Api.IntegrationTests", "tests\Answer.King.Api.IntegrationTests\Answer.King.Api.IntegrationTests.csproj", "{D660F11B-872D-4536-A8BC-FFC86118F469}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Answer.King.Api.IntegrationTests", "tests\Answer.King.Api.IntegrationTests\Answer.King.Api.IntegrationTests.csproj", "{D660F11B-872D-4536-A8BC-FFC86118F469}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
