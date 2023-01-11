@@ -12,9 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Answer.King.Infrastructure", "src\Answer.King.Infrastructure\Answer.King.Infrastructure.csproj", "{1BF24C30-1DED-4673-BC27-6C385A283919}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F3A9A152-CBD9-4004-9745-1478B24AEB9B}"
-	ProjectSection(SolutionItems) = preProject
-		K6-Script.js = K6-Script.js
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Answer.King.Domain.UnitTests", "tests\Answer.King.Domain.UnitTests\Answer.King.Domain.UnitTests.csproj", "{FF677E47-7184-4667-B240-294D893158DF}"
 EndProject
