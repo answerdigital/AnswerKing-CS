@@ -21,7 +21,7 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.HasRouteAttribute<OrdersController>("api/[controller]");
-        Assert.Equal(nameof(OrdersController), "OrdersController");
+        Assert.Equal("OrdersController", nameof(OrdersController));
     }
 
     #endregion GenericControllerTests
