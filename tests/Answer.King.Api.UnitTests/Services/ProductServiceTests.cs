@@ -1,7 +1,7 @@
-using Answer.King.Api.RequestModels;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
+using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
@@ -31,9 +31,9 @@ public class ProductServiceTests
             Name = "product",
             Description = "desc",
             Price = 1500.00,
-            Category = new CategoryId { Id = 2 }
+            Category = new RequestModels.CategoryId { Id = 2 },
         };
-        this.CategoryRepository.Get(Arg.Any<long>()).Returns(null as Category);
+        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(null as Category);
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -109,7 +109,7 @@ public class ProductServiceTests
         var products = new[]
         {
             new Product("product 1", "desc", 10.00, new Domain.Repositories.Models.Category(1, "category", "desc")),
-            new Product("product 2", "desc", 5.00, new Domain.Repositories.Models.Category(2, "category", "desc"))
+            new Product("product 2", "desc", 5.00, new Domain.Repositories.Models.Category(2, "category", "desc")),
         };
 
         this.productRepository.GetAll().Returns(products);

@@ -45,17 +45,14 @@ public class OrderTests
         const int id = 1;
         const string name = "name";
         const string description = "description";
-        {
-            new Category(1, "name", "description")
-        };
         const double price = 1.24;
         const int quantity = 2;
 
         order.CompleteOrder();
-            order.AddLineItem(id, name, description, price, quantity));
+
         // Act / Assert
         Assert.Throws<OrderLifeCycleException>(() =>
-            order.AddLineItem(id, name, description, price, categories, quantity));
+            order.AddLineItem(id, name, description, price, quantity));
     }
 
     [Fact]
@@ -63,17 +60,17 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        {
-            new Category(1, "name", "description")
-        };
+        const int id = 1;
+        const string name = "name";
+        const string description = "description";
         const double price = 1.24;
         const int quantity = 2;
 
         order.CancelOrder();
-            order.AddLineItem(id, name, description, price, quantity));
+
         // Act / Assert
         Assert.Throws<OrderLifeCycleException>(() =>
-            order.AddLineItem(id, name, description, price, categories, quantity));
+            order.AddLineItem(id, name, description, price, quantity));
     }
 
     [Fact]
@@ -81,14 +78,14 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        {
-            new Category(1, "name", "description")
-        };
+        const int id = 1;
+        const string name = "name";
+        const string description = "description";
         const double price = 1.24;
-        order.AddLineItem(id, name, description, price, quantity);
+        const int quantity = 2;
 
         // Act
-        order.AddLineItem(id, name, description, price, categories, quantity);
+        order.AddLineItem(id, name, description, price, quantity);
 
         var lineItem = order.LineItems.FirstOrDefault();
 
@@ -105,14 +102,14 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        {
-            new Category(1, "name", "description")
-        };
+        const int id = 1;
+        const string name = "name";
+        const string description = "description";
         const double price = 1.24;
-        order.AddLineItem(id, name, description, price, quantity);
+        const int quantity = 2;
 
         // Act
-        order.AddLineItem(id, name, description, price, categories, quantity);
+        order.AddLineItem(id, name, description, price, quantity);
 
         var lineItem = order.LineItems.FirstOrDefault();
 
@@ -126,14 +123,14 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-        {
-            new Category(1, "name", "description")
-        };
+        const int id = 1;
+        const string name = "name";
+        const string description = "description";
         const double price = 1.24;
-        order.AddLineItem(id, name, description, price, quantity);
+        const int quantity = 2;
 
         // Act
-        order.AddLineItem(id, name, description, price, categories, quantity);
+        order.AddLineItem(id, name, description, price, quantity);
 
         var lineItem = order.LineItems.FirstOrDefault();
 
@@ -197,13 +194,13 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-            "CATEGORY_NAME",
-            "CATEGORY_DESCRIPTION"
-        )};
-        order.AddLineItem(id, productName, productDescription, price, quantity);
+        const int id = 1;
+        const string productName = "PRODUCT_NAME";
+        const string productDescription = "PRODUCT_DESCRIPTION";
+        const int quantity = 5;
         const double price = 1.25;
 
-        order.AddLineItem(id, productName, productDescription, price, categories, quantity);
+        order.AddLineItem(id, productName, productDescription, price, quantity);
 
         // Act
         order.RemoveLineItem(id, 3);
@@ -220,13 +217,13 @@ public class OrderTests
     {
         // Arrange
         var order = new Order();
-            "CATEGORY_NAME",
-            "CATEGORY_DESCRIPTION"
-        )};
-        order.AddLineItem(id, productName, productDescription, price, quantity);
+        const int id = 1;
+        const string productName = "PRODUCT_NAME";
+        const string productDescription = "PRODUCT_DESCRIPTION";
+        const int quantity = 3;
         const double price = 1.25;
 
-        order.AddLineItem(id, productName, productDescription, price, categories, quantity);
+        order.AddLineItem(id, productName, productDescription, price, quantity);
 
         // Act
         order.RemoveLineItem(id, 3);

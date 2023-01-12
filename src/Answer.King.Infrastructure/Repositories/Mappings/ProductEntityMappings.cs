@@ -31,7 +31,7 @@ public class ProductEntityMappings : IEntityMapping
                     {
                         ["_id"] = product.Category.Id,
                         ["Name"] = product.Category.Name,
-                        ["Description"] = product.Category.Description
+                        ["Description"] = product.Category.Description,
                     },
                     ["tags"] = new BsonArray(tags),
                     ["retired"] = product.Retired,

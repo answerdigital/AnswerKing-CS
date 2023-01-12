@@ -81,7 +81,7 @@ public class ProductsControllerTests : WebFixtures
                     Price = 1.50,
                     Category = new CategoryId()
                     {
-                        Id = 1
+                        Id = 1,
                     },
                 })
                 .ToUrl("/api/products");
@@ -138,7 +138,7 @@ public class ProductsControllerTests : WebFixtures
                     Price = 1.50,
                     Category = new CategoryId()
                     {
-                        Id = 1
+                        Id = 1,
                     },
                 })
                 .ToUrl("/api/products");
@@ -157,7 +157,7 @@ public class ProductsControllerTests : WebFixtures
                     Price = 1.50,
                     Category = new CategoryId()
                     {
-                        Id = 2
+                        Id = 2,
                     },
                 })
                 .ToUrl($"/api/products/{products?.Id}");
@@ -198,7 +198,7 @@ public class ProductsControllerTests : WebFixtures
                     Price = 1.50,
                     Category = new CategoryId()
                     {
-                        Id = 1
+                        Id = 1,
                     },
                 })
                 .ToUrl("/api/products/5");
@@ -291,7 +291,7 @@ public class ProductsControllerTests : WebFixtures
                     Price = 1.5,
                     Category = new CategoryId()
                     {
-                        Id = 1
+                        Id = 1,
                     },
                 })
                 .ToUrl("/api/products");
@@ -321,7 +321,7 @@ public class ProductsControllerTests : WebFixtures
                     Price = 1.50,
                     Category = new CategoryId()
                     {
-                        Id = 1
+                        Id = 1,
                     },
                 })
                 .ToUrl("/api/products");

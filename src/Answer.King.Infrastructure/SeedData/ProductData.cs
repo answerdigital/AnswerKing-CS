@@ -37,6 +37,7 @@ internal static class ProductData
             Array.Empty<TagId>(),
             true),
     };
+
     private static Category Category(long id)
     {
         return CategoryData.Categories.Where(c => c.Id == id)

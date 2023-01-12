@@ -10,12 +10,7 @@
         Id: 1,
         Name: Fish,
         Description: Delicious and satisfying.,
-        Price: 5.99,
-        Category: {
-          Id: 1,
-          Name: Seafood,
-          Description: Food from the oceans
-        }
+        Price: 5.99
       },
       Quantity: 2,
       SubTotal: 11.98

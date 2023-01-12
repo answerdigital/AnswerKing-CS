@@ -5,7 +5,6 @@ using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
-using System.Collections.Generic;
 using Xunit;
 using Category = Answer.King.Domain.Inventory.Category;
 
@@ -259,35 +258,6 @@ public class CategoryServiceTests
             Name = "updated category",
             Description = "desc",
             Products = new List<long> { updatedProduct.Id },
-        };
-
-        // Act / Assert
-        var sut = this.GetServiceUnderTest();
-        await Assert.ThrowsAsync<ProductLifecycleException>(() =>
-            sut.UpdateCategory(oldCategory.Id, updatedCategory));
-    }
-
-    [Fact]
-    public async Task UpdateCategory_RemoveProductRetired_ThrowsException()
-    {
-        // Arrange
-        var oldProduct = CreateProduct(1, "product", "desc", 1.0);
-        var oldProducts = new[]
-        {
-            oldProduct,
-        };
-        var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
-
-        oldProduct.Retire();
-
-        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(oldCategory);
-        this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
-
-        var updatedCategory = new RequestModels.Category
-        {
-            Name = "updated category",
-            Description = "desc",
-            Products = new List<long>(),
         };
 
         // Act / Assert

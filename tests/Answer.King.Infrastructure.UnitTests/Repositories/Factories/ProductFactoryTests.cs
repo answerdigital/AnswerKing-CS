@@ -1,8 +1,9 @@
 using System.Reflection;
-using Answer.King.Domain.Inventory;
+using Answer.King.Domain.Orders;
 using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
+using Category = Answer.King.Domain.Repositories.Models.Category;
 
 namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 
@@ -16,7 +17,7 @@ public class ProductFactoryTests
     public Task CreateProduct_ConstructorExists_ReturnsProduct()
     {
         // Arrange / Act
-        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false);
+        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new Category(1, "name", "desc"), new List<TagId>(), false);
 
         // Assert
         Assert.IsType<Product>(result);
@@ -32,14 +33,14 @@ public class ProductFactoryTests
 
         var constructor = productFactoryConstructorPropertyInfo?.GetValue(ProductFactory);
 
-        var wrongConstructor = typeof(Category).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+        var wrongConstructor = typeof(Order).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
         productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, wrongConstructor);
 
         // Act // Assert
-        Assert.Throws<ArgumentException>(() =>
-            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new List<CategoryId>(), new List<TagId>(), false));
+        Assert.Throws<TargetParameterCountException>(() =>
+            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new Category(1, "name", "desc"), new List<TagId>(), false));
 
         productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, constructor);
     }

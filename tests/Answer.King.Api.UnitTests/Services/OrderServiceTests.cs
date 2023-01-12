@@ -6,9 +6,7 @@ using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using System.Collections.Generic;
 using Xunit;
-using CategoryId = Answer.King.Domain.Repositories.Models.CategoryId;
 using Order = Answer.King.Domain.Orders.Order;
 using Product = Answer.King.Domain.Repositories.Models.Product;
 using TagId = Answer.King.Domain.Repositories.Models.TagId;
@@ -178,7 +176,7 @@ public class OrderServiceTests
         var products = new[]
         {
             new Product("product 1", "desc", 2.0, new Domain.Repositories.Models.Category(1, "name", "description")),
-            new Product("product 2", "desc", 4.0, new Domain.Repositories.Models.Category(1, "name", "description"))
+            new Product("product 2", "desc", 4.0, new Domain.Repositories.Models.Category(1, "name", "description")),
         };
 
         var orderRequest = new RequestModels.Order

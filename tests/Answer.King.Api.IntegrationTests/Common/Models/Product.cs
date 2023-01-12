@@ -1,4 +1,4 @@
-﻿namespace Answer.King.Api.IntegrationTests.Common.Models;
+namespace Answer.King.Api.IntegrationTests.Common.Models;
 
 public class Product
 {

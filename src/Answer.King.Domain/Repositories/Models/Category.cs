@@ -1,4 +1,4 @@
-﻿namespace Answer.King.Domain.Repositories.Models;
+namespace Answer.King.Domain.Repositories.Models;
 
 public record Category
 {
@@ -11,7 +11,10 @@ public record Category
         this.Name = name;
         this.Description = description;
     }
+
     public long Id { get; }
+
     public string Name { get; }
+
     public string Description { get; }
 }

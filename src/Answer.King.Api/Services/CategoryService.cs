@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
@@ -94,6 +94,8 @@ public class CategoryService : ICategoryService
             }
 
             category.AddProduct(new ProductId(product.Id));
+
+            product.SetCategory(new Domain.Repositories.Models.Category(category.Id, category.Name, category.Description));
             await this.Products.AddOrUpdate(product);
         }
 

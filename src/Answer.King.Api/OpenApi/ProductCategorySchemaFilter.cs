@@ -1,4 +1,3 @@
-﻿using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories.Models;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
