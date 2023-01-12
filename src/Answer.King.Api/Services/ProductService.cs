@@ -49,6 +49,7 @@ public class ProductService : IProductService
             createProduct.Description,
             createProduct.Price,
             new Category(category.Id, category.Name, category.Description));
+
         await this.Products.AddOrUpdate(product);
         category.AddProduct(new ProductId(product.Id));
 

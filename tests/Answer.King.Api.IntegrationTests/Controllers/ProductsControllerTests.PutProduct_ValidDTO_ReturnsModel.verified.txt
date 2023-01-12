@@ -4,9 +4,9 @@
   Description: Juicy,
   Price: 1.5,
   Category: {
-    Id: 1,
-    Name: Seafood,
-    Description: Food from the oceans
+    Id: 2,
+    Name: Sundries,
+    Description: Things that go with things.
   },
   Retired: false
 }
