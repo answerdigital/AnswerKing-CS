@@ -71,9 +71,29 @@ public class ProductService : IProductService
             throw new ProductServiceException("The product is retired.");
         }
 
+        var category = await this.Categories.Get(updateProduct.Category.Id);
+
+        if (category == null)
+        {
+            throw new ProductServiceException("The provided category is not valid.");
+        }
+
         product.Name = updateProduct.Name;
         product.Description = updateProduct.Description;
         product.Price = updateProduct.Price;
+
+        if (product.Category.Id != updateProduct.Category.Id)
+        {
+            var currentCategory = await this.Categories.Get(product.Category.Id);
+
+            if (currentCategory == null)
+            {
+                throw new ProductServiceException("The current category is not valid");
+            }
+
+            currentCategory.RemoveProduct(new ProductId(product.Id));
+            product.SetCategory(new Category(category.Id, category.Name, category.Description));
+        }
 
         await this.Products.AddOrUpdate(product);
 
