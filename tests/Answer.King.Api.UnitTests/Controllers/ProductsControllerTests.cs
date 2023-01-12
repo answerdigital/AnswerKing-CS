@@ -1,6 +1,5 @@
 using Answer.King.Api.Controllers;
 using Answer.King.Api.Services;
-using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories.Models;
 using Answer.King.Test.Common.CustomAsserts;
 using Microsoft.AspNetCore.Mvc;
@@ -111,7 +110,7 @@ public class ProductsControllerTests
         {
             Name = "PRODUCT_NAME",
             Description = "PRODUCT_DESCRIPTION",
-            Price = 0
+            Price = 0,
         };
 
         var product = new Product("PRODUCT_NAME", "PRODUCT_DESCRIPTION", 0);

@@ -1,19 +1,27 @@
-﻿using Answer.King.Api.Controllers;
-using InputOrder = Answer.King.Api.RequestModels.Order;
-using OutputOrder = Answer.King.Domain.Orders.Order;
-using LineItem = Answer.King.Api.RequestModels.LineItem;
+using Answer.King.Api.Controllers;
 using Answer.King.Api.Services;
 using Answer.King.Test.Common.CustomAsserts;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
-using Xunit;
-using Answer.King.Domain.Orders;
 using NSubstitute.ReceivedExtensions;
+using Xunit;
+using InputOrder = Answer.King.Api.RequestModels.Order;
+using LineItem = Answer.King.Api.RequestModels.LineItem;
+using OutputOrder = Answer.King.Domain.Orders.Order;
 
 namespace Answer.King.Api.UnitTests.Controllers;
 
 public class OrdersControllerTests
 {
+    #region Setup
+
+    private static readonly IOrderService OrderService = Substitute.For<IOrderService>();
+
+    private static readonly OrdersController GetSubjectUnderTest =
+        new(OrderService);
+
+    #endregion Setup
+
     #region GenericControllerTests
 
     [Fact]
@@ -59,14 +67,14 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<OrdersController, HttpGetAttribute>(
-            nameof(OrdersController.GetOne), "{id}");
+            nameof(OrdersController.GetOne), "{id:long}");
     }
 
     [Fact]
     public async Task GetOne_ValidRequestWithNullResult_ReturnsNotFoundResult()
     {
         // Arrange
-        Order data = null!;
+        OutputOrder data = null!;
         OrderService.GetOrder(Arg.Any<long>()).Returns(data);
 
         // Act
@@ -131,7 +139,7 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<OrdersController, HttpPutAttribute>(
-            nameof(OrdersController.Put), "{id}");
+            nameof(OrdersController.Put), "{id:long}");
     }
 
     [Fact]
@@ -175,7 +183,7 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<OrdersController, HttpDeleteAttribute>(
-            nameof(OrdersController.Cancel), "{id}");
+            nameof(OrdersController.Cancel), "{id:long}");
     }
 
     [Fact]
@@ -207,12 +215,4 @@ public class OrdersControllerTests
 
     #endregion Cancel
 
-    #region Setup
-
-    private static readonly IOrderService OrderService = Substitute.For<IOrderService>();
-
-    private static readonly OrdersController GetSubjectUnderTest =
-        new OrdersController(OrderService);
-
-    #endregion Setup
 }

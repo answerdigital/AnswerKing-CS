@@ -3,7 +3,6 @@ using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Test.Common.CustomAsserts;
-using Answer.King.Test.Common.CustomTraits;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -11,7 +10,6 @@ using Xunit;
 
 namespace Answer.King.Api.UnitTests.Controllers;
 
-[TestCategory(TestType.Unit)]
 public class TagsControllerTests
 {
     #region Setup
