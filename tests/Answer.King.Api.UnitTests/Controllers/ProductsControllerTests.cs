@@ -1,4 +1,4 @@
-﻿using Answer.King.Api.Controllers;
+using Answer.King.Api.Controllers;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories.Models;
@@ -11,6 +11,14 @@ namespace Answer.King.Api.UnitTests.Controllers;
 
 public class ProductsControllerTests
 {
+    #region Setup
+
+    private static readonly IProductService ProductService = Substitute.For<IProductService>();
+
+    private static readonly ProductsController GetSubjectUnderTest = new(ProductService);
+
+    #endregion Setup
+
     #region GenericControllerTests
 
     [Fact]
@@ -127,7 +135,7 @@ public class ProductsControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<ProductsController, HttpPutAttribute>(
-            nameof(ProductsController.Put), "{id}");
+            nameof(ProductsController.Put), "{id:long}");
     }
 
     #endregion Put
@@ -139,16 +147,8 @@ public class ProductsControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<ProductsController, HttpDeleteAttribute>(
-            nameof(ProductsController.Retire), "{id}");
+            nameof(ProductsController.Retire), "{id:long}");
     }
 
     #endregion Retire
-
-    #region Setup
-
-    private static readonly IProductService ProductService = Substitute.For<IProductService>();
-
-    private static readonly ProductsController GetSubjectUnderTest = new ProductsController(ProductService);
-
-    #endregion Setup
 }
