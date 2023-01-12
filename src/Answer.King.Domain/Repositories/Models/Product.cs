@@ -56,7 +56,7 @@ public class Product
 
     public double Price { get; set; }
 
-    public Category Category { get; }
+    public Category Category { get; private set; }
 
     public IReadOnlyCollection<TagId> Tags => this.tags;
 
@@ -85,6 +85,16 @@ public class Product
     public void Retire()
     {
         this.Retired = true;
+    }
+
+    public void SetCategory(Category newCategory)
+    {
+        if (this.Retired)
+        {
+            throw new ProductLifecycleException("Can't add product to category. Product is retired");
+        }
+
+        this.Category = newCategory;
     }
 }
 
