@@ -47,7 +47,7 @@ public class OrdersControllerTests
     }
 
     [Fact]
-    public async void GetAll_ValidRequest_ReturnsOkObjectResult()
+    public async Task GetAll_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         var data = new List<OutputOrder>();
@@ -114,7 +114,7 @@ public class OrdersControllerTests
     }
 
     [Fact]
-    public async void Post_ValidRequestCallsGetAction_ReturnsNewOrder()
+    public async Task Post_ValidRequestCallsGetAction_ReturnsNewOrder()
     {
         // Arrange
         var orderRequestModel = new InputOrder { LineItems = new List<LineItem> { new LineItem { ProductId = 1, Quantity = 1 } } };
@@ -145,7 +145,7 @@ public class OrdersControllerTests
     }
 
     [Fact]
-    public async void Put_NullOrder_ReturnsNotFoundResult()
+    public async Task Put_NullOrder_ReturnsNotFoundResult()
     {
         // Arrange
         const int id = 1;
@@ -158,7 +158,7 @@ public class OrdersControllerTests
     }
 
     [Fact]
-    public async void Put_ValidRequest_ReturnsOkObjectResult()
+    public async Task Put_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         const int id = 1;
@@ -189,7 +189,7 @@ public class OrdersControllerTests
     }
 
     [Fact]
-    public async void Cancel_NullOrder_ReturnsNotFound()
+    public async Task Cancel_NullOrder_ReturnsNotFound()
     {
         // Arrange / Act
         var result = await GetSubjectUnderTest.Cancel(Arg.Any<long>());
@@ -199,7 +199,7 @@ public class OrdersControllerTests
     }
 
     [Fact]
-    public async void Cancel_ValidRequest_ReturnsOkObjectResult()
+    public async Task Cancel_ValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
         const int id = 1;
