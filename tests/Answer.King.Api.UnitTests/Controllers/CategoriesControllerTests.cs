@@ -66,7 +66,7 @@ public class CategoriesControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<CategoriesController, HttpGetAttribute>(
-            nameof(CategoriesController.GetOne), "{id:long}");
+            nameof(CategoriesController.GetOne), "{id}");
     }
 
     [Fact]
@@ -141,7 +141,7 @@ public class CategoriesControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<CategoriesController, HttpPutAttribute>(
-            nameof(CategoriesController.Put), "{id:long}");
+            nameof(CategoriesController.Put), "{id}");
     }
 
     [Fact]
@@ -211,7 +211,7 @@ public class CategoriesControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<CategoriesController, HttpDeleteAttribute>(
-            nameof(CategoriesController.Retire), "{id:long}");
+            nameof(CategoriesController.Retire), "{id}");
     }
 
     [Fact]
@@ -264,7 +264,7 @@ public class CategoriesControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<CategoriesController, HttpGetAttribute>(
-            nameof(CategoriesController.GetProducts), "{id:long}/products");
+            nameof(CategoriesController.GetProducts), "{id}/products");
     }
 
     #endregion GetProducts

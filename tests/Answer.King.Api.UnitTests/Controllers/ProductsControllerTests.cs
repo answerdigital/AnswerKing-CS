@@ -134,7 +134,7 @@ public class ProductsControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<ProductsController, HttpPutAttribute>(
-            nameof(ProductsController.Put), "{id:long}");
+            nameof(ProductsController.Put), "{id}");
     }
 
     #endregion Put
@@ -146,7 +146,7 @@ public class ProductsControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<ProductsController, HttpDeleteAttribute>(
-            nameof(ProductsController.Retire), "{id:long}");
+            nameof(ProductsController.Retire), "{id}");
     }
 
     #endregion Retire
