@@ -18,7 +18,6 @@ public class ProductEntityMappings : IEntityMapping
         mapper.RegisterType(
             serialize: product =>
             {
-                var category = product.Category;
                 var tags = product.Tags.Select(c => new BsonValue(c.Value));
 
                 var doc = new BsonDocument
