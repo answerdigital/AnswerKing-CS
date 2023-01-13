@@ -33,7 +33,7 @@ internal static class ProductData
             "Gravy",
             "Side",
             0.99,
-            Categories(2),
+            Category(2),
             Array.Empty<TagId>(),
             true),
     };

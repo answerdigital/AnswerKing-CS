@@ -28,9 +28,11 @@
     Name: Gravy,
     Description: Side,
     Price: 0.99,
-    Categories: [
-      2
-    ],
+    Category: {
+      Id: 2,
+      Name: Sundries,
+      Description: Things that go with things.
+    },
     Retired: true
   }
 ]

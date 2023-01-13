@@ -72,7 +72,6 @@ public class ProductService : IProductService
             throw new ProductServiceException("The product is retired.");
         }
 
-        var category = await this.Categories.Get(updateProduct.Category.Id);
         product.Name = updateProduct.Name;
         product.Description = updateProduct.Description;
         product.Price = updateProduct.Price;
