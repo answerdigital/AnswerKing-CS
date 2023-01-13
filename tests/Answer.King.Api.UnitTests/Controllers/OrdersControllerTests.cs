@@ -1,6 +1,7 @@
 using Answer.King.Api.Controllers;
 using Answer.King.Api.Services;
 using Answer.King.Test.Common.CustomAsserts;
+using Answer.King.Test.Common.CustomTraits;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
@@ -11,6 +12,7 @@ using OutputOrder = Answer.King.Domain.Orders.Order;
 
 namespace Answer.King.Api.UnitTests.Controllers;
 
+[TestCategory(TestType.Unit)]
 public class OrdersControllerTests
 {
     #region Setup
@@ -67,7 +69,7 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<OrdersController, HttpGetAttribute>(
-            nameof(OrdersController.GetOne), "{id:long}");
+            nameof(OrdersController.GetOne), "{id}");
     }
 
     [Fact]
@@ -139,7 +141,7 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<OrdersController, HttpPutAttribute>(
-            nameof(OrdersController.Put), "{id:long}");
+            nameof(OrdersController.Put), "{id}");
     }
 
     [Fact]
@@ -183,7 +185,7 @@ public class OrdersControllerTests
     {
         // Assert
         AssertController.MethodHasVerb<OrdersController, HttpDeleteAttribute>(
-            nameof(OrdersController.Cancel), "{id:long}");
+            nameof(OrdersController.Cancel), "{id}");
     }
 
     [Fact]

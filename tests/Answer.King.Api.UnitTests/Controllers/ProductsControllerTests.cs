@@ -2,12 +2,14 @@ using Answer.King.Api.Controllers;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories.Models;
 using Answer.King.Test.Common.CustomAsserts;
+using Answer.King.Test.Common.CustomTraits;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
 
 namespace Answer.King.Api.UnitTests.Controllers;
 
+[TestCategory(TestType.Unit)]
 public class ProductsControllerTests
 {
     #region Setup
