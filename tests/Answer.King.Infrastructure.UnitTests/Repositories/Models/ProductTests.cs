@@ -17,7 +17,7 @@ public class ProductTests
         const int id = 0;
         const string productName = "Product Name";
         const string productDescription = "Product Description";
-        var category = new Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
@@ -40,7 +40,7 @@ public class ProductTests
         const int id = 1;
         var productName = null as string;
         const string productDescription = "Product Description";
-        var category = new Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
@@ -63,7 +63,7 @@ public class ProductTests
         const int id = 1;
         const string productName = "";
         const string productDescription = "Product Description";
-        var category = new Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
@@ -86,7 +86,7 @@ public class ProductTests
         const int id = 1;
         const string productName = "Product Name";
         var productDescription = null as string;
-        var category = new Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
@@ -109,7 +109,7 @@ public class ProductTests
         const int id = 1;
         const string productName = "Product Name";
         const string productDescription = "";
-        var category = new Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tags = new List<TagId> { new(1) };
         const int price = 142;
         const bool retired = false;
@@ -132,7 +132,7 @@ public class ProductTests
         const int id = 1;
         const string productName = "Product Name";
         const string productDescription = "Product Description";
-        var category = new Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tags = new List<TagId> { new(1) };
         const int price = -1;
         const bool retired = false;

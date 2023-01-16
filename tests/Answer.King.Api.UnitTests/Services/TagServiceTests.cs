@@ -490,7 +490,7 @@ public class TagServiceTests
 
     private static Product CreateProduct(long id, string name, string description, double price)
     {
-        return ProductFactory.CreateProduct(id, name, description, price, new Domain.Repositories.Models.Category(1, "category", "desc"), new List<TagId>(), false);
+        return ProductFactory.CreateProduct(id, name, description, price, new ProductCategory(1, "category", "desc"), new List<TagId>(), false);
     }
 
     #endregion

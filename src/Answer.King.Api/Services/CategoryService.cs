@@ -95,7 +95,7 @@ public class CategoryService : ICategoryService
 
             category.AddProduct(new ProductId(product.Id));
 
-            product.SetCategory(new Domain.Repositories.Models.Category(category.Id, category.Name, category.Description));
+            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
             await this.Products.AddOrUpdate(product);
         }
 

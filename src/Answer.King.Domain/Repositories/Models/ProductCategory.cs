@@ -1,8 +1,8 @@
 namespace Answer.King.Domain.Repositories.Models;
 
-public record Category
+public record ProductCategory
 {
-    public Category(long id, string name, string description)
+    public ProductCategory(long id, string name, string description)
     {
         Guard.AgainstDefaultValue(nameof(id), id);
         Guard.AgainstNullOrWhitespaceArgument(nameof(name), name);

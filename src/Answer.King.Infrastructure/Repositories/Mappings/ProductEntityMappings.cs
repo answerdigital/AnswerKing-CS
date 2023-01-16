@@ -42,7 +42,7 @@ public class ProductEntityMappings : IEntityMapping
             {
                 var doc = bson.AsDocument;
                 var cat = doc["Category"].AsDocument;
-                var category = new Category(
+                var category = new ProductCategory(
                     cat["_id"].AsInt64,
                     cat["Name"].AsString,
                     cat["Description"].AsString);

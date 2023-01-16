@@ -20,7 +20,7 @@ internal class ProductFactory
         string name,
         string description,
         double price,
-        Category category,
+        ProductCategory category,
         IList<TagId> tags,
         bool retired)
     {

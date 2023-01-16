@@ -48,7 +48,7 @@ public class ProductService : IProductService
             createProduct.Name,
             createProduct.Description,
             createProduct.Price,
-            new Category(category.Id, category.Name, category.Description));
+            new ProductCategory(category.Id, category.Name, category.Description));
 
         await this.Products.AddOrUpdate(product);
         category.AddProduct(new ProductId(product.Id));
@@ -96,7 +96,7 @@ public class ProductService : IProductService
 
             await this.Categories.Save(currentCategory);
 
-            product.SetCategory(new Category(category.Id, category.Name, category.Description));
+            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
         }
 
         await this.Products.AddOrUpdate(product);

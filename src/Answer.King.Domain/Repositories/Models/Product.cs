@@ -6,7 +6,7 @@ public class Product
 {
     private readonly HashSet<TagId> tags;
 
-    public Product(string name, string description, double price, Category category)
+    public Product(string name, string description, double price, ProductCategory category)
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -27,7 +27,7 @@ public class Product
         string name,
         string description,
         double price,
-        Category category,
+        ProductCategory category,
         IList<TagId> tags,
         bool retired)
     {
@@ -56,7 +56,7 @@ public class Product
 
     public double Price { get; set; }
 
-    public Category Category { get; private set; }
+    public ProductCategory Category { get; private set; }
 
     public IReadOnlyCollection<TagId> Tags => this.tags;
 
@@ -87,7 +87,7 @@ public class Product
         this.Retired = true;
     }
 
-    public void SetCategory(Category newCategory)
+    public void SetCategory(ProductCategory newCategory)
     {
         if (this.Retired)
         {

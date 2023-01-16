@@ -3,7 +3,6 @@ using Answer.King.Domain.Orders;
 using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
-using Category = Answer.King.Domain.Repositories.Models.Category;
 
 namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
 
@@ -17,7 +16,7 @@ public class ProductFactoryTests
     public Task CreateProduct_ConstructorExists_ReturnsProduct()
     {
         // Arrange / Act
-        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new Category(1, "name", "desc"), new List<TagId>(), false);
+        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new ProductCategory(1, "name", "desc"), new List<TagId>(), false);
 
         // Assert
         Assert.IsType<Product>(result);
@@ -40,7 +39,7 @@ public class ProductFactoryTests
 
         // Act // Assert
         Assert.Throws<TargetParameterCountException>(() =>
-            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new Category(1, "name", "desc"), new List<TagId>(), false));
+            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new ProductCategory(1, "name", "desc"), new List<TagId>(), false));
 
         productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, constructor);
     }

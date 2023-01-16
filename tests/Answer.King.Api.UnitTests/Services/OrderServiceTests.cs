@@ -2,6 +2,7 @@ using Answer.King.Api.RequestModels;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Inventory.Models;
 using Answer.King.Domain.Repositories;
+using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
 using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
@@ -59,7 +60,7 @@ public class OrderServiceTests
     public async Task CreateOrder_ValidOrderRequestRecieved_ReturnsOrder()
     {
         // Arrange
-        var category = new Domain.Repositories.Models.Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tagIds = new List<TagId> { new(1) };
         var products = new[]
         {
@@ -123,7 +124,7 @@ public class OrderServiceTests
         var order = new Order();
         this.orderRepository.GetOne(Arg.Any<long>()).Returns(order);
 
-        var category = new Domain.Repositories.Models.Category(1, "name", "description");
+        var category = new ProductCategory(1, "name", "description");
         var tagIds = new List<TagId> { new(1) };
         var products = new[]
         {
@@ -175,8 +176,8 @@ public class OrderServiceTests
 
         var products = new[]
         {
-            new Product("product 1", "desc", 2.0, new Domain.Repositories.Models.Category(1, "name", "description")),
-            new Product("product 2", "desc", 4.0, new Domain.Repositories.Models.Category(1, "name", "description")),
+            new Product("product 1", "desc", 2.0, new ProductCategory(1, "name", "description")),
+            new Product("product 2", "desc", 4.0, new ProductCategory(1, "name", "description")),
         };
 
         var orderRequest = new RequestModels.Order

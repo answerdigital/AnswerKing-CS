@@ -38,10 +38,10 @@ internal static class ProductData
             true),
     };
 
-    private static Category Category(long id)
+    private static ProductCategory Category(long id)
     {
         return CategoryData.Categories.Where(c => c.Id == id)
-            .Select(x => new Category(x.Id, x.Name, x.Description)).SingleOrDefault()!;
+            .Select(x => new ProductCategory(x.Id, x.Name, x.Description)).SingleOrDefault()!;
     }
 
     private static IList<TagId> Tags(long id)
