@@ -1,3 +1,4 @@
+using Answer.King.Domain.Inventory;
 using Answer.King.Domain.Repositories.Models;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -10,8 +11,14 @@ public class ProductCategorySchemaFilter : ISchemaFilter
     {
         if (context.Type == typeof(Product))
         {
-            schema.Properties["category"].Items = schema.Properties["id"];
-            schema.Properties["category"].Nullable = false;
+            schema.Properties["categories"].Items = schema.Properties["id"];
+            schema.Properties["categories"].Nullable = false;
+        }
+
+        if (context.Type == typeof(Category))
+        {
+            schema.Properties["products"].Items = schema.Properties["id"];
+            schema.Properties["products"].Nullable = false;
         }
     }
 }
