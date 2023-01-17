@@ -8,5 +8,5 @@ public record Product
 
     public double Price { get; init; }
 
-    public CategoryId Category { get; set; } = null!;
+    public CategoryId CategoryId { get; set; } = null!;
 }

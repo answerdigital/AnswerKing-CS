@@ -31,7 +31,7 @@ public class ProductServiceTests
             Name = "product",
             Description = "desc",
             Price = 1500.00,
-            Category = new RequestModels.CategoryId(2),
+            CategoryId = new RequestModels.CategoryId(2),
         };
         this.categoryRepository.GetOne(Arg.Any<long>()).Returns(null as Category);
 
