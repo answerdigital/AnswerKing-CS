@@ -4,8 +4,8 @@
   status: 400,
   traceId: {Scrubbed},
   errors: {
-    Category: [
-      The Category field is required.
+    CategoryId: [
+      The CategoryId field is required.
     ],
     Description: [
       The Description field is required.,

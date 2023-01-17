@@ -7,8 +7,8 @@
     id: [
       The value 'InvalidID' is not valid.
     ],
-    Category: [
-      The Category field is required.
+    CategoryId: [
+      The CategoryId field is required.
     ]
   }
 }
