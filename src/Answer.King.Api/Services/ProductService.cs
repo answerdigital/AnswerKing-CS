@@ -37,7 +37,7 @@ public class ProductService : IProductService
 
     public async Task<Product> CreateProduct(RequestModels.Product createProduct)
     {
-        var category = await this.Categories.GetOne(createProduct.Category.Id);
+        var category = await this.Categories.GetOne(createProduct.Category.Value);
 
         if (category == null)
         {
@@ -76,9 +76,9 @@ public class ProductService : IProductService
         product.Description = updateProduct.Description;
         product.Price = updateProduct.Price;
 
-        if (product.Category.Id != updateProduct.Category.Id)
+        if (product.Category.Id != updateProduct.Category.Value)
         {
-            var category = await this.Categories.GetOne(updateProduct.Category.Id);
+            var category = await this.Categories.GetOne(updateProduct.Category.Value);
 
             if (category == null)
             {

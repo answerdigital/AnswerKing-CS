@@ -7,10 +7,10 @@ public record CategoryId
     public CategoryId(long value)
     {
         Guard.AgainstDefaultValue(nameof(value), value);
-        this.Id = value;
+        this.Value = value;
     }
 
-    public long Id { get; init; }
+    public long Value { get; init; }
 
-    public static implicit operator long(CategoryId id) => id.Id;
+    public static implicit operator long(CategoryId id) => id.Value;
 }

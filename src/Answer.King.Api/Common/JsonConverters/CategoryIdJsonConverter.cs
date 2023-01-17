@@ -18,6 +18,6 @@ public class CategoryIdJsonConverter : JsonConverter<CategoryId>
 
     public override void Write(Utf8JsonWriter writer, CategoryId value, JsonSerializerOptions options)
     {
-        writer.WriteNumberValue(value.Id);
+        writer.WriteNumberValue(value.Value);
     }
 }
