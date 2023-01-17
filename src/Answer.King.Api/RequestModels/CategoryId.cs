@@ -1,4 +1,4 @@
-﻿using Answer.King.Domain;
+using Answer.King.Domain;
 
 namespace Answer.King.Api.RequestModels;
 

@@ -115,7 +115,7 @@ public class ProductsControllerTests
             Price = 0,
         };
 
-        var product = new Product("PRODUCT_NAME", "PRODUCT_DESCRIPTION", 0);
+        var product = new Product("PRODUCT_NAME", "PRODUCT_DESCRIPTION", 0, new ProductCategory(1, "name", "description"));
 
         ProductService.CreateProduct(productRequestModel).Returns(product);
 
