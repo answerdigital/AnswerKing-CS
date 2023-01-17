@@ -1,5 +1,5 @@
-﻿using Answer.King.Domain;
-using Answer.King.Domain.Repositories.Models;
+﻿using Answer.King.Api.RequestModels;
+using Answer.King.Domain;
 using Answer.King.Test.Common.CustomTraits;
 
 namespace Answer.King.Infrastructure.UnitTests.Repositories.Models;
@@ -14,6 +14,6 @@ public class CategoryTests
         const int id = 0;
 
         // Act / Assert
-        Assert.Throws<Guard.DefaultValueException>(() => new CategoryId(id));
+        Assert.Throws<Guard.DefaultValueException>(() => new CategoryId { Id = id });
     }
 }

@@ -1,6 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Answer.King.Domain.Repositories.Models;
+using Answer.King.Api.RequestModels;
 
 namespace Answer.King.Api.Common.JsonConverters;
 
@@ -10,7 +10,7 @@ public class CategoryIdJsonConverter : JsonConverter<CategoryId>
     {
         if (reader.TryGetInt64(out var id))
         {
-            return new CategoryId(id);
+            return new CategoryId { Id = id };
         }
 
         return null;
@@ -18,6 +18,6 @@ public class CategoryIdJsonConverter : JsonConverter<CategoryId>
 
     public override void Write(Utf8JsonWriter writer, CategoryId value, JsonSerializerOptions options)
     {
-        writer.WriteNumberValue(value.Value);
+        writer.WriteNumberValue(value.Id);
     }
 }

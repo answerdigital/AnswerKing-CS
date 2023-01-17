@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Answer.King.Api.Common.JsonConverters;
-using Answer.King.Domain.Repositories.Models;
+using Answer.King.Api.RequestModels;
 using Answer.King.Test.Common.CustomTraits;
 using Xunit;
 
@@ -21,7 +21,7 @@ public class CategoryIdJsonConverterTests
 
         var categoryIdJsonConverter = new CategoryIdJsonConverter();
 
-        var expected = new CategoryId(1);
+        var expected = new CategoryId { Id = 1 };
 
         // Act
         var result = categoryIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());
