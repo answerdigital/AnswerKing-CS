@@ -11,8 +11,8 @@ public class ProductCategorySchemaFilter : ISchemaFilter
     {
         if (context.Type == typeof(Product))
         {
-            schema.Properties["categories"].Items = schema.Properties["id"];
-            schema.Properties["categories"].Nullable = false;
+            schema.Properties["category"].Items = schema.Properties["id"];
+            schema.Properties["category"].Nullable = false;
         }
 
         if (context.Type == typeof(Category))
