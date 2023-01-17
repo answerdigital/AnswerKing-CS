@@ -21,7 +21,7 @@ public class CategoryIdJsonConverterTests
 
         var categoryIdJsonConverter = new CategoryIdJsonConverter();
 
-        var expected = new CategoryId { Id = 1 };
+        var expected = new CategoryId(1);
 
         // Act
         var result = categoryIdJsonConverter.Read(ref jsonReader, typeof(long), new JsonSerializerOptions());

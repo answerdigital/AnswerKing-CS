@@ -10,7 +10,7 @@ public class CategoryIdJsonConverter : JsonConverter<CategoryId>
     {
         if (reader.TryGetInt64(out var id))
         {
-            return new CategoryId { Id = id };
+            return new CategoryId(id);
         }
 
         return null;
