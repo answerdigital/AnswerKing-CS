@@ -78,7 +78,7 @@ public class ProductService : IProductService
 
         if (product.Category.Id != updateProduct.CategoryId)
         {
-            var category = await this.Categories.GetOne(updateProduct.CategoryId.Value);
+            var category = await this.Categories.GetOne(updateProduct.CategoryId);
 
             if (category == null)
             {
