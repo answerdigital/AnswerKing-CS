@@ -41,7 +41,7 @@ public class ProductService : IProductService
 
         if (category == null)
         {
-            throw new ProductServiceException("The provided category is not valid.");
+            throw new ProductServiceException("The provided product category Id is not valid.");
         }
 
         var product = new Product(
@@ -82,7 +82,7 @@ public class ProductService : IProductService
 
             if (category == null)
             {
-                throw new ProductServiceException("The provided category is not valid.");
+                throw new ProductServiceException("The provided product category Id is not valid.");
             }
 
             var currentCategory = await this.Categories.GetOne(product.Category.Id);
