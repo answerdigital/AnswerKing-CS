@@ -26,12 +26,12 @@ public class ProductServiceTests
     public async Task CreateProduct_InValidCategoryId_ThrowsException()
     {
         // Arrange
-        var request = new RequestModels.Product
+        var request = new Api.RequestModels.Product
         {
             Name = "product",
             Description = "desc",
             Price = 1500.00,
-            CategoryId = new RequestModels.CategoryId(2),
+            CategoryId = new Api.RequestModels.CategoryId(2),
         };
         this.categoryRepository.GetOne(Arg.Any<long>()).Returns(null as Category);
 
@@ -95,7 +95,7 @@ public class ProductServiceTests
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
-        Assert.Null(await sut.UpdateProduct(1, new RequestModels.Product()));
+        Assert.Null(await sut.UpdateProduct(1, new Api.RequestModels.Product()));
     }
 
     #endregion

@@ -45,7 +45,7 @@ public class OrderServiceTests
             Quantity = 1,
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new Api.RequestModels.Order
         {
             LineItems = new List<LineItem>(new[] { lineItem1, lineItem2 }),
         };
@@ -68,7 +68,7 @@ public class OrderServiceTests
             ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, category, tagIds, false),
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new Api.RequestModels.Order
         {
             LineItems = new List<LineItem>(new[]
             {
@@ -114,7 +114,7 @@ public class OrderServiceTests
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
-        Assert.Null(await sut.UpdateOrder(1, new RequestModels.Order()));
+        Assert.Null(await sut.UpdateOrder(1, new Api.RequestModels.Order()));
     }
 
     [Fact]
@@ -132,7 +132,7 @@ public class OrderServiceTests
             ProductFactory.CreateProduct(2, "product 2", "desc", 4.0, category, tagIds, false),
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new Api.RequestModels.Order
         {
             LineItems = new List<LineItem>(new[]
             {
@@ -180,7 +180,7 @@ public class OrderServiceTests
             new Product("product 2", "desc", 4.0, new ProductCategory(1, "name", "description")),
         };
 
-        var orderRequest = new RequestModels.Order
+        var orderRequest = new Api.RequestModels.Order
         {
             LineItems = new List<LineItem>(new[]
             {

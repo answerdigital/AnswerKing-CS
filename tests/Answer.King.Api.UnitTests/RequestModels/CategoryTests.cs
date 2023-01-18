@@ -1,8 +1,9 @@
 ﻿using Answer.King.Api.RequestModels;
 using Answer.King.Domain;
 using Answer.King.Test.Common.CustomTraits;
+using Xunit;
 
-namespace Answer.King.Infrastructure.UnitTests.Repositories.Models;
+namespace Answer.King.Api.UnitTests.RequestModels;
 
 [TestCategory(TestType.Unit)]
 public class CategoryTests

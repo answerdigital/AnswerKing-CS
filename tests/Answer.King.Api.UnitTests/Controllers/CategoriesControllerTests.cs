@@ -116,7 +116,7 @@ public class CategoriesControllerTests
     public async Task Post_ValidRequestCallsGetAction_ReturnsNewCategory()
     {
         // Arrange
-        var categoryRequestModel = new RequestModels.Category
+        var categoryRequestModel = new Api.RequestModels.Category
         {
             Name = "CATEGORY_NAME",
             Description = "CATEGORY_DESCRIPTION",
@@ -164,7 +164,7 @@ public class CategoriesControllerTests
     {
         // Arrange
         const int id = 1;
-        var categoryRequestModel = new RequestModels.Category
+        var categoryRequestModel = new Api.RequestModels.Category
         {
             Name = "CATEGORY_NAME",
             Description = "CATEGORY_DESCRIPTION",
@@ -185,7 +185,7 @@ public class CategoriesControllerTests
     {
         // Arrange
         const int id = 1;
-        var categoryRequestModel = new RequestModels.Category
+        var categoryRequestModel = new Api.RequestModels.Category
         {
             Name = "CATEGORY_NAME",
             Description = "CATEGORY_DESCRIPTION",

@@ -116,7 +116,7 @@ public class TagsControllerTests
     public async Task Post_ValidRequestCallsGetAction_ReturnsNewTag()
     {
         // Arrange
-        var tagRequestModel = new RequestModels.Tag
+        var tagRequestModel = new Api.RequestModels.Tag
         {
             Name = "TAG_NAME",
             Description = "TAG_DESCRIPTION",
@@ -164,7 +164,7 @@ public class TagsControllerTests
     {
         // Arrange
         const int id = 1;
-        var tagRequestModel = new RequestModels.Tag
+        var tagRequestModel = new Api.RequestModels.Tag
         {
             Name = "TAG_NAME",
             Description = "TAG_DESCRIPTION",
@@ -213,7 +213,7 @@ public class TagsControllerTests
     {
         // Arrange
         const int id = 1;
-        var tagAddProductsRequestModel = new RequestModels.TagProducts
+        var tagAddProductsRequestModel = new Api.RequestModels.TagProducts
         {
             Products = new List<long> { 1 },
         };
@@ -232,7 +232,7 @@ public class TagsControllerTests
     {
         // Arrange
         const int id = 1;
-        var tagAddProductsRequestModel = new RequestModels.TagProducts
+        var tagAddProductsRequestModel = new Api.RequestModels.TagProducts
         {
             Products = new List<long> { 1 },
         };
@@ -279,7 +279,7 @@ public class TagsControllerTests
     {
         // Arrange
         const int id = 1;
-        var tagRemoveProductsRequestModel = new RequestModels.TagProducts
+        var tagRemoveProductsRequestModel = new Api.RequestModels.TagProducts
         {
             Products = new List<long> { 1 },
         };
@@ -298,7 +298,7 @@ public class TagsControllerTests
     {
         // Arrange
         const int id = 1;
-        var tagAddProductsRequestModel = new RequestModels.TagProducts
+        var tagAddProductsRequestModel = new Api.RequestModels.TagProducts
         {
             Products = new List<long> { 1 },
         };

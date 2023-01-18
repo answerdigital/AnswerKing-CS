@@ -108,7 +108,7 @@ public class ProductsControllerTests
     public async Task Post_ValidRequestCallsGetAction_ReturnsNewProduct()
     {
         // Arrange
-        var productRequestModel = new RequestModels.Product
+        var productRequestModel = new Api.RequestModels.Product
         {
             Name = "PRODUCT_NAME",
             Description = "PRODUCT_DESCRIPTION",
