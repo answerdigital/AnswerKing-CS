@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Answer.King.Api.Common.JsonConverters;
 using Answer.King.Api.Common.Validators;
 using Answer.King.Api.Extensions.DependencyInjection;
+using Answer.King.Api.Extensions.HealthChecks;
 using Answer.King.Api.OpenApi;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories;
@@ -78,6 +79,14 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ITagService, TagService>();
 
 builder.Services.AddHealthChecks();
+
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>("Database")
+    .Services.ConfigureLiteDb(options =>
+{
+    options.RegisterEntityMappingsFromAssemblyContaining<IEntityMapping>();
+    options.RegisterDataSeedingFromAssemblyContaining<ISeedData>();
+});
 
 var app = builder.Build();
 
