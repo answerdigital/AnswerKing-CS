@@ -3,31 +3,32 @@ using Answer.King.Domain.Inventory;
 using Answer.King.Infrastructure;
 using LiteDB;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
 
 namespace Answer.King.Api.Common.HealthChecks;
 
 public class DatabaseHealthCheck : IHealthCheck
 {
     private readonly LiteDatabase liteDB;
+    private readonly HealthCheckOptions options;
 
-    public DatabaseHealthCheck(ILiteDbConnectionFactory connections)
+    public DatabaseHealthCheck(ILiteDbConnectionFactory connections, IOptions<HealthCheckOptions> options)
     {
         this.liteDB = connections.GetConnection();
+        this.options = options.Value;
     }
-
-    private IStopwatch Stopwatch { get; } = new MyStopwatch();
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        var startTime = this.Stopwatch.GetTimestamp();
+        var startTime = Stopwatch.GetTimestamp();
         await this.QueryDB();
-        var responseTime = this.Stopwatch.GetElapsedTime(startTime);
+        var responseTime = Stopwatch.GetElapsedTime(startTime);
 
-        if (responseTime.Milliseconds < 100)
+        if (responseTime.Milliseconds < this.options.DegradedThresholdMs)
         {
             return await Task.FromResult(HealthCheckResult.Healthy("Healthy result from DatabaseHealthCheck"));
         }
-        else if (responseTime.Milliseconds < 200)
+        else if (responseTime.Milliseconds < this.options.UnhealthyThresholdMs)
         {
             return await Task.FromResult(HealthCheckResult.Degraded("Degraded result from DatabaseHealthCheck"));
         }
@@ -41,18 +42,5 @@ public class DatabaseHealthCheck : IHealthCheck
         collection.EnsureIndex("products");
 
         return Task.FromResult(collection.FindOne(c => true));
-    }
-}
-
-public class MyStopwatch : IStopwatch
-{
-    public long GetTimestamp()
-    {
-        return Stopwatch.GetTimestamp();
-    }
-
-    public TimeSpan GetElapsedTime(long startingTimestamp)
-    {
-        return Stopwatch.GetElapsedTime(startingTimestamp);
     }
 }

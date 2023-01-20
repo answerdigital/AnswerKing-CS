@@ -78,6 +78,8 @@ builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ITagService, TagService>();
 
+builder.Services.AddOptions<HealthCheckOptions>(HealthCheckOptions.OptionsConfig);
+
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>("Database")
     .Services.ConfigureLiteDb(options =>
