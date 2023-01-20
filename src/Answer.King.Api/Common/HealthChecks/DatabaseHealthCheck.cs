@@ -19,17 +19,15 @@ public class DatabaseHealthCheck : IHealthCheck
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        this.Stopwatch.Start();
+        var startTime = this.Stopwatch.GetTimestamp();
         await this.QueryDB();
-        this.Stopwatch.Stop();
+        var responseTime = this.Stopwatch.GetElapsedTime(startTime);
 
-        var responseTime = this.Stopwatch.ElapsedMilliseconds;
-
-        if (responseTime < 100)
+        if (responseTime.Milliseconds < 100)
         {
             return await Task.FromResult(HealthCheckResult.Healthy("Healthy result from DatabaseHealthCheck"));
         }
-        else if (responseTime < 200)
+        else if (responseTime.Milliseconds < 200)
         {
             return await Task.FromResult(HealthCheckResult.Degraded("Degraded result from DatabaseHealthCheck"));
         }
@@ -46,6 +44,15 @@ public class DatabaseHealthCheck : IHealthCheck
     }
 }
 
-public class MyStopwatch : Stopwatch, IStopwatch
+public class MyStopwatch : IStopwatch
 {
+    public long GetTimestamp()
+    {
+        return Stopwatch.GetTimestamp();
+    }
+
+    public TimeSpan GetElapsedTime(long startingTimestamp)
+    {
+        return Stopwatch.GetElapsedTime(startingTimestamp);
+    }
 }

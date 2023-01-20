@@ -49,7 +49,7 @@ public class DatabaseHealthCheckTests
         // Arrange
         this.dbConnectionFactory.GetConnection().Returns(liteDb);
 
-        this.stopwatch.ElapsedMilliseconds.Returns(101);
+        this.stopwatch.GetElapsedTime(Arg.Any<long>()).Returns(TimeSpan.FromMilliseconds(101));
 
         var dbHealthCheck = new DatabaseHealthCheck(this.dbConnectionFactory);
         var healthCheckContext = new HealthCheckContext();
@@ -72,7 +72,7 @@ public class DatabaseHealthCheckTests
         // Arrange
         this.dbConnectionFactory.GetConnection().Returns(liteDb);
 
-        this.stopwatch.ElapsedMilliseconds.Returns(201);
+        this.stopwatch.GetElapsedTime(Arg.Any<long>()).Returns(TimeSpan.FromMilliseconds(201));
 
         var dbHealthCheck = new DatabaseHealthCheck(this.dbConnectionFactory);
         var healthCheckContext = new HealthCheckContext();
