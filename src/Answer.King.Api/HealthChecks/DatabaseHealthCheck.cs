@@ -4,7 +4,7 @@ using Answer.King.Infrastructure;
 using LiteDB;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Answer.King.Api.Extensions.HealthChecks;
+namespace Answer.King.Api.HealthChecks;
 
 public class DatabaseHealthCheck : IHealthCheck
 {
