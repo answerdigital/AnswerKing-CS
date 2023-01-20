@@ -6,6 +6,7 @@ using Answer.King.Test.Common.CustomTraits;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
+using ProductRequest = Answer.King.Api.RequestModels.Product;
 
 namespace Answer.King.Api.UnitTests.Controllers;
 
@@ -108,7 +109,7 @@ public class ProductsControllerTests
     public async Task Post_ValidRequestCallsGetAction_ReturnsNewProduct()
     {
         // Arrange
-        var productRequestModel = new Api.RequestModels.Product
+        var productRequestModel = new ProductRequest
         {
             Name = "PRODUCT_NAME",
             Description = "PRODUCT_DESCRIPTION",

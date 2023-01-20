@@ -8,6 +8,7 @@ using NSubstitute;
 using Xunit;
 using Category = Answer.King.Domain.Inventory.Category;
 using Product = Answer.King.Domain.Repositories.Models.Product;
+using ProductRequest = Answer.King.Api.RequestModels.Product;
 
 namespace Answer.King.Api.UnitTests.Services;
 
@@ -26,7 +27,7 @@ public class ProductServiceTests
     public async Task CreateProduct_InValidCategoryId_ThrowsException()
     {
         // Arrange
-        var request = new Api.RequestModels.Product
+        var request = new ProductRequest
         {
             Name = "product",
             Description = "desc",
@@ -95,7 +96,7 @@ public class ProductServiceTests
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
-        Assert.Null(await sut.UpdateProduct(1, new Api.RequestModels.Product()));
+        Assert.Null(await sut.UpdateProduct(1, new ProductRequest()));
     }
 
     #endregion

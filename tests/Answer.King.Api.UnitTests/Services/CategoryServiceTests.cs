@@ -7,6 +7,7 @@ using Answer.King.Test.Common.CustomTraits;
 using NSubstitute;
 using Xunit;
 using Category = Answer.King.Domain.Inventory.Category;
+using CategoryRequest = Answer.King.Api.RequestModels.Category;
 
 namespace Answer.King.Api.UnitTests.Services;
 
@@ -86,7 +87,7 @@ public class CategoryServiceTests
     public async Task CreateCategory_InvalidProductIdInCategory_ThrowsException()
     {
         // Arrange
-        var categoryRequest = new Api.RequestModels.Category
+        var categoryRequest = new CategoryRequest
         {
             Name = "Laptop",
             Description = "desc",
@@ -151,7 +152,7 @@ public class CategoryServiceTests
     public async Task UpdateCategory_InvalidCategoryId_ReturnsNull()
     {
         // Arrange
-        var updateCategoryRequest = new Api.RequestModels.Category();
+        var updateCategoryRequest = new CategoryRequest();
         const int categoryId = 1;
 
         // Act
@@ -169,7 +170,7 @@ public class CategoryServiceTests
         var oldCategory = new Category("old category", "old desc", new List<ProductId>());
         var categoryId = oldCategory.Id;
 
-        var updateCategoryRequest = new Api.RequestModels.Category
+        var updateCategoryRequest = new CategoryRequest
         {
             Name = "updated category",
             Description = "updated desc",
@@ -200,7 +201,7 @@ public class CategoryServiceTests
         this.categoryRepository.GetOne(Arg.Any<long>()).Returns(category);
         this.productRepository.GetByCategoryId(category.Id).Returns(Array.Empty<Product>());
 
-        var updateCategoryRequest = new Api.RequestModels.Category
+        var updateCategoryRequest = new CategoryRequest
         {
             Name = "updated category",
             Description = "updated desc",
@@ -227,7 +228,7 @@ public class CategoryServiceTests
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(null as Product);
 
-        var updatedCategory = new Api.RequestModels.Category { Products = new List<long> { updatedProduct.Id } };
+        var updatedCategory = new CategoryRequest { Products = new List<long> { updatedProduct.Id } };
 
         // Act / Assert
         var sut = this.GetServiceUnderTest();
@@ -253,7 +254,7 @@ public class CategoryServiceTests
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(updatedProduct);
 
-        var updatedCategory = new Api.RequestModels.Category
+        var updatedCategory = new CategoryRequest
         {
             Name = "updated category",
             Description = "desc",
@@ -283,7 +284,7 @@ public class CategoryServiceTests
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(updatedProduct);
 
-        var updatedCategory = new Api.RequestModels.Category
+        var updatedCategory = new CategoryRequest
         {
             Name = "updated category",
             Description = "desc",
