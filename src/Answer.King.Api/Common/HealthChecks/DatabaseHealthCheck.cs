@@ -4,27 +4,26 @@ using Answer.King.Infrastructure;
 using LiteDB;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Answer.King.Api.HealthChecks;
+namespace Answer.King.Api.Common.HealthChecks;
 
 public class DatabaseHealthCheck : IHealthCheck
 {
+    private readonly LiteDatabase liteDB;
+
     public DatabaseHealthCheck(ILiteDbConnectionFactory connections)
     {
-        var db = connections.GetConnection();
-
-        this.Collection = db.GetCollection<Category>();
-        this.Collection.EnsureIndex("products");
+        this.liteDB = connections.GetConnection();
     }
 
-    private ILiteCollection<Category> Collection { get; }
+    private IStopwatch Stopwatch { get; } = new MyStopwatch();
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        var watch = Stopwatch.StartNew();
+        this.Stopwatch.Start();
         await this.QueryDB();
-        watch.Stop();
+        this.Stopwatch.Stop();
 
-        var responseTime = watch.ElapsedMilliseconds;
+        var responseTime = this.Stopwatch.ElapsedMilliseconds;
 
         if (responseTime < 100)
         {
@@ -38,8 +37,15 @@ public class DatabaseHealthCheck : IHealthCheck
         return await Task.FromResult(HealthCheckResult.Unhealthy("Unhealthy result from DatabaseHealthCheck"));
     }
 
-    private Task<Category> QueryDB()
+    public Task<Category> QueryDB()
     {
-        return Task.FromResult(this.Collection.FindOne(c => true));
+        var collection = this.liteDB.GetCollection<Category>();
+        collection.EnsureIndex("products");
+
+        return Task.FromResult(collection.FindOne(c => true));
     }
+}
+
+public class MyStopwatch : Stopwatch, IStopwatch
+{
 }

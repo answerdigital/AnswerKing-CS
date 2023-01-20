@@ -1,9 +1,9 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Answer.King.Api.Common.HealthChecks;
 using Answer.King.Api.Common.JsonConverters;
 using Answer.King.Api.Common.Validators;
 using Answer.King.Api.Extensions.DependencyInjection;
-using Answer.King.Api.Extensions.HealthChecks;
 using Answer.King.Api.OpenApi;
 using Answer.King.Api.Services;
 using Answer.King.Domain.Repositories;
