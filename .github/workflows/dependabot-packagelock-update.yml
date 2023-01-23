@@ -6,7 +6,7 @@ on:
 jobs:
   restore:
     name: Update NuGet Lock Files
-    if: contains(github.head_ref, 'dependabot')
+    if: contains(github.head_ref, 'dependabot') && !endsWith(github.event.head_commit.message, 'update NuGet lock file')
     runs-on: ubuntu-latest
     permissions:
       contents: write
