@@ -9,7 +9,7 @@ namespace Answer.King.Api.Common.HealthChecks;
 
 public class DatabaseHealthCheck : IHealthCheck
 {
-    private readonly LiteDatabase liteDB;
+    private readonly ILiteDatabase liteDB;
     private readonly HealthCheckOptions options;
 
     public DatabaseHealthCheck(ILiteDbConnectionFactory connections, IOptions<HealthCheckOptions> options)
