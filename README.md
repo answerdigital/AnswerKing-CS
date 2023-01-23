@@ -13,11 +13,11 @@ Ensure you have the latest [.NET 7 SDK (v7.0.102)](https://dotnet.microsoft.com/
 
 Clone the project:
 
-`$ git clone git@gitlab.com:AnswerAcademy/Answer.King.git`
+`$ git clone git@github.com:AnswerConsulting/AnswerKing-CS.git`
 
 CD into the newly cloned repository:
 
-`$ cd Answer.King`
+`$ cd Answer.King-CS`
 
 Now run the project:
 
