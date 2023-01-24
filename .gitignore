@@ -462,3 +462,4 @@ $RECYCLE.BIN/
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+/src/Answer.King.Api/appsettings.Production.json
