@@ -14,80 +14,88 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Answer.King.Api;
+// <- Note the namespaces here
 
-// Add services to the container.
-var corsAllowAnyPolicy = "AllowAnyOrigin";
-builder.Services.AddCors(options =>
+public partial class Program
 {
-    options.AddPolicy(corsAllowAnyPolicy,
-        policy =>
-            policy.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-});
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        var corsAllowAnyPolicy = "AllowAnyOrigin";
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(corsAllowAnyPolicy,
+                policy =>
+                    policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+        });
 
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    options.JsonSerializerOptions.Converters.Add(new ProductIdJsonConverter());
-    options.JsonSerializerOptions.Converters.Add(new CategoryIdJsonConverter());
-});
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
+        builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            options.JsonSerializerOptions.Converters.Add(new ProductIdJsonConverter());
+            options.JsonSerializerOptions.Converters.Add(new CategoryIdJsonConverter());
+        });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.UseCustomSchemaIdSelectorStrategy();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.UseCustomSchemaIdSelectorStrategy();
 
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Answer King API", Version = "v1" });
-    options.DocumentFilter<TagDescriptionsDocumentFilter>();
-    options.SchemaFilter<ValidationProblemDetailsSchemaFilter>();
-    options.SchemaFilter<EnumSchemaFilter>();
-    options.SchemaFilter<ProductCategorySchemaFilter>();
-    options.SchemaFilter<RemoveSchemasFilter>();
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Answer King API", Version = "v1" });
+            options.DocumentFilter<TagDescriptionsDocumentFilter>();
+            options.SchemaFilter<ValidationProblemDetailsSchemaFilter>();
+            options.SchemaFilter<EnumSchemaFilter>();
+            options.SchemaFilter<ProductCategorySchemaFilter>();
+            options.SchemaFilter<RemoveSchemasFilter>();
 
-    // Set the comments path for the Swagger JSON and UI.
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            // Set the comments path for the Swagger JSON and UI.
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-    options.IncludeXmlComments(xmlPath);
-    options.EnableAnnotations();
-});
+            options.IncludeXmlComments(xmlPath);
+            options.EnableAnnotations();
+        });
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddFluentValidationAutoValidation(
-    _ => ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName);
+        builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+        builder.Services.AddFluentValidationAutoValidation(
+            _ => ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName);
 
-builder.Services.ConfigureLiteDb(options =>
-{
-    options.RegisterEntityMappingsFromAssemblyContaining<IEntityMapping>();
-    options.RegisterDataSeedingFromAssemblyContaining<ISeedData>();
-});
+        builder.Services.ConfigureLiteDb(options =>
+        {
+            options.RegisterEntityMappingsFromAssemblyContaining<IEntityMapping>();
+            options.RegisterDataSeedingFromAssemblyContaining<ISeedData>();
+        });
 
-builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
-builder.Services.AddTransient<IOrderService, OrderService>();
-builder.Services.AddTransient<IPaymentService, PaymentService>();
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
+        builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+        builder.Services.AddTransient<IProductRepository, ProductRepository>();
+        builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
+        builder.Services.AddTransient<IOrderService, OrderService>();
+        builder.Services.AddTransient<IPaymentService, PaymentService>();
+        builder.Services.AddTransient<IProductService, ProductService>();
+        builder.Services.AddTransient<ICategoryService, CategoryService>();
 
-var app = builder.Build();
+        var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Answer King API V1"));
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Answer King API V1"));
+        }
+
+        app.UseLiteDb();
+        app.UseHttpsRedirection();
+        app.UseCors(corsAllowAnyPolicy);
+        app.UseAuthorization();
+        app.MapControllers();
+
+        app.Run();
+    }
+    //Add services , etc - the whole content of Program.cs
 }
-
-app.UseLiteDb();
-app.UseHttpsRedirection();
-app.UseCors(corsAllowAnyPolicy);
-app.UseAuthorization();
-app.MapControllers();
-
-app.Run();

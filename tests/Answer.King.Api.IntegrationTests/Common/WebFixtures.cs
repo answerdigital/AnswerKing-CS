@@ -1,4 +1,6 @@
 ﻿using Alba;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Answer.King.Api.IntegrationTests.Common;
 
@@ -10,7 +12,9 @@ public class WebFixtures : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        this.AlbaHost = await Alba.AlbaHost.For<Program>(hostBuilder => hostBuilder.UseSetting("ConnectionStrings:AnswerKing", $"filename={this.TestDbName};Connection=Shared;"));
+        this.AlbaHost = await Alba.AlbaHost.For<Program>(hostBuilder => hostBuilder.UseSetting(
+            "ConnectionStrings:AnswerKing",
+            $"filename={this.TestDbName};Connection=Shared;"));
     }
 
     public async Task DisposeAsync()
