@@ -5,11 +5,11 @@ on:
     branches: "release-*"
 
 env:
-  AWS_REGION: eu-west-2
-  ECS_SERVICE: answerking-dotnet-api-ecs-service
-  ECS_CLUSTER: answerking-dotnet-api-ecs-cluster
+    AWS_REGION: eu-west-2
+    ECS_SERVICE: answerking-dotnet-api-ecs-service
+    ECS_CLUSTER: answerking-dotnet-api-ecs-cluster
   ECS_TASK_DEFINITION: task-definition.json
-  CONTAINER_NAME: answerking-dotnet-api-container
+    CONTAINER_NAME: answerking-dotnet-api-container
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
                                               
@@ -30,6 +30,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
           
+    name: Build and publish a docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - name: Log in to github registry
         uses: docker/login-action@v2
         with:
