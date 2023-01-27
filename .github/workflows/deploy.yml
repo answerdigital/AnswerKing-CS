@@ -30,12 +30,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
           
-    name: Build and publish a docker image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
       - name: Log in to github registry
         uses: docker/login-action@v2
         with:
@@ -68,7 +62,7 @@ jobs:
 
       - name: Download task definition
           run: |
-            aws ecs describe-task-definition --task-definition answerking-dotnet-api-task --query taskDefinition > task-definition.json
+            aws ecs describe-task-definition --task-definition answerking-dotnet-api-task --query taskDefinition > ${{ env.ECS_TASK_DEFINITION }}
             
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -76,7 +70,7 @@ jobs:
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+          image: ${{ steps.build-image.outputs.imageid }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
