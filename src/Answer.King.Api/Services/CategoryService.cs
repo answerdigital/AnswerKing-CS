@@ -93,6 +93,11 @@ public class CategoryService : ICategoryService
                 throw new CategoryServiceException("The provided product id is not valid.");
             }
 
+            if (product.Retired)
+            {
+                throw new CategoryServiceException("The provided product id is retired");
+            }
+
             category.AddProduct(new ProductId(product.Id));
 
             product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
