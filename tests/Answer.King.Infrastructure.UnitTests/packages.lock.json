@@ -38,12 +38,12 @@
       },
       "Verify.Xunit": {
         "type": "Direct",
-        "requested": "[19.7.1, )",
-        "resolved": "19.7.1",
-        "contentHash": "NTuOBOk+Awwoar8HmjmkYeICygwW3M3rrMjMV59FUSCngzszXGcMBtlIXQmiyfS24Qb+NjZokEyaphWEIMwIRQ==",
+        "requested": "[19.8.0, )",
+        "resolved": "19.8.0",
+        "contentHash": "EzzYZDbfvFUeEJKVGJAyMM83NolG6ME2LdHcrbKm43wIucunnIWpKTTzoJb3g5ZqTCHRuAveJtBeZ0i1enGeKw==",
         "dependencies": {
           "EmptyFiles": "4.1.0",
-          "Verify": "19.7.1",
+          "Verify": "19.8.0",
           "xunit.abstractions": "2.0.3",
           "xunit.extensibility.execution": "2.4.2"
         }
@@ -67,8 +67,8 @@
       },
       "Argon": {
         "type": "Transitive",
-        "resolved": "0.2.1",
-        "contentHash": "u+nKsl9XXOr6ZS2VrEUwEgJyp2O+rBMyVZ/du03U8Boab4mpSZCLL3+YrzuacsVQv5xKZQhH0nCojZk+bw8L9A=="
+        "resolved": "0.3.1",
+        "contentHash": "UYTiX5V8/Ep+8HNlx70nfd/oSn3DD0M8CSrmpoY21NwiO+VC+LughDQWsC+UjsWiX9ImNG7hcxi5c9+jtZj/DQ=="
       },
       "Castle.Core": {
         "type": "Transitive",
@@ -1088,10 +1088,10 @@
       },
       "Verify": {
         "type": "Transitive",
-        "resolved": "19.7.1",
-        "contentHash": "Pm7bWHyay4s5/8TGsqVgeu0i0XHnYRvTwfAE1yFMmtFpfhymIcUYiuQ/5kucsXyocpeG9mxeYOETj1cQMx/BVg==",
+        "resolved": "19.8.0",
+        "contentHash": "Z77d2t2OKhtnECYptsPTlLFxs38NWnGVccrTM36t6XQ7gJ9I0BlaeyBDavT8tTdgJZ6nzMJ9YU1eNcrz+plYQg==",
         "dependencies": {
-          "Argon": "0.2.1",
+          "Argon": "0.3.1",
           "DiffEngine": "11.1.0",
           "EmptyFiles": "4.1.0",
           "SimpleInfoName": "2.1.0"
