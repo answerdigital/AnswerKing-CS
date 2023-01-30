@@ -64,6 +64,7 @@ resource "aws_iam_role" "ecs_task_role" {
 
   tags = {
     Name = "${var.project_name}-ecs-task-role"
+    Owner = var.owner
   }
 }
 
@@ -88,6 +89,7 @@ resource "aws_cloudwatch_log_group" "log_group" {
 
   tags = {
     Name = "${var.project_name}-logs"
+    Owner = var.owner
   }
 }
 
@@ -105,11 +107,18 @@ data "aws_ami" "ecs_ami" {
 
 # Autoscaling group
 
+data "template_file" "user_data" {
+  template = file("${path.module}/scripts/user_data.sh")
+  vars = {
+    project_name = var.project_name
+  }
+}
+
 resource "aws_launch_configuration" "ecs_launch_config" {
     image_id             = data.aws_ami.ecs_ami.id
     iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
     security_groups      = [aws_security_group.ecs_sg.id]
-    user_data            = "#!/bin/bash\necho ECS_CLUSTER=${var.project_name}-ecs-cluster\nECS_CONTAINER_INSTANCE_TAGS={'Name': '${var.project_name}-ec2'} >> /etc/ecs/ecs.config"
+    user_data            = data.template_file.user_data.rendered
     instance_type        = var.ec2_type
 }
 
@@ -123,6 +132,18 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
     max_size                  = 5
     health_check_grace_period = 300
     health_check_type         = "EC2"
+
+    tag {
+      key                 = "Name"
+      value               = "${var.project_name}-ec2"
+      propagate_at_launch = true
+    }
+
+    tag {
+      key                 = "Owner"
+      value               = var.owner
+      propagate_at_launch = true
+    }
 }
 
 resource "aws_ecs_cluster" "ecs_cluster" {
@@ -135,6 +156,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
   tags = {
     Name = "${var.project_name}-ecs-cluster"
+    Owner = var.owner
   }
 }
 
@@ -183,6 +205,7 @@ resource "aws_ecs_task_definition" "aws_ecs_task" {
 
   tags = {
     Name = "${var.project_name}-ecs-task"
+    Owner = var.owner
   }
 }
 
