@@ -2,6 +2,50 @@
   "version": 1,
   "dependencies": {
     "net7.0": {
+      "AWS.Logger.AspNetCore": {
+        "type": "Direct",
+        "requested": "[3.3.0, )",
+        "resolved": "3.3.0",
+        "contentHash": "iOvXAfPfmZZ/WdOasrZVznDp76PskEd9JyVswe1c01PwkuNj2qm7EueHJmEOwdgqc3bj5jW1TIIqXnthRryGwA==",
+        "dependencies": {
+          "AWS.Logger.Core": "3.1.0",
+          "Microsoft.Extensions.Configuration": "2.1.0",
+          "Microsoft.Extensions.DependencyInjection": "2.1.0",
+          "Microsoft.Extensions.Logging": "2.1.0"
+        }
+      },
+      "AWS.Logger.SeriLog": {
+        "type": "Direct",
+        "requested": "[3.2.0, )",
+        "resolved": "3.2.0",
+        "contentHash": "zslsNobQR3j2o+NrlcuVmrWLNyoyeZKIs5n0tO4+Hz6Z2Wcr9FqqgMxzXpKzkYBzQzfYCB/SlovOGvuWEqnnew==",
+        "dependencies": {
+          "AWS.Logger.Core": "3.1.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
+          "Serilog": "2.6.0"
+        }
+      },
+      "AWSSDK.CloudWatchLogs": {
+        "type": "Direct",
+        "requested": "[3.7.104.4, )",
+        "resolved": "3.7.104.4",
+        "contentHash": "O9XCAVt/ud2Zf+9SfA9DVnIOTME5vuQOr8XSD3TXZPMORUYPH7Lnq9vv5YzwCiBmVX0EtByG9mXkKUENslvUhA==",
+        "dependencies": {
+          "AWSSDK.Core": "[3.7.103.23, 4.0.0)"
+        }
+      },
+      "AWSSDK.Extensions.NETCore.Setup": {
+        "type": "Direct",
+        "requested": "[3.7.2, )",
+        "resolved": "3.7.2",
+        "contentHash": "iFjbEnVB0f6Hr8L3EfdelHG7zxVQrOmeP9UIrX3IODR1eTsrqVrmq0mazdIr0GZK1YG2/DZiVt6tNyV1bayndw==",
+        "dependencies": {
+          "AWSSDK.Core": "3.7.6",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "2.0.0"
+        }
+      },
       "FluentValidation.AspNetCore": {
         "type": "Direct",
         "requested": "[11.2.2, )",
@@ -35,6 +79,24 @@
           "Serilog.Sinks.File": "5.0.0"
         }
       },
+      "Serilog.Enrichers.Process": {
+        "type": "Direct",
+        "requested": "[2.0.2, )",
+        "resolved": "2.0.2",
+        "contentHash": "T9EjKKLsL6qC/3eOLUAKEPBLEqPDmt5BLXaQdPMaxJzuex+MeXA8DuAiPboUaftp3kbnCN4ZgZpDvs+Fa7OHuw==",
+        "dependencies": {
+          "Serilog": "2.3.0"
+        }
+      },
+      "Serilog.Enrichers.Thread": {
+        "type": "Direct",
+        "requested": "[3.1.0, )",
+        "resolved": "3.1.0",
+        "contentHash": "85lWsGRJpRxvKT6j/H67no55SUBsBIvp556TKuBTGhjtoPeq+L7j/sDWbgAtvT0p7u7/phJyX6j35PQ4Vtqw0g==",
+        "dependencies": {
+          "Serilog": "2.3.0"
+        }
+      },
       "Serilog.Extensions.Logging": {
         "type": "Direct",
         "requested": "[3.1.0, )",
@@ -60,6 +122,15 @@
           "Serilog.Sinks.RollingFile": "3.3.0"
         }
       },
+      "Serilog.Formatting.Compact": {
+        "type": "Direct",
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "pNroKVjo+rDqlxNG5PXkRLpfSCuDOBY0ri6jp9PLe505ljqwhwZz8ospy2vWhQlFu5GkIesh3FcDs4n7sWZODA==",
+        "dependencies": {
+          "Serilog": "2.8.0"
+        }
+      },
       "Serilog.Settings.Configuration": {
         "type": "Direct",
         "requested": "[3.4.0, )",
@@ -80,6 +151,15 @@
           "AWSSDK.CloudWatchLogs": "3.7.0.13",
           "Serilog": "2.10.0",
           "Serilog.Sinks.PeriodicBatching": "2.3.0"
+        }
+      },
+      "Serilog.Sinks.Console": {
+        "type": "Direct",
+        "requested": "[4.1.0, )",
+        "resolved": "4.1.0",
+        "contentHash": "K6N5q+5fetjnJPvCmkWOpJ/V8IEIoMIB1s86OzBrbxwTyHxdx3pmz4H+8+O/Dc/ftUX12DM1aynx/dDowkwzqg==",
+        "dependencies": {
+          "Serilog": "2.10.0"
         }
       },
       "Serilog.Sinks.File": {
@@ -121,18 +201,18 @@
           "Swashbuckle.AspNetCore.SwaggerGen": "6.5.0"
         }
       },
-      "AWSSDK.CloudWatchLogs": {
+      "AWS.Logger.Core": {
         "type": "Transitive",
-        "resolved": "3.7.0.13",
-        "contentHash": "oA6Z0O6vyqwTxYwPQKBHWpSp6jeU59EAHn0Vcx3GUlqbe0WLNH44g/0hHEKBG0IWyjiE7sHfVqN2U19+tJ5qfA==",
+        "resolved": "3.1.0",
+        "contentHash": "ruKBNASE/IBnVZhyeUy0ueuxq1CuMtDHNpU2cqGUg12SxvClkqqY/PVXyM6I4ltsMh/1tF8WdpTBj9k3Fw/PgA==",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.0.14, 3.8.0)"
+          "AWSSDK.CloudWatchLogs": "3.7.0.5"
         }
       },
       "AWSSDK.Core": {
         "type": "Transitive",
-        "resolved": "3.7.0.14",
-        "contentHash": "n9V+mwRStMzXl/GnD+J0uwnySMUB/Ug+yJ0G2B4XBQZYIegWWfqeQT2KqaP4hI08L49vY6JDIWIKEW4sNidNEg=="
+        "resolved": "3.7.103.23",
+        "contentHash": "9If6PxkxBk+qB6fXtKOkf0L6myUS2w3rk7Ef6RX4nRZKpr2ueRFWT/OJlW91rvGwtmq6sfbywZlVI01ed+hNEQ=="
       },
       "FluentValidation": {
         "type": "Transitive",
@@ -157,6 +237,14 @@
         "type": "Transitive",
         "resolved": "6.0.5",
         "contentHash": "Ckb5EDBUNJdFWyajfXzUIMRkhf52fHZOQuuZg/oiu8y7zDCVwD0iHhew6MnThjHmevanpxL3f5ci2TtHQEN6bw=="
+      },
+      "Microsoft.Extensions.Configuration": {
+        "type": "Transitive",
+        "resolved": "2.1.0",
+        "contentHash": "SS8ce1GYQTkZoOq5bskqQ+m7xiXQjnKRiGfVNZkkX2SX0HpXNRsKnSUaywRRuCje3v2KT9xeacsM3J9/G2exsQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "2.1.0"
+        }
       },
       "Microsoft.Extensions.Configuration.Abstractions": {
         "type": "Transitive",
@@ -274,28 +362,12 @@
           "Serilog.Extensions.Logging": "3.1.0"
         }
       },
-      "Serilog.Formatting.Compact": {
-        "type": "Transitive",
-        "resolved": "1.1.0",
-        "contentHash": "pNroKVjo+rDqlxNG5PXkRLpfSCuDOBY0ri6jp9PLe505ljqwhwZz8ospy2vWhQlFu5GkIesh3FcDs4n7sWZODA==",
-        "dependencies": {
-          "Serilog": "2.8.0"
-        }
-      },
       "Serilog.Sinks.Async": {
         "type": "Transitive",
         "resolved": "1.5.0",
         "contentHash": "csHYIqAwI4Gy9oAhXYRwxGrQEAtBg3Ep7WaCzsnA1cZuBZjVAU0n7hWaJhItjO7hbLHh/9gRVxALCUB4Dv+gZw==",
         "dependencies": {
           "Serilog": "2.9.0"
-        }
-      },
-      "Serilog.Sinks.Console": {
-        "type": "Transitive",
-        "resolved": "4.0.1",
-        "contentHash": "apLOvSJQLlIbKlbx+Y2UDHSP05kJsV7mou+fvJoRGs/iR+jC22r8cuFVMjjfVxz/AD4B2UCltFhE1naRLXwKNw==",
-        "dependencies": {
-          "Serilog": "2.10.0"
         }
       },
       "Serilog.Sinks.Debug": {
@@ -570,26 +642,38 @@
       "answer.king.domain": {
         "type": "Project",
         "dependencies": {
+          "AWSSDK.CloudWatchLogs": "[3.7.104.4, )",
+          "AWSSDK.Extensions.NETCore.Setup": "[3.7.2, )",
           "Serilog": "[2.12.0, )",
           "Serilog.AspNetCore": "[6.1.0, )",
+          "Serilog.Enrichers.Process": "[2.0.2, )",
+          "Serilog.Enrichers.Thread": "[3.1.0, )",
           "Serilog.Extensions.Logging": "[3.1.0, )",
           "Serilog.Extensions.Logging.File": "[3.0.0, )",
+          "Serilog.Formatting.Compact": "[1.1.0, )",
           "Serilog.Settings.Configuration": "[3.4.0, )",
           "Serilog.Sinks.AwsCloudWatch": "[4.0.171, )",
+          "Serilog.Sinks.Console": "[4.1.0, )",
           "Serilog.Sinks.File": "[5.0.0, )"
         }
       },
       "answer.king.infrastructure": {
         "type": "Project",
         "dependencies": {
+          "AWSSDK.CloudWatchLogs": "[3.7.104.4, )",
+          "AWSSDK.Extensions.NETCore.Setup": "[3.7.2, )",
           "Answer.King.Domain": "[1.0.0, )",
           "LiteDB": "[5.0.15, )",
           "Serilog": "[2.12.0, )",
           "Serilog.AspNetCore": "[6.1.0, )",
+          "Serilog.Enrichers.Process": "[2.0.2, )",
+          "Serilog.Enrichers.Thread": "[3.1.0, )",
           "Serilog.Extensions.Logging": "[3.1.0, )",
           "Serilog.Extensions.Logging.File": "[3.0.0, )",
+          "Serilog.Formatting.Compact": "[1.1.0, )",
           "Serilog.Settings.Configuration": "[3.4.0, )",
           "Serilog.Sinks.AwsCloudWatch": "[4.0.171, )",
+          "Serilog.Sinks.Console": "[4.1.0, )",
           "Serilog.Sinks.File": "[5.0.0, )"
         }
       }
