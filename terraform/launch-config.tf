@@ -16,7 +16,6 @@ data "template_file" "user_data" {
   template = file("${path.module}/scripts/user_data.sh")
   vars = {
     ECS_CLUSTER = "${var.project_name}-ecs-cluster"
-    EBS_REGION  = var.aws_region
   }
 }
 

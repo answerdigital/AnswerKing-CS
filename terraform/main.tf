@@ -1,4 +1,4 @@
-# VPC Subnet module
+# VPC Subnet module: Creates a VPC for our resources to live inside
 
 module "vpc_subnet" {
   source = "git::github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/vpc_subnets"
@@ -10,7 +10,7 @@ module "vpc_subnet" {
   num_private_subnets = var.num_private_subnets
 }
 
-# Security Group: Defines network traffic rules
+# Security Group: Defines network traffic rules for our ECS
 
 resource "aws_security_group" "ecs_sg" {
   name        = "${var.project_name}-ecs-sg"
@@ -80,6 +80,8 @@ resource "aws_iam_instance_profile" "ecs_instance_profile" {
   name = "${var.project_name}-iam-instance-profile"
   role = aws_iam_role.ecs_task_role.name
 }
+
+# ECS: Elastic Container Service
 
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = "${var.project_name}-ecs-cluster"

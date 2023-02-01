@@ -8,7 +8,7 @@ terraform {
 }
 
 /*
-#I've run terraform rm on these resources so that they are mot affected by terraform destroy
+#I've run terraform rm on these resources so that they are not affected by terraform destroy
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
   bucket = "answerking-dotnet-terraform"
