@@ -28,8 +28,32 @@ variable "ec2_type" {
   default     = "t2.micro"
 }
 
+variable "vpc_cidr" {
+  type        = string
+  description = "VPC CIDR"
+  default     = "10.0.0.0/16"
+}
+
+variable "num_public_subnets" {
+  type        = number
+  description = "Number of public subnets"
+  default     = 2
+}
+
+variable "num_private_subnets" {
+  type        = number
+  description = "Number of private subnets"
+  default     = 2
+}
+
 variable "aws_cloudwatch_retention_in_days" {
   type        = number
   description = "AWS CloudWatch Logs Retention in Days"
   default     = 1
+}
+
+variable "efs_port" {
+  type        = number
+  description = "EFS Access Port"
+  default     = 2049
 }

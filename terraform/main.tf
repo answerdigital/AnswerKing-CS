@@ -1,12 +1,13 @@
 # VPC Subnet module
 
 module "vpc_subnet" {
-  source = "github.com/AnswerConsulting/AnswerKing-Infrastructure/Terraform_modules/vpc_subnets"
+  source = "git::github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/vpc_subnets"
 
   project_name        = var.project_name
   owner               = var.owner
-  num_public_subnets  = 2
-  num_private_subnets = 0
+  vpc_cidr            = var.vpc_cidr
+  num_public_subnets  = var.num_public_subnets
+  num_private_subnets = var.num_private_subnets
 }
 
 # Security Group: Defines network traffic rules
@@ -45,8 +46,6 @@ resource "aws_security_group" "ecs_sg" {
   }
 }
 
-#ECS Cluster
-
 data "aws_iam_policy_document" "ecs_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -59,8 +58,12 @@ data "aws_iam_policy_document" "ecs_assume_role_policy" {
 }
 
 resource "aws_iam_role" "ecs_task_role" {
-  name               = "${var.project_name}-ecs-task-role"
-  assume_role_policy = data.aws_iam_policy_document.ecs_assume_role_policy.json
+  name                = "${var.project_name}-ecs-task-role"
+  assume_role_policy  = data.aws_iam_policy_document.ecs_assume_role_policy.json
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  ]
 
   tags = {
     Name = "${var.project_name}-ecs-task-role"
@@ -76,74 +79,6 @@ resource "aws_iam_role_policy_attachment" "ecs_task_role_policy" {
 resource "aws_iam_instance_profile" "ecs_instance_profile" {
   name = "${var.project_name}-iam-instance-profile"
   role = aws_iam_role.ecs_task_role.name
-}
-
-# CloudWatch
-
-resource "aws_cloudwatch_log_group" "log_group" {
-  name              = "${var.project_name}-logs"
-  retention_in_days = var.aws_cloudwatch_retention_in_days
-  
-  # keep log files when terraform destroy runs
-  #skip_destroy      = true
-
-  tags = {
-    Name = "${var.project_name}-logs"
-    Owner = var.owner
-  }
-}
-
-# AMI: Provides image info for Amazon Linux 2
-
-data "aws_ami" "ecs_ami" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-ecs-hvm-*-x86_64-ebs"]
-  }
-}
-
-# Autoscaling group
-
-data "template_file" "user_data" {
-  template = file("${path.module}/scripts/user_data.sh")
-  vars = {
-    project_name = var.project_name
-  }
-}
-
-resource "aws_launch_configuration" "ecs_launch_config" {
-    image_id             = data.aws_ami.ecs_ami.id
-    iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
-    security_groups      = [aws_security_group.ecs_sg.id]
-    user_data            = data.template_file.user_data.rendered
-    instance_type        = var.ec2_type
-}
-
-resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
-    name                      = "${var.project_name}-auto-scaling-group"
-    vpc_zone_identifier       = [module.vpc_subnet.public_subnet_ids[0]]
-    launch_configuration      = aws_launch_configuration.ecs_launch_config.name
-
-    desired_capacity          = 2
-    min_size                  = 1
-    max_size                  = 5
-    health_check_grace_period = 300
-    health_check_type         = "EC2"
-
-    tag {
-      key                 = "Name"
-      value               = "${var.project_name}-ec2"
-      propagate_at_launch = true
-    }
-
-    tag {
-      key                 = "Owner"
-      value               = var.owner
-      propagate_at_launch = true
-    }
 }
 
 resource "aws_ecs_cluster" "ecs_cluster" {
@@ -189,6 +124,12 @@ resource "aws_ecs_task_definition" "aws_ecs_task" {
           "hostPort": 443
         }
       ],
+      "mountPoints": [
+        {
+          "sourceVolume": "${var.project_name}-ecs-efs-volume",
+          "containerPath": "/app/out/db"
+        }
+      ],
       "cpu": 256,
       "memory": 512,
       "networkMode": "awsvpc"
@@ -202,6 +143,21 @@ resource "aws_ecs_task_definition" "aws_ecs_task" {
   cpu                      = "256"
   execution_role_arn       = aws_iam_role.ecs_task_role.arn
   task_role_arn            = aws_iam_role.ecs_task_role.arn
+
+ volume {
+    name = "${var.project_name}-ecs-efs-volume"
+
+    efs_volume_configuration {
+      file_system_id          = aws_efs_file_system.persistent.id
+      root_directory          = "/app/out/db"
+      transit_encryption      = "ENABLED"
+      transit_encryption_port = var.efs_port
+      authorization_config {
+        access_point_id = aws_efs_access_point.access.id
+        iam             = "ENABLED"
+      }
+    }
+  }
 
   tags = {
     Name = "${var.project_name}-ecs-task"
@@ -226,8 +182,6 @@ resource "aws_ecs_service" "aws_ecs_service" {
   network_configuration {
     subnets          = module.vpc_subnet.public_subnet_ids
     assign_public_ip = true
-    security_groups = [
-      aws_security_group.ecs_sg.id
-    ]
+    security_groups = [aws_security_group.ecs_sg.id]
   }
 }

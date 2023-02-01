@@ -1,17 +1,17 @@
 terraform {
   backend "s3" {
-    bucket = "answerking-dotnet-terraform"
-    key    = "answerking-dotnet-terraform.tfstate"
-    region = "eu-west-2"
+    bucket          = "answerking-dotnet-terraform"
+    key             = "answerking-dotnet-terraform.tfstate"
+    region          = "eu-west-2"
+    dynamodb_table  = "answerking-dotnet-terraform-state"
   }
 }
 
+/*
+#I've run terraform rm on these resources so that they are mot affected by terraform destroy
+
 resource "aws_s3_bucket" "terraform_backend_bucket" {
   bucket = "answerking-dotnet-terraform"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 
   tags = {
     Name = "answerking-dotnet-terraform"
@@ -38,3 +38,16 @@ resource "aws_s3_bucket_versioning" "terraform_backend_bucket_versioning" {
     status = "Enabled"
   }
 }
+
+resource "aws_dynamodb_table" "terraform_backend_state" {
+ name           = "answerking-dotnet-terraform-state"
+ read_capacity  = 20
+ write_capacity = 20
+ hash_key       = "LockID"
+
+ attribute {
+   name = "LockID"
+   type = "S"
+ }
+}
+*/
