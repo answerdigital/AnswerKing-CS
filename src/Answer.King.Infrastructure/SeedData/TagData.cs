@@ -20,7 +20,14 @@ public static class TagData
             DateTime.UtcNow.AddHours(-10),
             new List<ProductId>
             {
-                new(1),
+                new(3),
+                new(8),
+                new(11),
+                new(12),
+                new(14),
+                new(22),
+                new(23),
+                new(24),
             },
             false),
         TagFactory.CreateTag(
@@ -32,6 +39,24 @@ public static class TagData
             new List<ProductId>
             {
                 new(2),
+                new(4),
+                new(10),
+            },
+            false),
+        TagFactory.CreateTag(
+            3,
+            "Vegetartian",
+            "No meat products",
+            DateTime.UtcNow.AddDays(-2),
+            DateTime.UtcNow.AddHours(-30),
+            new List<ProductId>
+            {
+                new(9),
+                new(13),
+                new(15),
+                new(19),
+                new(20),
+                new(21),
             },
             false),
     };
