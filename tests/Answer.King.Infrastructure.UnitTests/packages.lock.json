@@ -1375,17 +1375,6 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "Verify": {
-        "type": "Transitive",
-        "resolved": "19.7.1",
-        "contentHash": "Pm7bWHyay4s5/8TGsqVgeu0i0XHnYRvTwfAE1yFMmtFpfhymIcUYiuQ/5kucsXyocpeG9mxeYOETj1cQMx/BVg==",
-        "dependencies": {
-          "Argon": "0.2.1",
-          "DiffEngine": "11.1.0",
-          "EmptyFiles": "4.1.0",
-          "SimpleInfoName": "2.1.0"
-        }
-      },
       "xunit.abstractions": {
         "type": "Transitive",
         "resolved": "2.0.3",
