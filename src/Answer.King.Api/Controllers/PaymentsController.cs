@@ -11,14 +11,10 @@ namespace Answer.King.Api.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class PaymentsController : ControllerBase
 {
-    private readonly ILogger<PaymentsController> logger;
-
     public PaymentsController(
-        ILogger<PaymentsController> logger,
         IPaymentService payments,
         IOrderService orders)
     {
-        this.logger = logger;
         this.Payments = payments;
         this.Orders = orders;
     }
