@@ -10,14 +10,16 @@ public static class TagData
 {
     private static readonly TagFactory TagFactory = new();
 
+    private static readonly DateTime Now = DateTime.UtcNow;
+
     public static IList<Tag> Tags { get; } = new List<Tag>
     {
         TagFactory.CreateTag(
             1,
             "Vegan",
             "Non-animal products",
-            DateTime.UtcNow.AddDays(-1),
-            DateTime.UtcNow.AddHours(-10),
+            Now.AddDays(-1),
+            Now.AddHours(-10),
             new List<ProductId>
             {
                 new(3),
@@ -34,8 +36,8 @@ public static class TagData
             2,
             "BOGOF",
             "Buy one get one free!",
-            DateTime.UtcNow.AddDays(-2),
-            DateTime.UtcNow.AddHours(-30),
+            Now.AddDays(-2),
+            Now.AddHours(-30),
             new List<ProductId>
             {
                 new(2),
@@ -47,8 +49,8 @@ public static class TagData
             3,
             "Vegetartian",
             "No meat products",
-            DateTime.UtcNow.AddDays(-2),
-            DateTime.UtcNow.AddHours(-30),
+            Now.AddDays(-2),
+            Now.AddHours(-30),
             new List<ProductId>
             {
                 new(9),
