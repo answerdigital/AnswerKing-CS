@@ -65,6 +65,7 @@ public class ProductsController : ControllerBase
     /// <param name="createProduct">Product details.</param>
     /// <response code="201">When the product has been created.</response>
     /// <response code="400">When invalid parameters are provided.</response>
+    /// <response code="409">When a product with the same name already exists.</response>
     /// <returns>Created Product.</returns>
     // POST api/products
     [HttpPost]
@@ -73,6 +74,14 @@ public class ProductsController : ControllerBase
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Post([FromBody] RequestModels.Product createProduct)
     {
+        var namedProduct = await this.Products.GetProductByName(createProduct.Name);
+
+        if (namedProduct != null)
+        {
+            this.ModelState.AddModelError("product", "Error: A product with this name already exists");
+            return this.Conflict();
+        }
+
         try
         {
             var product = await this.Products.CreateProduct(createProduct);
@@ -94,6 +103,7 @@ public class ProductsController : ControllerBase
     /// <response code="200">When the product has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the product with the given <paramref name="id"/> does not exist.</response>
+    /// <response code="409">When a product with the same name already exists.</response>
     /// <returns>Updated Product.</returns>
     // PUT api/products/{ID}
     [HttpPut("{id}")]
@@ -103,6 +113,14 @@ public class ProductsController : ControllerBase
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Put(long id, [FromBody] RequestModels.Product updateProduct)
     {
+        var namedProduct = this.Products.GetProductByName(updateProduct.Name);
+
+        if (namedProduct != null && id != namedProduct.Id)
+        {
+            this.ModelState.AddModelError("product", "Error: A product with this name already exists");
+            return this.Conflict();
+        }
+
         try
         {
             var product = await this.Products.UpdateProduct(id, updateProduct);
