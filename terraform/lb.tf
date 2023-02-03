@@ -29,7 +29,7 @@ resource "aws_lb" "load_balancer" {
 
 resource "aws_lb_target_group" "target_group" {
   name        = "${var.project_name}-lb-tg"
-  port        = 8000
+  port        = 80
   protocol    = "TCP"
   target_type = "ip"
   vpc_id      = module.vpc_subnet.vpc_id
@@ -37,7 +37,7 @@ resource "aws_lb_target_group" "target_group" {
   health_check {
     healthy_threshold   = "3"
     interval            = "300"
-    protocol            = "TCP"
+    protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
     path                = "/health"
@@ -50,8 +50,8 @@ resource "aws_lb_target_group" "target_group" {
 }
 
 resource "aws_lb_listener" "listener" {
-  load_balancer_arn = aws_alb.load_balancer.id
-  port              = "8000"
+  load_balancer_arn = aws_lb.load_balancer.id
+  port              = "80"
   protocol          = "TCP"
 
   default_action {
