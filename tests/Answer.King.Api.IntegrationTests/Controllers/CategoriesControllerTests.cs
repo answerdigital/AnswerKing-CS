@@ -37,7 +37,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
@@ -78,7 +78,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
@@ -118,7 +118,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
@@ -138,7 +138,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                 })
                 .ToUrl("/api/categories");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -155,7 +155,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long> { 1000 },
                 })
@@ -176,7 +176,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
@@ -191,7 +191,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans and the high seas and also the puddles maybe",
                     Products = new List<long>(),
                 })
@@ -211,7 +211,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                 })
                 .ToUrl("/api/categories/1");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -228,7 +228,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
@@ -247,7 +247,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long> { 1000 },
                 })
@@ -281,7 +281,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
@@ -307,7 +307,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>(),
                 })
