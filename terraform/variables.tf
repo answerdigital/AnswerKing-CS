@@ -16,6 +16,18 @@ variable "owner" {
   default     = "answerking-dotnet-team"
 }
 
+variable "dns_hosted_zone_id" {
+  type        = string
+  description = "ID of DNS Hosted Zone"
+  default     = "Z0072706JT6B6N2J7Z9H"
+}
+
+variable "dns_record_name" {
+  type        = string
+  description = "DNS Record Name"
+  default     = "dotnet.answerking.co.uk"
+}
+
 variable "image_url" {
   type        = string
   description = "AnswerKing C# API image"
