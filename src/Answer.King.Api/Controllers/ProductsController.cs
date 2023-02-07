@@ -113,7 +113,7 @@ public class ProductsController : ControllerBase
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Put(long id, [FromBody] RequestModels.Product updateProduct)
     {
-        var namedProduct = this.Products.GetProductByName(updateProduct.Name);
+        var namedProduct = await this.Products.GetProductByName(updateProduct.Name);
 
         if (namedProduct != null && id != namedProduct.Id)
         {
