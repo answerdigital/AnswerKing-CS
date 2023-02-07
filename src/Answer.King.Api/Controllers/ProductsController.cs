@@ -79,7 +79,7 @@ public class ProductsController : ControllerBase
 
         if (namedProduct != null)
         {
-            this.ModelState.AddModelError("product", "Error: A product with this name already exists");
+            this.ModelState.AddModelError("product", "A product with this name already exists");
             return this.Conflict();
         }
 
@@ -128,7 +128,7 @@ public class ProductsController : ControllerBase
 
             if (namedProduct != null && id != namedProduct.Id)
             {
-                this.ModelState.AddModelError("product", "Error: A product with this name already exists");
+                this.ModelState.AddModelError("product", "A product with this name already exists");
                 return this.Conflict();
             }
 
