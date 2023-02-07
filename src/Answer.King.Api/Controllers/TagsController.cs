@@ -60,13 +60,23 @@ public class TagsController : ControllerBase
     /// <param name="createTag">Tag to create.</param>
     /// <response code="201">When the tag has been created.</response>
     /// <response code="400">When invalid parameters are provided.</response>
+    /// <response code="409">When a tag with the same name already exists.</response>
     /// <returns>Created Tag.</returns>
     // POST api/tags
     [HttpPost]
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Post([FromBody] Tag createTag)
     {
+        var namedTag = await this.Tags.GetTagByName(createTag.Name);
+
+        if (namedTag != null)
+        {
+            this.ModelState.AddModelError("tag", "A tag with this name already exists");
+            return this.Conflict();
+        }
+
         var tag = await this.Tags.CreateTag(createTag);
 
         return this.CreatedAtAction(nameof(this.GetOne), new { tag.Id }, tag);
@@ -80,18 +90,28 @@ public class TagsController : ControllerBase
     /// <response code="200">When the tag has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the tag with the given <paramref name="id"/> does not exist.</response>
+    /// <response code="409">When a different tag with the same name already exists.</response>
     /// <returns>Updated Tag.</returns>
     // PUT api/tags/{ID}
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Domain.Inventory.Tag), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Put(long id, [FromBody] Tag updateTag)
     {
         var tag = await this.Tags.UpdateTag(id, updateTag);
         if (tag == null)
         {
             return this.NotFound();
+        }
+
+        var namedTag = await this.Tags.GetTagByName(updateTag.Name);
+
+        if (namedTag != null && id != namedTag.Id)
+        {
+            this.ModelState.AddModelError("tag", "A tag with this name already exists");
+            return this.Conflict();
         }
 
         return this.Ok(tag);
