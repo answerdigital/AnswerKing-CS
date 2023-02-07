@@ -37,7 +37,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -77,7 +77,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -116,7 +116,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -135,7 +135,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                 })
                 .ToUrl("/api/tags");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -154,7 +154,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -168,7 +168,7 @@ public class TagsControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Edited Non-animal products",
                 })
                 .ToUrl($"/api/tags/{tag?.Id}");
@@ -187,7 +187,7 @@ public class TagsControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                 })
                 .ToUrl("/api/tags/1");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -204,7 +204,7 @@ public class TagsControllerTests : WebFixtures
             _.Put
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Edited Non-animal products",
                 })
                 .ToUrl("/api/tags/50");
@@ -224,7 +224,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -292,7 +292,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -373,7 +373,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
@@ -398,7 +398,7 @@ public class TagsControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Vegan",
+                    Name = "Test Tag",
                     Description = "Non-animal products",
                 })
                 .ToUrl("/api/tags");
