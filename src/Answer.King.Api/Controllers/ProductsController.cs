@@ -71,6 +71,7 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Post([FromBody] RequestModels.Product createProduct)
     {
@@ -103,13 +104,14 @@ public class ProductsController : ControllerBase
     /// <response code="200">When the product has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the product with the given <paramref name="id"/> does not exist.</response>
-    /// <response code="409">When a product with the same name already exists.</response>
+    /// <response code="409">When a different product with the same name already exists.</response>
     /// <returns>Updated Product.</returns>
     // PUT api/products/{ID}
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Put(long id, [FromBody] RequestModels.Product updateProduct)
     {
