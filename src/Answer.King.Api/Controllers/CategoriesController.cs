@@ -64,14 +64,24 @@ public class CategoriesController : ControllerBase
     /// <param name="createCategory">Category details.</param>
     /// <response code="201">When the category has been created.</response>
     /// <response code="400">When invalid parameters are provided.</response>
+    /// <response code="409">When a category with the same name already exists.</response>
     /// <returns>Created Category.</returns>
     // POST api/categories
     [HttpPost]
     [ProducesResponseType(typeof(Domain.Inventory.Category), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Post([FromBody] Category createCategory)
     {
+        var namedCategory = await this.Categories.GetCategoryByName(createCategory.Name);
+
+        if (namedCategory != null)
+        {
+            this.ModelState.AddModelError("category", "A category with this name already exists");
+            return this.Conflict();
+        }
+
         try
         {
             var category = await this.Categories.CreateCategory(createCategory);
@@ -93,12 +103,14 @@ public class CategoriesController : ControllerBase
     /// <response code="200">When the category has been updated.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <response code="404">When the category with the given <paramref name="id"/> does not exist.</response>
+    /// <response code="409">When a different category with the same name already exists.</response>
     /// <returns>Updated Category.</returns>
     // PUT api/categories/{ID}
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Domain.Inventory.Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Put(long id, [FromBody] Category updateCategory)
     {
@@ -108,6 +120,14 @@ public class CategoriesController : ControllerBase
             if (category == null)
             {
                 return this.NotFound();
+            }
+
+            var namedCategory = await this.Categories.GetCategoryByName(updateCategory.Name);
+
+            if (namedCategory != null && namedCategory.Id != id)
+            {
+                this.ModelState.AddModelError("category", "A category with this name already exists");
+                return this.Conflict();
             }
 
             return this.Ok(category);
