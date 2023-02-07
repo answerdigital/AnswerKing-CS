@@ -115,14 +115,6 @@ public class ProductsController : ControllerBase
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Put(long id, [FromBody] RequestModels.Product updateProduct)
     {
-        var namedProduct = await this.Products.GetProductByName(updateProduct.Name);
-
-        if (namedProduct != null && id != namedProduct.Id)
-        {
-            this.ModelState.AddModelError("product", "Error: A product with this name already exists");
-            return this.Conflict();
-        }
-
         try
         {
             var product = await this.Products.UpdateProduct(id, updateProduct);
@@ -130,6 +122,14 @@ public class ProductsController : ControllerBase
             if (product == null)
             {
                 return this.NotFound();
+            }
+
+            var namedProduct = await this.Products.GetProductByName(updateProduct.Name);
+
+            if (namedProduct != null && id != namedProduct.Id)
+            {
+                this.ModelState.AddModelError("product", "Error: A product with this name already exists");
+                return this.Conflict();
             }
 
             return this.Ok(product);
