@@ -28,6 +28,18 @@ variable "dns_record_name" {
   default     = "dotnet.answerking.co.uk"
 }
 
+variable "dns_base_domain_name" {
+  type        = string
+  description = "DNS Base Domain Name"
+  default     = "answerking.co.uk"
+}
+
+variable "tls_certificate_arn" {
+  type        = string
+  description = "TLS Certificate ARN"
+  default     = "arn:aws:acm:eu-west-2:409973623162:certificate/4a5e41f6-af3d-49f0-bd20-67789b812321"
+}
+
 variable "image_url" {
   type        = string
   description = "AnswerKing C# API image"
