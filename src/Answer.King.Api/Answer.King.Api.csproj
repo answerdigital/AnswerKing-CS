@@ -33,8 +33,4 @@
     <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="db\" />
-  </ItemGroup>
-
 </Project>
