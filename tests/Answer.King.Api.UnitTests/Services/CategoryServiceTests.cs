@@ -149,9 +149,30 @@ public class CategoryServiceTests
     #region Update
 
     [Fact]
+    public async Task UpdateCategory_NoCategoriesAvailable_ReturnsNull()
+    {
+        // Arrange
+        this.categoryRepository.GetAll().Returns(new List<Category>());
+        var updateCategoryRequest = new CategoryRequest();
+        const int categoryId = 1;
+
+        // Act
+        var sut = this.GetServiceUnderTest();
+        var category = await sut.UpdateCategory(categoryId, updateCategoryRequest);
+
+        // Assert
+        Assert.Null(category);
+    }
+
+    [Fact]
     public async Task UpdateCategory_InvalidCategoryId_ReturnsNull()
     {
         // Arrange
+        var categoryList = new List<Category>
+        {
+             CreateCategory(2, "category", "desc", new List<ProductId>()),
+        };
+        this.categoryRepository.GetAll().Returns(categoryList);
         var updateCategoryRequest = new CategoryRequest();
         const int categoryId = 1;
 
@@ -168,6 +189,10 @@ public class CategoryServiceTests
     {
         // Arrange
         var oldCategory = new Category("old category", "old desc", new List<ProductId>());
+        var categories = new List<Category>
+        {
+            oldCategory,
+        };
         var categoryId = oldCategory.Id;
 
         var updateCategoryRequest = new CategoryRequest
@@ -177,7 +202,7 @@ public class CategoryServiceTests
             Products = new List<long>(),
         };
 
-        this.categoryRepository.GetOne(categoryId).Returns(oldCategory);
+        this.categoryRepository.GetAll().Returns(categories);
 
         // Act
         var sut = this.GetServiceUnderTest();
@@ -187,7 +212,7 @@ public class CategoryServiceTests
         Assert.Equal(updateCategoryRequest.Name, actualCategory!.Name);
         Assert.Equal(updateCategoryRequest.Description, actualCategory.Description);
 
-        await this.categoryRepository.Received().GetOne(categoryId);
+        await this.categoryRepository.Received().GetAll();
         await this.categoryRepository.Received().Save(Arg.Any<Category>());
     }
 
@@ -197,8 +222,12 @@ public class CategoryServiceTests
         // Arrange
         var product = new List<ProductId> { new(1) };
         var category = new Category("category", "desc", product);
+        var categories = new List<Category>
+        {
+            category,
+        };
 
-        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(category);
+        this.categoryRepository.GetAll().Returns(categories);
         this.productRepository.GetByCategoryId(category.Id).Returns(Array.Empty<Product>());
 
         var updateCategoryRequest = new CategoryRequest
@@ -221,10 +250,14 @@ public class CategoryServiceTests
         var oldProduct = CreateProduct(1, "product", "desc", 1.0);
         var oldProducts = new[] { oldProduct };
         var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
+        var categories = new List<Category>
+        {
+            oldCategory,
+        };
 
         var updatedProduct = CreateProduct(2, "updated product", "desc", 1.0);
 
-        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(oldCategory);
+        this.categoryRepository.GetAll().Returns(categories);
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(null as Product);
 
@@ -246,10 +279,14 @@ public class CategoryServiceTests
             oldProduct,
         };
         var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
+        var categories = new List<Category>
+        {
+            oldCategory,
+        };
 
         var updatedProduct = CreateProduct(2, "updated product", "desc", 10.0);
 
-        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(oldCategory);
+        this.categoryRepository.GetAll().Returns(categories);
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(default(Product));
 
@@ -276,11 +313,15 @@ public class CategoryServiceTests
             oldProduct,
         };
         var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
+        var categories = new List<Category>
+        {
+            oldCategory,
+        };
 
         var updatedProduct = CreateProduct(2, "updated product", "desc", 10.0);
         updatedProduct.Retire();
 
-        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(oldCategory);
+        this.categoryRepository.GetAll().Returns(categories);
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(updatedProduct);
 
@@ -307,10 +348,16 @@ public class CategoryServiceTests
             oldProduct,
         };
         var oldCategory = CreateCategory(1, "category", "desc", new List<ProductId> { new(1) });
+        var newCategory = CreateCategory(2, "new category", "desc", new List<ProductId> { new(2) });
+        var categories = new List<Category>
+        {
+            oldCategory,
+            newCategory,
+        };
 
-        var updatedProduct = CreateProduct(2, "updated product", "desc", 10.0);
+        var updatedProduct = CreateProduct(2, "updated product", "desc", 10.0, 2);
 
-        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(oldCategory);
+        this.categoryRepository.GetAll().Returns(categories);
         this.productRepository.GetByCategoryId(oldCategory.Id).Returns(oldProducts);
         this.productRepository.GetOne(updatedProduct.Id).Returns(updatedProduct);
 
@@ -326,7 +373,7 @@ public class CategoryServiceTests
         var category = await sut.UpdateCategory(oldCategory.Id, updatedCategory);
 
         await this.productRepository.Received().GetByCategoryId(oldCategory.Id);
-        Assert.Equal(updatedProduct.Id, category?.Products.First().Value);
+        Assert.Equal(updatedProduct.Id, category?.Products.Last().Value);
     }
 
     #endregion
@@ -338,9 +385,9 @@ public class CategoryServiceTests
         return CategoryFactory.CreateCategory(id, name, description, DateTime.UtcNow, DateTime.UtcNow, products, false);
     }
 
-    private static Product CreateProduct(long id, string name, string description, double price)
+    private static Product CreateProduct(long id, string name, string description, double price, long categoryId = 1)
     {
-        return ProductFactory.CreateProduct(id, name, description, price, new ProductCategory(1, "name", "description"), new List<TagId>(), false);
+        return ProductFactory.CreateProduct(id, name, description, price, new ProductCategory(categoryId, "name", "description"), new List<TagId>(), false);
     }
 
     #endregion

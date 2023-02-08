@@ -63,7 +63,18 @@ public class CategoryService : ICategoryService
 
     public async Task<Category?> UpdateCategory(long categoryId, RequestModels.Category updateCategory)
     {
-        var category = await this.Categories.GetOne(categoryId);
+        var categories = await this.Categories.GetAll();
+        if (!categories.Any())
+        {
+            return null;
+        }
+
+        var updatedCategories = new List<long>
+        {
+            categoryId,
+        };
+
+        var category = categories.FirstOrDefault(x => x.Id == categoryId);
         if (category == null)
         {
             return null;
@@ -74,13 +85,6 @@ public class CategoryService : ICategoryService
 
         foreach (var oldProduct in oldProducts)
         {
-            if (!productsToCheck.Contains(oldProduct.Id))
-            {
-                await this.Products.AddOrUpdate(oldProduct);
-
-                category.RemoveProduct(new ProductId(oldProduct.Id));
-            }
-
             productsToCheck.Remove(oldProduct.Id);
         }
 
@@ -93,10 +97,16 @@ public class CategoryService : ICategoryService
                 throw new CategoryServiceException("The provided product id is not valid.");
             }
 
+            var oldCategory = categories.First(x => x.Id == product.Category.Id);
+
             category.AddProduct(new ProductId(product.Id));
+
+            oldCategory.RemoveProduct(new ProductId(product.Id));
 
             product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
             await this.Products.AddOrUpdate(product);
+
+            await this.Categories.Save(oldCategory);
         }
 
         category.Rename(updateCategory.Name, updateCategory.Description);
