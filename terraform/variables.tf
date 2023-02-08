@@ -16,12 +16,6 @@ variable "owner" {
   default     = "answerking-dotnet-team"
 }
 
-variable "dns_hosted_zone_id" {
-  type        = string
-  description = "ID of DNS Hosted Zone"
-  default     = "Z0072706JT6B6N2J7Z9H"
-}
-
 variable "dns_record_name" {
   type        = string
   description = "DNS Record Name"
@@ -32,12 +26,6 @@ variable "dns_base_domain_name" {
   type        = string
   description = "DNS Base Domain Name"
   default     = "answerking.co.uk"
-}
-
-variable "tls_certificate_arn" {
-  type        = string
-  description = "TLS Certificate ARN"
-  default     = "arn:aws:acm:eu-west-2:409973623162:certificate/4a5e41f6-af3d-49f0-bd20-67789b812321"
 }
 
 variable "image_url" {
