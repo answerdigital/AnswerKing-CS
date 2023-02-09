@@ -36,24 +36,19 @@ resource "aws_lb" "load_balancer" {
 }
 
 resource "aws_lb_target_group" "target_group" {
-  name        = "${var.project_name}-lb-tg"
+  name        = "${var.project_name}-lb-tg-${substr(uuid(), 0, 3)}"
   port        = 80
   protocol    = "TCP"
   target_type = "ip"
   vpc_id      = module.vpc_subnet.vpc_id
 
-  health_check {
-    healthy_threshold   = "3"
-    interval            = "300"
-    protocol            = "HTTP"
-    matcher             = "200"
-    timeout             = "3"
-    path                = "/health"
-    unhealthy_threshold = "2"
-  }
-
   tags = {
     Name = "${var.project_name}-lb-tg"
+  }
+
+  lifecycle { 
+    create_before_destroy = true
+    ignore_changes = [name]
   }
 }
 

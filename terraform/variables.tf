@@ -49,13 +49,13 @@ variable "vpc_cidr" {
 variable "num_public_subnets" {
   type        = number
   description = "Number of public subnets"
-  default     = 2
+  default     = 1
 }
 
 variable "num_private_subnets" {
   type        = number
   description = "Number of private subnets"
-  default     = 2
+  default     = 1
 }
 
 variable "aws_cloudwatch_retention_in_days" {
