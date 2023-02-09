@@ -35,36 +35,28 @@ public class CategoryService : ICategoryService
     {
         var products = new List<Product>();
         var category = new Category(createCategory.Name, createCategory.Description, new List<ProductId>());
-        await this.Categories.Save(category);
 
         foreach (var productId in createCategory.Products)
         {
             var product = await this.Products.GetOne(productId);
-
             if (product == null)
             {
                 throw new CategoryServiceException("The provided product id is not valid.");
             }
 
-            var oldCategory = await this.Categories.GetOne(product.Category.Id);
-            if (oldCategory == null)
-            {
-                throw new CategoryServiceException("Failed to remove product from old category.");
-            }
+            products.Add(product);
 
-            await this.RemoveFromCategory(product);
+            await this.RemoveProductFromCategory(product);
 
             category.AddProduct(new ProductId(product.Id));
-
-            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
-
-            products.Add(product);
         }
 
         await this.Categories.Save(category);
 
         foreach (var product in products)
         {
+            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
+
             await this.Products.AddOrUpdate(product);
         }
 
@@ -86,18 +78,16 @@ public class CategoryService : ICategoryService
         foreach (var updateId in newProducts)
         {
             var product = await this.Products.GetOne(updateId);
-
             if (product == null)
             {
                 throw new CategoryServiceException("The provided product id is not valid.");
             }
 
-            await this.RemoveFromCategory(product);
+            products.Add(product);
+
+            await this.RemoveProductFromCategory(product);
 
             category.AddProduct(new ProductId(product.Id));
-
-            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
-            products.Add(product);
         }
 
         category.Rename(updateCategory.Name, updateCategory.Description);
@@ -106,6 +96,8 @@ public class CategoryService : ICategoryService
 
         foreach (var product in products)
         {
+            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
+
             await this.Products.AddOrUpdate(product);
         }
 
@@ -135,7 +127,7 @@ public class CategoryService : ICategoryService
         }
     }
 
-    private async Task RemoveFromCategory(Product product)
+    private async Task RemoveProductFromCategory(Product product)
     {
         var oldCategory = await this.Categories.GetOne(product.Category.Id);
         if (oldCategory == null)

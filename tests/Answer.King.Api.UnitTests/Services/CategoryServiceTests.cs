@@ -101,6 +101,28 @@ public class CategoryServiceTests
         await Assert.ThrowsAsync<CategoryServiceException>(() => sut.CreateCategory(categoryRequest));
     }
 
+    [Fact]
+    public async Task CreateCategory_ValidCategoryRequest_ReturnsNewCategory()
+    {
+        // Arrange
+        var categoryRequest = new CategoryRequest
+        {
+            Name = "updated category",
+            Description = "updated desc",
+            Products = new List<long>(),
+        };
+
+        // Act
+        var sut = this.GetServiceUnderTest();
+        var actualCategory = await sut.CreateCategory(categoryRequest);
+
+        // Assert
+        Assert.Equal(categoryRequest.Name, actualCategory!.Name);
+        Assert.Equal(categoryRequest.Description, actualCategory.Description);
+
+        await this.categoryRepository.Received().Save(Arg.Any<Category>());
+    }
+
     #endregion
 
     #region Get
