@@ -138,7 +138,7 @@ public class CategoriesControllerTests : WebFixtures
             _.Post
                 .Json(new
                 {
-                    Name = "Seafood",
+                    Name = "Test Category",
                     Description = "Food from the oceans",
                     Products = new List<long>
                     {

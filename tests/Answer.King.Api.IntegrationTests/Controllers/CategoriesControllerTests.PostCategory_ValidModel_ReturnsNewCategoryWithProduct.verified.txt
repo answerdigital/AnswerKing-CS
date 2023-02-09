@@ -1,6 +1,6 @@
 {
   Id: 8,
-  Name: Seafood,
+  Name: Test Category,
   Description: Food from the oceans,
   CreatedOn: DateTime_1,
   LastUpdated: DateTime_2,
