@@ -165,6 +165,25 @@ public class CategoriesControllerTests : WebFixtures
 
         return await VerifyJson(result.ReadAsTextAsync(), this.verifySettings);
     }
+
+    [Fact]
+    public async Task<VerifyResult> PostCategory_DuplicateName_ReturnsBadRequest()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Seafood",
+                    Description = "Food from the oceans",
+                    Products = new List<long>(),
+                })
+                .ToUrl("/api/categories");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(result.ReadAsTextAsync(), this.verifySettings);
+    }
     #endregion
 
     #region Put
@@ -252,6 +271,25 @@ public class CategoriesControllerTests : WebFixtures
                     Products = new List<long> { 1000 },
                 })
                 .ToUrl("/api/categories/1");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        return await VerifyJson(putResult.ReadAsTextAsync(), this.verifySettings);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PutCategory_DuplicateName_ReturnsBadRequest()
+    {
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    Name = "Seafood",
+                    Description = "Food from the oceans",
+                    Products = new List<long>(),
+                })
+                .ToUrl("/api/categories/2");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
         });
 
