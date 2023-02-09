@@ -33,8 +33,9 @@ public class CategoryService : ICategoryService
 
     public async Task<Category> CreateCategory(RequestModels.Category createCategory)
     {
-        var categoryProducts = new List<ProductId>();
         var products = new List<Product>();
+        var category = new Category(createCategory.Name, createCategory.Description, new List<ProductId>());
+        await this.Categories.Save(category);
 
         foreach (var productId in createCategory.Products)
         {
@@ -45,11 +46,20 @@ public class CategoryService : ICategoryService
                 throw new CategoryServiceException("The provided product id is not valid.");
             }
 
-            categoryProducts.Add(new(product.Id));
+            var oldCategory = await this.Categories.GetOne(product.Category.Id);
+            if (oldCategory == null)
+            {
+                throw new CategoryServiceException("Failed to remove product from old category.");
+            }
+
+            await this.RemoveFromCategory(product);
+
+            category.AddProduct(new ProductId(product.Id));
+
+            product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
+
             products.Add(product);
         }
-
-        var category = new Category(createCategory.Name, createCategory.Description, categoryProducts);
 
         await this.Categories.Save(category);
 
@@ -63,32 +73,17 @@ public class CategoryService : ICategoryService
 
     public async Task<Category?> UpdateCategory(long categoryId, RequestModels.Category updateCategory)
     {
-        var categories = await this.Categories.GetAll();
-        if (!categories.Any())
-        {
-            return null;
-        }
-
-        var updatedCategories = new List<long>
-        {
-            categoryId,
-        };
-
-        var category = categories.FirstOrDefault(x => x.Id == categoryId);
+        var products = new List<Product>();
+        var category = await this.Categories.GetOne(categoryId);
         if (category == null)
         {
             return null;
         }
 
-        var productsToCheck = updateCategory.Products;
-        var oldProducts = await this.Products.GetByCategoryId(categoryId);
+        var categoryProducts = await this.Products.GetByCategoryId(categoryId);
+        var newProducts = updateCategory.Products.Where(p => !categoryProducts.Any(p2 => p2.Id == p));
 
-        foreach (var oldProduct in oldProducts)
-        {
-            productsToCheck.Remove(oldProduct.Id);
-        }
-
-        foreach (var updateId in productsToCheck)
+        foreach (var updateId in newProducts)
         {
             var product = await this.Products.GetOne(updateId);
 
@@ -97,21 +92,22 @@ public class CategoryService : ICategoryService
                 throw new CategoryServiceException("The provided product id is not valid.");
             }
 
-            var oldCategory = categories.First(x => x.Id == product.Category.Id);
+            await this.RemoveFromCategory(product);
 
             category.AddProduct(new ProductId(product.Id));
 
-            oldCategory.RemoveProduct(new ProductId(product.Id));
-
             product.SetCategory(new ProductCategory(category.Id, category.Name, category.Description));
-            await this.Products.AddOrUpdate(product);
-
-            await this.Categories.Save(oldCategory);
+            products.Add(product);
         }
 
         category.Rename(updateCategory.Name, updateCategory.Description);
 
         await this.Categories.Save(category);
+
+        foreach (var product in products)
+        {
+            await this.Products.AddOrUpdate(product);
+        }
 
         return category;
     }
@@ -137,6 +133,18 @@ public class CategoryService : ICategoryService
         {
             throw new CategoryServiceException(ex.Message, ex);
         }
+    }
+
+    private async Task RemoveFromCategory(Product product)
+    {
+        var oldCategory = await this.Categories.GetOne(product.Category.Id);
+        if (oldCategory == null)
+        {
+            throw new CategoryServiceException("Failed to remove product from old category.");
+        }
+
+        oldCategory.RemoveProduct(new ProductId(product.Id));
+        await this.Categories.Save(oldCategory);
     }
 }
 
