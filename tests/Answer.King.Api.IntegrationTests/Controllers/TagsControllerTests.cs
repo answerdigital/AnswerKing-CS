@@ -93,22 +93,6 @@ public class TagsControllerTests : WebFixtures
     [Fact]
     public async Task<VerifyResult> PostTag_ValidModelWithProducts_ReturnsNewTag()
     {
-        var productResult = await this.AlbaHost.Scenario(_ =>
-        {
-            _.Post
-                .Json(new
-                {
-                    Name = "Burger",
-                    Description = "Juicy",
-                    Price = 1.50,
-                    CategoryId = new CategoryId(1),
-                })
-                .ToUrl("/api/products");
-            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
-        });
-
-        var product = productResult.ReadAsJson<Product>();
-
         var result = await this.AlbaHost.Scenario(_ =>
         {
             _.Post
@@ -116,7 +100,7 @@ public class TagsControllerTests : WebFixtures
                 {
                     Name = "Test Tag",
                     Description = "Non-animal products",
-                    Products = new List<long> { product!.Id },
+                    Products = new List<long> { 1 }, // valid product ID
                 })
                 .ToUrl("/api/tags");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -124,6 +108,35 @@ public class TagsControllerTests : WebFixtures
 
         var tag = result.ReadAsJson<Tag>();
         return await Verify(tag);
+    }
+
+    [Fact]
+    public async Task<VerifyResult> PostTag_ValidModelWithRetiredProducts_ReturnsBadRequest_DoesNotPartiallyCreateTag()
+    {
+        var result = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Test Tag",
+                    Description = "Non-animal products",
+                    Products = new List<long> { 3 }, // retired product ID
+                })
+                .ToUrl("/api/tags");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
+        });
+
+        var allTagsResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Get.Url("/api/tags");
+            _.StatusCodeShouldBeOk();
+        });
+
+        var allTags = allTagsResult.ReadAsJson<IEnumerable<Tag>>();
+
+        Assert.All(allTags!, tag => Assert.NotEqual("Test Tag", tag.Name));
+
+        return await VerifyJson(result.ReadAsTextAsync(), this.verifySettings);
     }
 
     [Fact]
@@ -161,6 +174,7 @@ public class TagsControllerTests : WebFixtures
 
         return await VerifyJson(result.ReadAsTextAsync(), this.verifySettings);
     }
+
     #endregion
 
     #region Put

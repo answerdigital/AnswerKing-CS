@@ -40,13 +40,30 @@ public class TagService : ITagService
         var tag = new Tag(
             createTag.Name,
             createTag.Description,
-            createTag.Products.Select(x => new ProductId(x)).ToList());
+            new List<ProductId>());
 
-        await this.Tags.Save(tag);
+        try
+        {
+            this.Tags.BeginTransaction();
+            await this.Tags.Save(tag);
 
-        await this.AssociateTagAndProducts(tag, createTag.Products);
+            var products = await this.AssociateTagAndProducts(tag, createTag.Products);
 
-        return tag;
+            foreach (var product in products)
+            {
+                await this.Products.AddOrUpdate(product);
+            }
+
+            await this.Tags.Save(tag);
+            this.Tags.CommitTransaction();
+
+            return tag;
+        }
+        catch
+        {
+            this.Tags.RollbackTransaction();
+            throw;
+        }
     }
 
     public async Task<Tag?> UpdateTag(long tagId, RequestModels.Tag updateTag)
@@ -60,6 +77,7 @@ public class TagService : ITagService
 
         tag.Rename(updateTag.Name, updateTag.Description);
         var tagProductIdsToRemove = tag.Products.Where(x => !updateTag.Products.Contains(x));
+        var updatedProducts = new List<Product>();
 
         foreach (var productIdToRemove in tagProductIdsToRemove)
         {
@@ -75,10 +93,17 @@ public class TagService : ITagService
                 throw new TagServiceException(ex.Message, ex);
             }
 
+            updatedProducts.Add(product);
+        }
+
+        updatedProducts.AddRange(await this.AssociateTagAndProducts(tag, updateTag.Products));
+
+        foreach (var product in updatedProducts)
+        {
             await this.Products.AddOrUpdate(product);
         }
 
-        await this.AssociateTagAndProducts(tag, updateTag.Products);
+        await this.Tags.Save(tag);
 
         return tag;
     }
@@ -105,8 +130,10 @@ public class TagService : ITagService
         }
     }
 
-    private async Task AssociateTagAndProducts(Tag tag, List<long> products)
+    private async Task<List<Product>> AssociateTagAndProducts(Tag tag, List<long> products)
     {
+        var updatedProducts = new List<Product>();
+
         foreach (var productId in products)
         {
             var product = await this.Products.GetOne(productId);
@@ -126,10 +153,10 @@ public class TagService : ITagService
                 throw new TagServiceException(ex.Message, ex);
             }
 
-            await this.Products.AddOrUpdate(product);
+            updatedProducts.Add(product);
         }
 
-        await this.Tags.Save(tag);
+        return updatedProducts;
     }
 }
 
