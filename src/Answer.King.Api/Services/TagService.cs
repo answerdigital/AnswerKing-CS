@@ -136,12 +136,8 @@ public class TagService : ITagService
 
         foreach (var productId in products)
         {
-            var product = await this.Products.GetOne(productId);
-
-            if (product == null)
-            {
-                throw new TagServiceException($"The provided product id is not valid: {productId}");
-            }
+            var product = await this.Products.GetOne(productId) ??
+                          throw new TagServiceException($"The provided product id is not valid: {productId}");
 
             try
             {
