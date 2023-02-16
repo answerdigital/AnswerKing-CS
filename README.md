@@ -57,3 +57,40 @@ For example - reportgenerator -reports:"C:\Users\HarryStead\Documents\AnswerKing
 [Learn more about .Net code coverage](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 
 
+## Checkov Scanning For Terraform
+
+Checkov is used as part of the pipeline to check for common misconfigurations in our Terraform scripts.
+
+It can be ran locally to validate changes ahead of pushing if desired, assuming you have Python installed.
+
+---
+
+1. From a terminal window in the root directory of this repository, run the following to set up a virtual environment:
+
+`python -m venv .venv`
+
+2. Access this virtual environment by one of the following:
+
+- Git Bash: `. .venv/Scripts/activate`
+
+- cmd.exe: `.\.venv\Scripts\activate.bat`
+
+- Powershell: `.\.venv\Scripts\Activate.ps1`
+
+"(.venv)" should appear at the start of your current prompt in the terminal if this has worked.
+
+3. Run the following to install checkov to your virtual environment:
+
+`python -m pip install checkov`
+
+4. Once installed, run the following to scan the `terraform` directory:
+
+`checkov -d terraform/`
+
+5. When you're finished, the virtual environment can be left by closing the terminal or running the following:
+
+`deactivate`
+
+---
+
+On subsequent runs, you can skip steps 1 and 3.
