@@ -1,7 +1,6 @@
 resource "aws_security_group" "efs_sg" {
-  #checkov:skip=CKV_AWS_23:TODO: Uncomment descriptions
   name        = "${var.project_name}-efs-sg"
-  #description = "Security group for Elastic File System"
+  description = "Security group for Elastic File System"
   vpc_id      = module.vpc_subnet.vpc_id
 
   ingress {
@@ -10,7 +9,7 @@ resource "aws_security_group" "efs_sg" {
     to_port         = var.efs_port
     security_groups = [aws_security_group.ecs_sg.id]
     cidr_blocks     = [var.vpc_cidr]
-    #description     = "Allow access to the VPC on a dedicated EFS port"
+    description     = "Allow access to the VPC on a dedicated EFS port"
   }
 }
 

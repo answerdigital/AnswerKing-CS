@@ -34,13 +34,12 @@ resource "aws_security_group" "ecs_sg" {
     description = "HTTPS"
   }
 
-  #checkov:skip=CKV_AWS_23:TODO: Uncomment description
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    #description = "All traffic"
+    description = "All traffic"
   }
 
   tags = {

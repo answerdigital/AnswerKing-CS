@@ -21,16 +21,15 @@ resource "aws_route53_record" "dns_dotnet" {
 # Load Balancer
 
 resource "aws_lb" "load_balancer" {
+  #checkov:skip=CKV_AWS_150:Deletion protection is being left off for ease of running terraform destroy
+
   #checkov:skip=CKV_AWS_91:TODO: Add cloudwatch logging
   #checkov:skip=CKV2_AWS_20:TODO: Redirect HTTP to HTTPS at load balancer and remove HTTP handling afterwards in future security ticket
   name                             = "${var.project_name}-lb"
   internal                         = false
   load_balancer_type               = "network"
   ip_address_type                  = "ipv4"
-  #checkov:skip=CKV_AWS_152:TODO: Uncomment below
-  #enable_cross_zone_load_balancing = true
-  #checkov:skip=CKV_AWS_150:TODO: Uncomment below
-  #enable_deletion_protection       = true
+  enable_cross_zone_load_balancing = true
 
   subnet_mapping {
     subnet_id     = "${module.vpc_subnet.public_subnet_ids[0]}"

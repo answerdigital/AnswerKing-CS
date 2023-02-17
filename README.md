@@ -56,6 +56,15 @@ For example - reportgenerator -reports:"C:\Users\HarryStead\Documents\AnswerKing
 
 [Learn more about .Net code coverage](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 
+## Terraform
+
+This project is currently hosted on AWS with Terraform being used to build, update and destroy the necessary resources as desired. The following instructions assume that you already have access to the AWS account and a working AWS CLI setup.
+
+Before being able to use Terraform, you'll need a copy of the gitignore'd env_variables.tf file from member of the team. This is currently being used to store secrets before we move to a more robust solution.
+
+Once you have that, you can preview Terraform's execution plan by running `terraform plan` and then, if you're happy with the preview, `terraform apply` to execute the plan.
+
+Since this is a bench project without real users, we should tear down the resources when they're not needed to save unnecessary costs. Running `terraform destroy` will destroy all of the resources that Terraform is currently managing. Note: This does not included resources which have been removed from Terraform's management such as the commented out block in `backend.tf`.
 
 ## Checkov Scanning For Terraform
 
