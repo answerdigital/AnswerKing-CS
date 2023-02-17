@@ -5,7 +5,7 @@ using Product = Answer.King.Domain.Repositories.Models.Product;
 using ProductCategory = Answer.King.Domain.Repositories.Models.ProductCategory;
 using TagId = Answer.King.Domain.Repositories.Models.TagId;
 
-namespace Answer.King.Domain.UnitTests.Orders;
+namespace Answer.King.Domain.UnitTests.Repositories.Models;
 
 [TestCategory(TestType.Unit)]
 public class ProductTests
