@@ -16,7 +16,8 @@ public class ProductFactoryTests
     public Task CreateProduct_ConstructorExists_ReturnsProduct()
     {
         // Arrange / Act
-        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new ProductCategory(1, "name", "desc"), new List<TagId>(), false);
+        var now = DateTime.UtcNow;
+        var result = ProductFactory.CreateProduct(1, "NAME", "DESC", 1, now, now, new ProductCategory(1, "name", "desc"), new List<TagId>(), false);
 
         // Assert
         Assert.IsType<Product>(result);
@@ -38,8 +39,9 @@ public class ProductFactoryTests
         productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, wrongConstructor);
 
         // Act // Assert
+        var now = DateTime.UtcNow;
         Assert.Throws<TargetParameterCountException>(() =>
-            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, new ProductCategory(1, "name", "desc"), new List<TagId>(), false));
+            ProductFactory.CreateProduct(1, "NAME", "DESC", 1, now, now, new ProductCategory(1, "name", "desc"), new List<TagId>(), false));
 
         productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, constructor);
     }
