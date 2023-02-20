@@ -87,6 +87,11 @@ public class Product
         this.Retired = true;
     }
 
+    public void Unretire()
+    {
+        this.Retired = false;
+    }
+
     public void SetCategory(ProductCategory newCategory)
     {
         if (this.Retired)

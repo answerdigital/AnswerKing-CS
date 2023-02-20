@@ -93,4 +93,13 @@ public class CategoryTests
 
         Assert.Throws<CategoryLifecycleException>(() => category.RemoveProduct(new ProductId(1)));
     }
+
+    [Fact]
+    public void UnretireCategory_WithProductsContainedWithinCategory_ThrowsException()
+    {
+        var category = new Category("Phones", "Electronics", new List<ProductId>());
+        category.AddProduct(new ProductId(1));
+
+        Assert.Throws<CategoryLifecycleException>(category.UnretireCategory);
+    }
 }

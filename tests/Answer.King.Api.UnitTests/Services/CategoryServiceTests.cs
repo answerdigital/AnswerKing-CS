@@ -355,6 +355,34 @@ public class CategoryServiceTests
 
     #endregion
 
+    #region Retire
+
+    [Fact]
+    public async Task UnretireCategory_InvalidCategoryIdReceived_ReturnsNull()
+    {
+        // Arrange
+        this.categoryRepository.GetOne(Arg.Any<long>()).Returns(null as Category);
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        Assert.Null(await sut.UnretireCategory(1));
+    }
+
+    [Fact]
+    public async Task UnretireCategory_NotRetired_ThrowsException()
+    {
+        // Arrange
+        var category = new Category("category", "desc", new List<ProductId>());
+        this.categoryRepository.GetOne(category.Id).Returns(category);
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<CategoryServiceException>(() =>
+            sut.UnretireCategory(category.Id));
+    }
+
+    #endregion
+
     #region Helpers
 
     private static Category CreateCategory(long id, string name, string description, IList<ProductId> products)

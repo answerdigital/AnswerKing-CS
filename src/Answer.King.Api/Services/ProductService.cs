@@ -140,6 +140,34 @@ public class ProductService : IProductService
 
         return product;
     }
+
+    public async Task<Product?> UnretireProduct(long productId)
+    {
+        var product = await this.Products.GetOne(productId);
+
+        if (product == null)
+        {
+            return null;
+        }
+
+        if (!product.Retired)
+        {
+            throw new ProductServiceException("The product is not retired.");
+        }
+
+        var categories = await this.Categories.GetByProductId(productId);
+        foreach (var category in categories.ToList())
+        {
+            category.RemoveProduct(new ProductId(productId));
+            await this.Categories.Save(category);
+        }
+
+        product.Unretire();
+
+        await this.Products.AddOrUpdate(product);
+
+        return product;
+    }
 }
 
 [Serializable]
