@@ -31,7 +31,7 @@ variable "dns_base_domain_name" {
 variable "image_url" {
   type        = string
   description = "AnswerKing C# API image"
-  default     = "ghcr.io/answerconsulting/answerking-cs:latest"
+  default     = "ghcr.io/answerdigital/answerking-cs:latest"
 }
 
 variable "ec2_type" {

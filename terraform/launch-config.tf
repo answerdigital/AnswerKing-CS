@@ -10,6 +10,11 @@ data "aws_ami" "ecs_ami" {
   }
 }
 
+resource "aws_iam_instance_profile" "ecs_instance_profile" {
+  name = "${var.project_name}-iam-instance-profile"
+  role = aws_iam_role.ecs_task_role.name
+}
+
 # user_data script
 
 data "template_file" "user_data" {
@@ -27,6 +32,11 @@ resource "aws_launch_configuration" "ecs_launch_config" {
     security_groups      = [aws_security_group.ecs_sg.id]
     user_data            = data.template_file.user_data.rendered
     instance_type        = var.ec2_type
+
+    lifecycle { 
+      create_before_destroy = true
+      ignore_changes = [name]
+    }
 }
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
