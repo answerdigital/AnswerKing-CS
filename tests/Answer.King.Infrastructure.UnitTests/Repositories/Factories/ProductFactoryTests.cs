@@ -1,7 +1,7 @@
 using System.Reflection;
-using Answer.King.Domain.Orders;
 using Answer.King.Domain.Repositories.Models;
 using Answer.King.Infrastructure.Repositories.Mappings;
+using Answer.King.Infrastructure.UnitTests.TestObjects;
 using Answer.King.Test.Common.CustomTraits;
 
 namespace Answer.King.Infrastructure.UnitTests.Repositories.Factories;
@@ -33,7 +33,7 @@ public class ProductFactoryTests
 
         var constructor = productFactoryConstructorPropertyInfo?.GetValue(ProductFactory);
 
-        var wrongConstructor = typeof(Order).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+        var wrongConstructor = typeof(WrongConstructor).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
         productFactoryConstructorPropertyInfo?.SetValue(ProductFactory, wrongConstructor);

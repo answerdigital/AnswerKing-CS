@@ -1,13 +1,13 @@
-using Answer.King.Domain;
+﻿using Answer.King.Domain;
 using Answer.King.Domain.Repositories.Models;
 
 namespace Answer.King.Infrastructure.UnitTests.TestObjects;
 
-public class NotTag
+public class WrongConstructor
 {
     private readonly HashSet<TagId> tags;
 
-    public NotTag(string name, string description, double price, ProductCategory category)
+    public WrongConstructor(string name, string description, double price, ProductCategory category)
     {
         Guard.AgainstNullOrEmptyArgument(nameof(name), name);
         Guard.AgainstNullOrEmptyArgument(nameof(description), description);
@@ -23,7 +23,7 @@ public class NotTag
 
     // ReSharper disable once UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
-    private NotTag(
+    private WrongConstructor(
         long id,
         string name,
         string description,
