@@ -35,7 +35,7 @@ public class CategoryFactoryTests
 
         var constructor = categoryFactoryConstructorPropertyInfo?.GetValue(CategoryFactory);
 
-        var wrongConstructor = typeof(NotCategory).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+        var wrongConstructor = typeof(WrongConstructor).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
             .SingleOrDefault(c => c.IsPrivate && c.GetParameters().Length > 0);
 
         categoryFactoryConstructorPropertyInfo?.SetValue(CategoryFactory, wrongConstructor);
