@@ -111,7 +111,6 @@ resource "aws_ecs_task_definition" "aws_ecs_task" {
   memory                   = "512"
   cpu                      = "256"
 
-  #checkov:skip=CKV_AWS_249:TODO: Determine if we should have separate role permissions for execution and task in future security ticket
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.ecs_task_role.arn
 
@@ -157,7 +156,7 @@ resource "aws_ecs_service" "aws_ecs_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.alb_target_group.arn
     container_name   = "${var.project_name}-container"
     container_port   =  80
   }

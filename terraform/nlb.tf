@@ -20,16 +20,17 @@ resource "aws_route53_record" "dns_dotnet" {
 
 # Load Balancer
 
-resource "aws_lb" "load_balancer" {
+resource "aws_lb" "nlb" {
   #checkov:skip=CKV_AWS_150:Deletion protection is being left off for ease of running terraform destroy
   #checkov:skip=CKV2_AWS_20:Not required for our network load balancer, would be helpful for application load balancer instead
 
   #checkov:skip=CKV_AWS_91:TODO: Add cloudwatch logging
-  name                             = "${var.project_name}-lb"
+  #checkov:skip=CKV2_AWS_20:TODO: Redirect HTTP to HTTPS at load balancer and remove HTTP handling afterwards in future security ticket
+  name                             = "${var.project_name}-nlb"
   internal                         = false
   load_balancer_type               = "network"
   ip_address_type                  = "ipv4"
-  enable_cross_zone_load_balancing = true
+  enable_cross_zone_load_balancing = false
 
   subnet_mapping {
     subnet_id     = "${module.vpc_subnet.public_subnet_ids[0]}"
@@ -37,19 +38,19 @@ resource "aws_lb" "load_balancer" {
   }
 
   tags = {
-    Name = "${var.project_name}-lb"
+    Name = "${var.project_name}-nlb"
   }
 }
 
-resource "aws_lb_target_group" "target_group" {
-  name        = "${var.project_name}-lb-tg-${substr(uuid(), 0, 3)}"
+resource "aws_lb_target_group" "nlb_target_group_forward_to_alb" {
+  name        = "${var.project_name}-nlb-tg-${substr(uuid(), 0, 3)}"
   port        = 80
   protocol    = "TCP"
-  target_type = "ip"
+  target_type = "alb"
   vpc_id      = module.vpc_subnet.vpc_id
 
   tags = {
-    Name = "${var.project_name}-lb-tg"
+    Name = "${var.project_name}-nlb-tg"
   }
 
   lifecycle {
@@ -58,28 +59,24 @@ resource "aws_lb_target_group" "target_group" {
   }
 }
 
-resource "aws_lb_listener" "listener" {
-  load_balancer_arn = aws_lb.load_balancer.id
+resource "aws_lb_listener" "nlb_listener" {
+  load_balancer_arn = aws_lb.nlb.id
   port              = "80"
   protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.id
+    target_group_arn = aws_lb_target_group.nlb_target_group_forward_to_alb.id
   }
 }
 
-resource "aws_lb_listener" "listener_443" {
-  #checkov:skip=CKV_AWS_103:TODO: Add SSL policy to ensure TLS 1.2 or higher is being used in future security ticket
-  load_balancer_arn = aws_lb.load_balancer.id
+resource "aws_lb_listener" "nlb_listener_443" {
+  load_balancer_arn = aws_lb.nlb.id
   port              = "443"
-  protocol          = "TLS"
-  certificate_arn   = var.tls_certificate_arn
-  alpn_policy       = "HTTP2Preferred"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.id
+    target_group_arn = aws_lb_target_group.nlb_target_group_forward_to_alb.id
   }
 }
