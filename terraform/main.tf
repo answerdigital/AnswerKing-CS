@@ -15,23 +15,14 @@ module "vpc_subnet" {
 resource "aws_security_group" "ecs_sg" {
   #checkov:skip=CKV_AWS_260:Allowing ingress from 0.0.0.0 for public HTTP(S) access
   name        = "${var.project_name}-ecs-sg"
-  description = "Security group for ec2-sg"
+  description = "Security group for ECS service"
   vpc_id       = module.vpc_subnet.vpc_id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HTTP"
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HTTPS"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    security_groups = [aws_security_group.alb_sg.id]
   }
 
   egress {
@@ -139,7 +130,7 @@ data "aws_ecs_task_definition" "main" {
   task_definition = aws_ecs_task_definition.aws_ecs_task.family
 }
 
-resource "aws_ecs_service" "aws_ecs_service" {
+resource "aws_ecs_service" "ecs_service" {
   name                 = "${var.project_name}-ecs-service"
   cluster              = aws_ecs_cluster.ecs_cluster.id
   task_definition      = "${aws_ecs_task_definition.aws_ecs_task.family}:${max(aws_ecs_task_definition.aws_ecs_task.revision, data.aws_ecs_task_definition.main.revision)}"
@@ -152,7 +143,10 @@ resource "aws_ecs_service" "aws_ecs_service" {
   network_configuration {
     subnets          = module.vpc_subnet.public_subnet_ids
     assign_public_ip = true
-    security_groups = [aws_security_group.ecs_sg.id]
+    security_groups = [
+      aws_security_group.ecs_sg.id,
+      aws_security_group.alb_sg.id
+    ]
   }
 
   load_balancer {

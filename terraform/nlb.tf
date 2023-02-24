@@ -3,9 +3,10 @@
 resource "aws_eip" "lb_eip" {
   #checkov:skip=CKV2_AWS_19:IP is being used for load balancer
   vpc = true
+  count = "${var.num_public_subnets}"
 
   tags = {
-    Name  = "${var.project_name}-eip"
+    Name  = "${var.project_name}-eip-${count.index}"
     Owner = var.owner
   }
 }
@@ -15,7 +16,7 @@ resource "aws_route53_record" "dns_dotnet" {
   name    = "${var.dns_record_name}"
   type    = "A"
   ttl     = 300
-  records = [aws_eip.lb_eip.public_ip]
+  records = aws_eip.lb_eip.*.public_ip
 }
 
 # Load Balancer
@@ -32,9 +33,12 @@ resource "aws_lb" "nlb" {
   ip_address_type                  = "ipv4"
   enable_cross_zone_load_balancing = false
 
-  subnet_mapping {
-    subnet_id     = "${module.vpc_subnet.public_subnet_ids[0]}"
-    allocation_id = "${aws_eip.lb_eip.id}"
+  dynamic "subnet_mapping" {
+    for_each = module.vpc_subnet.public_subnet_ids
+    content {
+      subnet_id     = "${subnet_mapping.value}"
+      allocation_id = "${aws_eip.lb_eip[subnet_mapping.key].id}"
+    }
   }
 
   tags = {
@@ -42,9 +46,9 @@ resource "aws_lb" "nlb" {
   }
 }
 
-resource "aws_lb_target_group" "nlb_target_group_forward_to_alb" {
+resource "aws_lb_target_group" "nlb_target_group" {
   name        = "${var.project_name}-nlb-tg-${substr(uuid(), 0, 3)}"
-  port        = 80
+  port        = 443
   protocol    = "TCP"
   target_type = "alb"
   vpc_id      = module.vpc_subnet.vpc_id
@@ -66,7 +70,7 @@ resource "aws_lb_listener" "nlb_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.nlb_target_group_forward_to_alb.id
+    target_group_arn = aws_lb_target_group.nlb_target_group.id
   }
 }
 
@@ -77,6 +81,6 @@ resource "aws_lb_listener" "nlb_listener_443" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.nlb_target_group_forward_to_alb.id
+    target_group_arn = aws_lb_target_group.nlb_target_group.id
   }
 }

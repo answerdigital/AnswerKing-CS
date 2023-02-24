@@ -41,8 +41,11 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
     name                      = "${var.project_name}-auto-scaling-group"
-    vpc_zone_identifier       = [module.vpc_subnet.public_subnet_ids[0]]
     launch_configuration      = aws_launch_configuration.ecs_launch_config.name
+    vpc_zone_identifier       = [
+      module.vpc_subnet.public_subnet_ids[0],
+      module.vpc_subnet.public_subnet_ids[1]
+    ]
 
     desired_capacity          = 1
     min_size                  = 1
