@@ -40,12 +40,13 @@ resource "aws_lb" "alb" {
   #checkov:skip=CKV_AWS_150:Deletion protection is being left off for ease of running terraform destroy
 
   #checkov:skip=CKV_AWS_91:TODO: Add cloudwatch logging
-  #checkov:skip=CKV2_AWS_20:TODO: Redirect HTTP to HTTPS at load balancer and remove HTTP handling afterwards in future security ticket
   name               = "${var.project_name}-alb"
   internal           = false
   load_balancer_type = "application"
   subnets            = module.vpc_subnet.public_subnet_ids
   security_groups    = [aws_security_group.alb_sg.id]
+  
+  drop_invalid_header_fields = true
 
   tags = {
     Name = "${var.project_name}-alb"
@@ -84,7 +85,7 @@ resource "aws_lb_listener" "alb_listener_https" {
   port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = var.tls_certificate_arn
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
 
   default_action {
     type             = "forward"

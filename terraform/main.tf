@@ -1,7 +1,7 @@
 # VPC Subnet module: Creates a VPC for our resources to live inside
 
 module "vpc_subnet" {
-  source = "git::github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/vpc_subnets?ref=v1.0.0"
+  source = "git::github.com/answerdigital/terraform-modules/tree/main/modules/aws/vpc?ref=v1.0.0"
 
   project_name        = var.project_name
   owner               = var.owner
@@ -19,10 +19,11 @@ resource "aws_security_group" "ecs_sg" {
   vpc_id       = module.vpc_subnet.vpc_id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
     security_groups = [aws_security_group.alb_sg.id]
+    description     = "Application Load Balancer"
   }
 
   egress {

@@ -24,9 +24,9 @@ resource "aws_route53_record" "dns_dotnet" {
 resource "aws_lb" "nlb" {
   #checkov:skip=CKV_AWS_150:Deletion protection is being left off for ease of running terraform destroy
   #checkov:skip=CKV2_AWS_20:Not required for our network load balancer, would be helpful for application load balancer instead
+  #checkov:skip=CKV_AWS_152:We are leaving cross-zone load balancing disabled to save costs
 
   #checkov:skip=CKV_AWS_91:TODO: Add cloudwatch logging
-  #checkov:skip=CKV2_AWS_20:TODO: Redirect HTTP to HTTPS at load balancer and remove HTTP handling afterwards in future security ticket
   name                             = "${var.project_name}-nlb"
   internal                         = false
   load_balancer_type               = "network"
