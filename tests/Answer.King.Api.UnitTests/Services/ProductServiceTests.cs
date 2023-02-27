@@ -175,8 +175,9 @@ public class ProductServiceTests
     public async Task UnretireProduct_ValidProductId_ReturnsProductAsUnretired()
     {
         // Arrange
+        var now = DateTime.UtcNow;
         var product = ProductFactory.CreateProduct(
-            1, "product", "desc", 12.00, new ProductCategory(1, "category", "desc"), new List<TagId> { new(1) }, true);
+            1, "product", "desc", 12.00, now, now, new ProductCategory(1, "category", "desc"), new List<TagId> { new(1) }, true);
 
         this.productRepository.GetOne(product.Id).Returns(product);
 

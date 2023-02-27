@@ -3,6 +3,8 @@
   name: Burger,
   description: Juicy,
   price: 1.5,
+  createdOn: DateTimeOffset_1,
+  lastUpdated: DateTimeOffset_2,
   category: {
     id: 1,
     name: Seafood,
