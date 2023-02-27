@@ -56,6 +56,16 @@ public class ProductService : IProductService
             createProduct.Price,
             new ProductCategory(category.Id, category.Name, category.Description));
 
+        foreach (var tagId in createProduct.Tags)
+        {
+            var tag = await this.Tags.GetOne(tagId);
+
+            if (tag!.Retired)
+            {
+                throw new ProductServiceException("One or more tags have been retired");
+            }
+        }
+
         await this.Products.AddOrUpdate(product);
         category.AddProduct(new ProductId(product.Id));
 
