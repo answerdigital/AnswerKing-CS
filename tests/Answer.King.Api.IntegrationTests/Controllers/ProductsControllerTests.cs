@@ -80,6 +80,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -132,6 +133,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -154,6 +156,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -170,6 +173,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = new CategoryId(2),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl($"/api/products/{products?.Id}");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
@@ -208,6 +212,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products/1000");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.NotFound);
@@ -228,6 +233,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     Categories = new List<long> { 1 },
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products/InvalidID");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -262,6 +268,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = 1,
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products/3");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -282,6 +289,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = 1,
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products/3");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.BadRequest);
@@ -318,6 +326,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.5,
                     CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
@@ -345,6 +354,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.50,
                     CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);

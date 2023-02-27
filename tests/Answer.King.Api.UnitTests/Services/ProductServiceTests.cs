@@ -21,6 +21,8 @@ public class ProductServiceTests
 
     private readonly IProductRepository productRepository = Substitute.For<IProductRepository>();
 
+    private readonly ITagRepository tagRepository = Substitute.For<ITagRepository>();
+
     #region Create
 
     [Fact]
@@ -147,7 +149,7 @@ public class ProductServiceTests
 
     private IProductService GetServiceUnderTest()
     {
-        return new ProductService(this.productRepository, this.categoryRepository);
+        return new ProductService(this.productRepository, this.categoryRepository, this.tagRepository);
     }
 
     #endregion
