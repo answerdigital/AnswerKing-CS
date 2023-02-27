@@ -27,11 +27,11 @@
       },
       "AWSSDK.CloudWatchLogs": {
         "type": "Direct",
-        "requested": "[3.7.104.20, )",
-        "resolved": "3.7.104.20",
-        "contentHash": "p6bslVt53WHCsGJkn601QX5jwyXHTvpQp7C6RK0xaOI+/0ZtYzGIGb2Fpv9JrWwcQj9aIeh3cKB9OSHjKZO5jw==",
+        "requested": "[3.7.104.23, )",
+        "resolved": "3.7.104.23",
+        "contentHash": "9eF8lJ/jd7mpPK06pNG2L0rrvyKbbcpoj3G5vTX2Mh2PZCPoX2f7Q1j21sj6XxWsY/PToFvImkLHxpoDunLJYA==",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.105.6, 4.0.0)"
+          "AWSSDK.Core": "[3.7.105.9, 4.0.0)"
         }
       },
       "AWSSDK.Extensions.NETCore.Setup": {
@@ -211,8 +211,8 @@
       },
       "AWSSDK.Core": {
         "type": "Transitive",
-        "resolved": "3.7.105.6",
-        "contentHash": "3thX98VZZ3axmub9Emr8rIOgq8iZ5SWbYFWmy+/3EGnG6iX54Ti6ZQKWCXpJnl4PZCRSH7jsJV21xvyMYpMFaw=="
+        "resolved": "3.7.105.9",
+        "contentHash": "4cGg25JfKQPVr8N7TqTOrjqBluNSZ0N62WbbGMwO+zNiZi9XXUYD3qY4Et8XXJ2Z5Eih7dHYmnmmOUAHsAkiuw=="
       },
       "FluentValidation": {
         "type": "Transitive",
