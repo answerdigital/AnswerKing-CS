@@ -184,12 +184,12 @@ public class CategoriesController : ControllerBase
     /// Unretire category.
     /// </summary>
     /// <param name="id">Category identifier.</param>
-    /// <response code="201">When the category has been unretired.</response>
+    /// <response code="200">When the category has been unretired.</response>
     /// <response code="400">When invalid parameters are provided.</response>
     /// <returns>Unretired Category.</returns>
     // POST api/categories
     [HttpPost("{id}")]
-    [ProducesResponseType(typeof(Domain.Inventory.Category), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Domain.Inventory.Category), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Unretire(long id)

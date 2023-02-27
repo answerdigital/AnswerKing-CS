@@ -355,7 +355,7 @@ public class CategoryServiceTests
 
     #endregion
 
-    #region Retire
+    #region Unretire
 
     [Fact]
     public async Task UnretireCategory_InvalidCategoryIdReceived_ReturnsNull()
@@ -379,6 +379,22 @@ public class CategoryServiceTests
         var sut = this.GetServiceUnderTest();
         await Assert.ThrowsAsync<CategoryServiceException>(() =>
             sut.UnretireCategory(category.Id));
+    }
+
+    [Fact]
+    public async Task UnretireCategory_ValidCategoryId_ReturnsUnretiredCategory()
+    {
+        // Arrange
+        var category = new Category("category", "desc", new List<ProductId>());
+        category.RetireCategory();
+        this.categoryRepository.GetOne(category.Id).Returns(category);
+
+        // Act
+        var sut = this.GetServiceUnderTest();
+        var retiredCategory = await sut.UnretireCategory(category.Id);
+
+        // Assert
+        Assert.False(retiredCategory!.Retired);
     }
 
     #endregion

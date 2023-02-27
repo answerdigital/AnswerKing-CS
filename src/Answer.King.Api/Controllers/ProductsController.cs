@@ -176,14 +176,15 @@ public class ProductsController : ControllerBase
     /// Unretire an existing product.
     /// </summary>
     /// <param name="id">Product identifier.</param>
-    /// <response code="201">When the product has been unretired.</response>
+    /// <response code="200">When the product has been unretired.</response>
     /// <response code="404">When the product with the given <paramref name="id"/> does not exist.</response>
-    /// <response code="410">When the product with the given <paramref name="id"/> is already retired.</response>
+    /// <response code="410">When the product with the given <paramref name="id"/> is not retired.</response>
     /// <returns>Status of retirement request.</returns>
-    // DELETE api/products/{ID}
+    // POST api/products/{ID}
     [HttpPost("{id}")]
-    [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status410Gone)]
     [SwaggerOperation(Tags = new[] { "Inventory" })]
     public async Task<IActionResult> Unretire(long id)
     {
@@ -195,7 +196,7 @@ public class ProductsController : ControllerBase
                 return this.NotFound();
             }
 
-            return this.Ok();
+            return this.Ok(product);
         }
         catch (ProductServiceException)
         {

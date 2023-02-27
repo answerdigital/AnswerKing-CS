@@ -143,13 +143,6 @@ public class ProductService : IProductService
             throw new ProductServiceException("The product is not retired.");
         }
 
-        var categories = await this.Categories.GetByProductId(productId);
-        foreach (var category in categories.ToList())
-        {
-            category.RemoveProduct(new ProductId(productId));
-            await this.Categories.Save(category);
-        }
-
         product.Unretire();
 
         await this.Products.AddOrUpdate(product);
