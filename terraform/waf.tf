@@ -8,22 +8,44 @@ resource "aws_wafv2_web_acl" "wafv2_alb_acl" {
     }
 
     rule {
-        name     = "${var.project_name}-rate-limit"
+        name     = "${var.project_name}-region-lock"
         priority = 1
 
         action {
             block {}
         }
+
+        statement {
+            geo_match_statement {
+                country_codes = ["GB"]
+            }
+        }
+
+        visibility_config {
+            cloudwatch_metrics_enabled = true
+            metric_name                = "${var.project_name}-acl-rule-regionlock-vis"
+            sampled_requests_enabled   = false
+        }
+    }
+
+    rule {
+        name     = "${var.project_name}-rate-limit"
+        priority = 2
+
+        action {
+            block {}
+        }
+
         statement {
             rate_based_statement {
                 limit              = 300
                 aggregate_key_type = "IP"
             }
-
         }
+
         visibility_config {
             cloudwatch_metrics_enabled = true
-            metric_name                = "${var.project_name}-acl-rule-vis"
+            metric_name                = "${var.project_name}-acl-rule-ratelimit-vis"
             sampled_requests_enabled   = false
         }
     }
