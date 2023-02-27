@@ -1,7 +1,7 @@
 # VPC Subnet module: Creates a VPC for our resources to live inside
 
 module "vpc_subnet" {
-  source = "git::github.com/answerdigital/terraform-modules/tree/main/modules/aws/vpc?ref=v1.0.0"
+  source = "git::https://github.com/answerdigital/terraform-modules//Terraform_modules/vpc_subnets?ref=v1.0.0"
 
   project_name        = var.project_name
   owner               = var.owner

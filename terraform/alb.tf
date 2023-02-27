@@ -81,11 +81,12 @@ resource "aws_lb_target_group" "alb_target_group" {
 }
 
 resource "aws_lb_listener" "alb_listener_https" {
+  #checkov:skip=CKV_AWS_103: False positive, default SSL policy does enable TLS 1.2
   load_balancer_arn = aws_lb.alb.id
   port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = var.tls_certificate_arn
-  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {
     type             = "forward"

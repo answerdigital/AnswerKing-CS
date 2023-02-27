@@ -2,7 +2,7 @@ resource "aws_wafv2_web_acl" "wafv2_alb_acl" {
     #checkov:skip=CKV2_AWS_31:TODO: Enable comprehensive logging using Amazon Kinesis Data Firehose and an S3 bucket to store logs
 
     name        = "${var.project_name}-acl"
-    description = "Limits the rate at which one IP address can query the API"
+    description = "Limits the rate at which one IP address can query the API, and blocks non-UK IP addresses"
     scope       = "REGIONAL"
 
     default_action {
@@ -10,7 +10,7 @@ resource "aws_wafv2_web_acl" "wafv2_alb_acl" {
     }
 
     rule {
-        name     = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
+        name     = "${var.project_name}-acl-rule-log4j2"
         priority = 1
 
         override_action {
@@ -23,10 +23,16 @@ resource "aws_wafv2_web_acl" "wafv2_alb_acl" {
                 vendor_name = "AWS"
             }
         }
+
+        visibility_config {
+            cloudwatch_metrics_enabled = true
+            metric_name                = "${var.project_name}-acl-rule-log4j2-vis"
+            sampled_requests_enabled   = false
+        }
     }
 
     rule {
-        name     = "${var.project_name}-region-lock"
+        name     = "${var.project_name}-acl-rule-region-lock"
         priority = 2
 
         action {
@@ -34,8 +40,12 @@ resource "aws_wafv2_web_acl" "wafv2_alb_acl" {
         }
 
         statement {
-            geo_match_statement {
-                country_codes = ["GB"]
+            not_statement {
+                statement {
+                    geo_match_statement {
+                        country_codes = ["GB"]
+                    }
+                }
             }
         }
 
@@ -47,7 +57,7 @@ resource "aws_wafv2_web_acl" "wafv2_alb_acl" {
     }
 
     rule {
-        name     = "${var.project_name}-rate-limit"
+        name     = "${var.project_name}-acl-rule-ratelimit"
         priority = 3
 
         action {
