@@ -34,23 +34,4 @@
     <Using Include="Alba" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Controllers\CategoriesControllerTests.UnretireCategory_ValidId_ReturnsCategory.verified.txt">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).cs</DependentUpon>
-    </None>
-    <None Update="Controllers\CategoriesControllerTests.UnretireCategory_InvalidId_ReturnsNotFound.verified.txt">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).cs</DependentUpon>
-    </None>
-    <None Update="Controllers\ProductsControllerTests.UnretireProduct_ValidId_ReturnsProduct.verified.txt">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).cs</DependentUpon>
-    </None>
-    <None Update="Controllers\ProductsControllerTests.UnretireProduct_InvalidId_ReturnsNotFound.verified.txt">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).cs</DependentUpon>
-    </None>
-  </ItemGroup>
-
 </Project>
