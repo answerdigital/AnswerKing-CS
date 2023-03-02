@@ -276,6 +276,45 @@ public class ProductsControllerTests : WebFixtures
     }
 
     [Fact]
+    public async Task<VerifyResult> PutProduct_RemoveTag_ReturnsModel()
+    {
+        var postResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Post
+                .Json(new
+                {
+                    Name = "Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    CategoryId = new CategoryId(1),
+                    Tags = new[] { 1 },
+                })
+                .ToUrl("/api/products");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
+        });
+
+        var products = postResult.ReadAsJson<Product>();
+
+        var putResult = await this.AlbaHost.Scenario(_ =>
+        {
+            _.Put
+                .Json(new
+                {
+                    Name = "BBQ Burger",
+                    Description = "Juicy",
+                    Price = 1.50,
+                    CategoryId = new CategoryId(2),
+                    Tags = new List<long>(),
+                })
+                .ToUrl($"/api/products/{products?.Id}");
+            _.StatusCodeShouldBe(System.Net.HttpStatusCode.OK);
+        });
+
+        var updatedProduct = putResult.ReadAsJson<Product>();
+        return await Verify(updatedProduct, this.verifySettings);
+    }
+
+    [Fact]
     public async Task<VerifyResult> PutProduct_InvalidDTO_ReturnsBadRequest()
     {
         var putResult = await this.AlbaHost.Scenario(_ =>
