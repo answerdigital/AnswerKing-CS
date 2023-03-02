@@ -201,7 +201,7 @@ public class ProductService : IProductService
 
         return product;
     }
-    
+
     public async Task<Product?> UnretireProduct(long productId)
     {
         var product = await this.Products.GetOne(productId);
@@ -221,7 +221,6 @@ public class ProductService : IProductService
         await this.Products.AddOrUpdate(product);
 
         return product;
-
     }
 
     private async Task<List<Tag>> AssociateProductAndTags(Product product, List<long> tags)
