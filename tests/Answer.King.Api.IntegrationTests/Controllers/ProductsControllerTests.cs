@@ -498,6 +498,7 @@ public class ProductsControllerTests : WebFixtures
                     Description = "Juicy",
                     Price = 1.5,
                     CategoryId = new CategoryId(1),
+                    Tags = new List<long>(),
                 })
                 .ToUrl("/api/products");
             _.StatusCodeShouldBe(System.Net.HttpStatusCode.Created);
