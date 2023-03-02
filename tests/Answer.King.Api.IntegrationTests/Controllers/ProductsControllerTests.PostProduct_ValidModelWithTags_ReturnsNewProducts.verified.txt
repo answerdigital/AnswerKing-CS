@@ -8,5 +8,8 @@
     Name: Seafood,
     Description: Food from the oceans
   },
+  Tags: [
+    1
+  ],
   Retired: false
 }

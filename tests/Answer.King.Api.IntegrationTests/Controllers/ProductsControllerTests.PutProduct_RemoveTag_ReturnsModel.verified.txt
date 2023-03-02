@@ -8,8 +8,5 @@
     Name: Sundries,
     Description: Sides
   },
-  Tags: [
-    1
-  ],
   Retired: false
 }
