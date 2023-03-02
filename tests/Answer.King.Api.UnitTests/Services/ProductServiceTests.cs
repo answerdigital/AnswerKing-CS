@@ -62,8 +62,11 @@ public class ProductServiceTests
     public async Task RetireProduct_ValidProductId_ReturnsProductAsRetired()
     {
         // Arrange
+        var createdOn = DateTime.UtcNow;
+        var lastUpdated = createdOn;
+
         var product = ProductFactory.CreateProduct(
-            1, "product", "desc", 12.00, new ProductCategory(1, "category", "desc"), new List<TagId> { new(1) }, false);
+            1, "product", "desc", 12.00, createdOn, lastUpdated, new ProductCategory(1, "category", "desc"), new List<TagId> { new(1) }, false);
 
         this.productRepository.GetOne(product.Id).Returns(product);
 
@@ -141,6 +144,54 @@ public class ProductServiceTests
         // Assert
         Assert.Equal(product, actualProduct);
         await this.productRepository.Received().GetOne(product.Id);
+    }
+
+    #endregion
+
+    #region Unretire
+
+    [Fact]
+    public async Task UnretireProduct_InvalidProductId_ReturnsNull()
+    {
+        // Arrange
+        this.productRepository.GetOne(Arg.Any<long>()).Returns(null as Product);
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        Assert.Null(await sut.UnretireProduct(1));
+    }
+
+    [Fact]
+    public async Task UnretireProduct_InValidCategoryId_ThrowsException()
+    {
+        // Arrange
+        var product = new Product("product 1", "desc", 10.00, new ProductCategory(1, "category", "desc"));
+        this.productRepository.GetOne(Arg.Any<long>()).Returns(product);
+
+        // Act / Assert
+        var sut = this.GetServiceUnderTest();
+        await Assert.ThrowsAsync<ProductServiceException>(() => sut.UnretireProduct(1));
+    }
+
+    [Fact]
+    public async Task UnretireProduct_ValidProductId_ReturnsProductAsUnretired()
+    {
+        // Arrange
+        var now = DateTime.UtcNow;
+        var product = ProductFactory.CreateProduct(
+            1, "product", "desc", 12.00, now, now, new ProductCategory(1, "category", "desc"), new List<TagId> { new(1) }, true);
+
+        this.productRepository.GetOne(product.Id).Returns(product);
+
+        // Act
+        var sut = this.GetServiceUnderTest();
+        var unretiredProduct = await sut.UnretireProduct(product.Id);
+
+        // Assert
+        Assert.False(unretiredProduct!.Retired);
+        Assert.Equal(product.Id, unretiredProduct.Id);
+
+        await this.productRepository.AddOrUpdate(product);
     }
 
     #endregion

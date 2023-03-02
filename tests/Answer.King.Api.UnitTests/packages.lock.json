@@ -20,9 +20,9 @@
       },
       "NSubstitute": {
         "type": "Direct",
-        "requested": "[4.4.0, )",
-        "resolved": "4.4.0",
-        "contentHash": "aArWp0M9n/3IZHCNSb3QIHy0tkPLSft8l3KFeUa54GbznKiv0FE687TBfPhZbXf0/zGtc4EsHLEUqEEf0Bf4HQ==",
+        "requested": "[5.0.0, )",
+        "resolved": "5.0.0",
+        "contentHash": "CWGy4oXvcJcZzL7m5Rr/eMSejFXMDq1RRMlsbL6eltS3AuN/d8GH3ZzUcuStQcCSlcx+hpsgTxdnb3lhozWG6w==",
         "dependencies": {
           "Castle.Core": "5.0.0"
         }
@@ -84,21 +84,21 @@
       },
       "AWSSDK.CloudWatchLogs": {
         "type": "Transitive",
-        "resolved": "3.7.104.4",
-        "contentHash": "O9XCAVt/ud2Zf+9SfA9DVnIOTME5vuQOr8XSD3TXZPMORUYPH7Lnq9vv5YzwCiBmVX0EtByG9mXkKUENslvUhA==",
+        "resolved": "3.7.104.20",
+        "contentHash": "p6bslVt53WHCsGJkn601QX5jwyXHTvpQp7C6RK0xaOI+/0ZtYzGIGb2Fpv9JrWwcQj9aIeh3cKB9OSHjKZO5jw==",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.103.23, 4.0.0)"
+          "AWSSDK.Core": "[3.7.105.6, 4.0.0)"
         }
       },
       "AWSSDK.Core": {
         "type": "Transitive",
-        "resolved": "3.7.103.23",
-        "contentHash": "9If6PxkxBk+qB6fXtKOkf0L6myUS2w3rk7Ef6RX4nRZKpr2ueRFWT/OJlW91rvGwtmq6sfbywZlVI01ed+hNEQ=="
+        "resolved": "3.7.105.6",
+        "contentHash": "3thX98VZZ3axmub9Emr8rIOgq8iZ5SWbYFWmy+/3EGnG6iX54Ti6ZQKWCXpJnl4PZCRSH7jsJV21xvyMYpMFaw=="
       },
       "AWSSDK.Extensions.NETCore.Setup": {
         "type": "Transitive",
-        "resolved": "3.7.2",
-        "contentHash": "iFjbEnVB0f6Hr8L3EfdelHG7zxVQrOmeP9UIrX3IODR1eTsrqVrmq0mazdIr0GZK1YG2/DZiVt6tNyV1bayndw==",
+        "resolved": "3.7.4",
+        "contentHash": "P1N5+kfoWMWu/GyMUsREAICeFo5QUP7nqF4vN3hP3ocMmzTnOLMPUtJdjmdFQ8STiYyr5UlNL4hhZ9C5mgq3jg==",
         "dependencies": {
           "AWSSDK.Core": "3.7.6",
           "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
@@ -1449,8 +1449,8 @@
         "dependencies": {
           "AWS.Logger.AspNetCore": "[3.3.0, )",
           "AWS.Logger.SeriLog": "[3.2.0, )",
-          "AWSSDK.CloudWatchLogs": "[3.7.104.4, )",
-          "AWSSDK.Extensions.NETCore.Setup": "[3.7.2, )",
+          "AWSSDK.CloudWatchLogs": "[3.7.104.20, )",
+          "AWSSDK.Extensions.NETCore.Setup": "[3.7.4, )",
           "Answer.King.Domain": "[1.0.0, )",
           "Answer.King.Infrastructure": "[1.0.0, )",
           "FluentValidation.AspNetCore": "[11.2.2, )",

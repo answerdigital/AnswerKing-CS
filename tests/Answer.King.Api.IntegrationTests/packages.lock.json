@@ -21,13 +21,13 @@
       },
       "Microsoft.AspNetCore.Mvc.Testing": {
         "type": "Direct",
-        "requested": "[7.0.2, )",
-        "resolved": "7.0.2",
-        "contentHash": "cuW9AckSQN+B5jzeqdUQHk5dqneF5WEuTQqP/KPTpBucyn7Fc6LvA+1Lcfg2sC0cKhy+/kVMMdwUhDQz+Hx4Gg==",
+        "requested": "[7.0.3, )",
+        "resolved": "7.0.3",
+        "contentHash": "uK3h+RhJHRDt+HEOty3LMDVJAWKucjpAdm2RKQR7QYQVAtRB9b3+Jl+9wGxlrqW5Den7Ut9RJlA+aO4nPceieQ==",
         "dependencies": {
-          "Microsoft.AspNetCore.TestHost": "7.0.2",
+          "Microsoft.AspNetCore.TestHost": "7.0.3",
           "Microsoft.Extensions.DependencyModel": "7.0.0",
-          "Microsoft.Extensions.Hosting": "7.0.0"
+          "Microsoft.Extensions.Hosting": "7.0.1"
         }
       },
       "Microsoft.NET.Test.Sdk": {
@@ -63,12 +63,12 @@
       },
       "Verify.Xunit": {
         "type": "Direct",
-        "requested": "[19.7.1, )",
-        "resolved": "19.7.1",
-        "contentHash": "NTuOBOk+Awwoar8HmjmkYeICygwW3M3rrMjMV59FUSCngzszXGcMBtlIXQmiyfS24Qb+NjZokEyaphWEIMwIRQ==",
+        "requested": "[19.10.0, )",
+        "resolved": "19.10.0",
+        "contentHash": "MHahmhhKESeo4hOucvRGywhKlk18B27E3mw+8eC8YijLukrbXNncVNHzl7ef+dM36Q4MFe+Pzty2H4Lk/Iiltw==",
         "dependencies": {
-          "EmptyFiles": "4.1.0",
-          "Verify": "19.7.1",
+          "EmptyFiles": "4.2.0",
+          "Verify": "19.10.0",
           "xunit.abstractions": "2.0.3",
           "xunit.extensibility.execution": "2.4.2"
         }
@@ -92,8 +92,8 @@
       },
       "Argon": {
         "type": "Transitive",
-        "resolved": "0.2.1",
-        "contentHash": "u+nKsl9XXOr6ZS2VrEUwEgJyp2O+rBMyVZ/du03U8Boab4mpSZCLL3+YrzuacsVQv5xKZQhH0nCojZk+bw8L9A=="
+        "resolved": "0.4.0",
+        "contentHash": "gkGsTpDQnkIBl4HAr/Z06LQGdzyTB1vDHB1z+w0sUMZLJCPPzSCCH77ecmTzUXNhMat809BkkuIUv/zcoEwW4w=="
       },
       "AWS.Logger.AspNetCore": {
         "type": "Transitive",
@@ -126,21 +126,21 @@
       },
       "AWSSDK.CloudWatchLogs": {
         "type": "Transitive",
-        "resolved": "3.7.104.4",
-        "contentHash": "O9XCAVt/ud2Zf+9SfA9DVnIOTME5vuQOr8XSD3TXZPMORUYPH7Lnq9vv5YzwCiBmVX0EtByG9mXkKUENslvUhA==",
+        "resolved": "3.7.104.20",
+        "contentHash": "p6bslVt53WHCsGJkn601QX5jwyXHTvpQp7C6RK0xaOI+/0ZtYzGIGb2Fpv9JrWwcQj9aIeh3cKB9OSHjKZO5jw==",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.103.23, 4.0.0)"
+          "AWSSDK.Core": "[3.7.105.6, 4.0.0)"
         }
       },
       "AWSSDK.Core": {
         "type": "Transitive",
-        "resolved": "3.7.103.23",
-        "contentHash": "9If6PxkxBk+qB6fXtKOkf0L6myUS2w3rk7Ef6RX4nRZKpr2ueRFWT/OJlW91rvGwtmq6sfbywZlVI01ed+hNEQ=="
+        "resolved": "3.7.105.6",
+        "contentHash": "3thX98VZZ3axmub9Emr8rIOgq8iZ5SWbYFWmy+/3EGnG6iX54Ti6ZQKWCXpJnl4PZCRSH7jsJV21xvyMYpMFaw=="
       },
       "AWSSDK.Extensions.NETCore.Setup": {
         "type": "Transitive",
-        "resolved": "3.7.2",
-        "contentHash": "iFjbEnVB0f6Hr8L3EfdelHG7zxVQrOmeP9UIrX3IODR1eTsrqVrmq0mazdIr0GZK1YG2/DZiVt6tNyV1bayndw==",
+        "resolved": "3.7.4",
+        "contentHash": "P1N5+kfoWMWu/GyMUsREAICeFo5QUP7nqF4vN3hP3ocMmzTnOLMPUtJdjmdFQ8STiYyr5UlNL4hhZ9C5mgq3jg==",
         "dependencies": {
           "AWSSDK.Core": "3.7.6",
           "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
@@ -159,8 +159,8 @@
       },
       "EmptyFiles": {
         "type": "Transitive",
-        "resolved": "4.1.0",
-        "contentHash": "mwnB0PowYoKVD0t/ImcAbwBNNHRpmRrbiuCSosy6m5YoGJ/29k45RTU/8arLrhcPWH1JVCwPfmMsW06/IdDaZA=="
+        "resolved": "4.2.0",
+        "contentHash": "VWXAwhdItSlxEbRLoQBmeNGTCb2Rhp0Nry+4xtKvpTRkWmeC0Ut9fiBeMtTtARLTxC5JyQ6HsgcmhdcNxYqNRg=="
       },
       "FluentValidation": {
         "type": "Transitive",
@@ -205,8 +205,8 @@
       },
       "Microsoft.AspNetCore.TestHost": {
         "type": "Transitive",
-        "resolved": "7.0.2",
-        "contentHash": "yBkJfNnIdux3pXTLI6zMch+T/FphI09I1DCfEI6RL+D2ibR7i7WnlCwaD3qZUIL1mdrYnCvjc3HZ0qxXU5ZvKQ==",
+        "resolved": "7.0.3",
+        "contentHash": "wS+gBqK8O6ASpGjEoRdxKR4qb/Hqt+RumM1bMfKxkjYpsBl4UMh8ClmXzU42omn3sWCpPqxZIBSIO3F4zEYPzQ==",
         "dependencies": {
           "System.IO.Pipelines": "7.0.0"
         }
@@ -245,8 +245,8 @@
       },
       "Microsoft.Extensions.Configuration.Binder": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "tgU4u7bZsoS9MKVRiotVMAwHtbREHr5/5zSEV+JPhg46+ox47Au84E3D2IacAaB0bk5ePNaNieTlPrfjbbRJkg==",
+        "resolved": "7.0.3",
+        "contentHash": "1eRFwJBrkkncTpvh6mivB8zg4uBVm6+Y6stEJERrVEqZZc8Hvf+N1iIgj2ySYDUQko4J1Gw1rLf1M8bG83F0eA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0"
         }
@@ -351,12 +351,12 @@
       },
       "Microsoft.Extensions.Hosting": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "4nFc8xCfK26G524ioreZvz/IeIKN/gY1LApoGpaIThKqBdTwauUo4ETCf12lQcoefijqe3Imnfvnk31IezFatg==",
+        "resolved": "7.0.1",
+        "contentHash": "aoeMou6XSW84wiqd895OdaGyO9PfH6nohQJ0XBcshRDafbdIU6PQIVl8TpOCssPYq3ciRseP5064hbFyCR9J9w==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "7.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Configuration.Binder": "7.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "7.0.3",
           "Microsoft.Extensions.Configuration.CommandLine": "7.0.0",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "7.0.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "7.0.0",
@@ -374,7 +374,8 @@
           "Microsoft.Extensions.Logging.Debug": "7.0.0",
           "Microsoft.Extensions.Logging.EventLog": "7.0.0",
           "Microsoft.Extensions.Logging.EventSource": "7.0.0",
-          "Microsoft.Extensions.Options": "7.0.0"
+          "Microsoft.Extensions.Options": "7.0.1",
+          "System.Diagnostics.DiagnosticSource": "7.0.1"
         }
       },
       "Microsoft.Extensions.Hosting.Abstractions": {
@@ -468,8 +469,8 @@
       },
       "Microsoft.Extensions.Options": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "lP1yBnTTU42cKpMozuafbvNtQ7QcBjr/CcK3bYOGEMH55Fjt+iecXjT6chR7vbgCMqy3PG3aNQSZgo/EuY/9qQ==",
+        "resolved": "7.0.1",
+        "contentHash": "pZRDYdN1FpepOIfHU62QoBQ6zdAoTvnjxFfqAzEd9Jhb2dfhA5i6jeTdgGgcgTWFRC7oT0+3XrbQu4LjvgX1Nw==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
           "Microsoft.Extensions.Primitives": "7.0.0"
@@ -1033,15 +1034,8 @@
       },
       "System.Diagnostics.DiagnosticSource": {
         "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "tD6kosZnTAGdrEa0tZSuFyunMbt/5KYDnHdndJYGqZoNy00XVXyACd5d6KnE1YgYv3ne2CjtAfNXo/fwEhnKUA==",
-        "dependencies": {
-          "System.Collections": "4.3.0",
-          "System.Diagnostics.Tracing": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Threading": "4.3.0"
-        }
+        "resolved": "7.0.1",
+        "contentHash": "T9SLFxzDp0SreCffRDXSAS5G+lq6E8qP4knHS2IBjwCdx2KEvGnGZsq7gFpselYOda7l6gXsJMD93TQsFj/URA=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
@@ -1732,12 +1726,12 @@
       },
       "Verify": {
         "type": "Transitive",
-        "resolved": "19.7.1",
-        "contentHash": "Pm7bWHyay4s5/8TGsqVgeu0i0XHnYRvTwfAE1yFMmtFpfhymIcUYiuQ/5kucsXyocpeG9mxeYOETj1cQMx/BVg==",
+        "resolved": "19.10.0",
+        "contentHash": "0TmGkePJHe9ros8R+Pnsav84+oF8odDaZMlNeUz0lYnCFqrCmToEN85KsMI0uT8TU1aCr/9ezgoyHplhMV+liA==",
         "dependencies": {
-          "Argon": "0.2.1",
+          "Argon": "0.4.0",
           "DiffEngine": "11.1.0",
-          "EmptyFiles": "4.1.0",
+          "EmptyFiles": "4.2.0",
           "SimpleInfoName": "2.1.0"
         }
       },
@@ -1791,8 +1785,8 @@
         "dependencies": {
           "AWS.Logger.AspNetCore": "[3.3.0, )",
           "AWS.Logger.SeriLog": "[3.2.0, )",
-          "AWSSDK.CloudWatchLogs": "[3.7.104.4, )",
-          "AWSSDK.Extensions.NETCore.Setup": "[3.7.2, )",
+          "AWSSDK.CloudWatchLogs": "[3.7.104.20, )",
+          "AWSSDK.Extensions.NETCore.Setup": "[3.7.4, )",
           "Answer.King.Domain": "[1.0.0, )",
           "Answer.King.Infrastructure": "[1.0.0, )",
           "FluentValidation.AspNetCore": "[11.2.2, )",
