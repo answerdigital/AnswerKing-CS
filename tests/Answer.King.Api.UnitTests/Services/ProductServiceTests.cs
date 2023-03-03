@@ -130,8 +130,8 @@ public class ProductServiceTests
         var tag = new Domain.Inventory.Tag("tag", "desc", new List<ProductId> { new ProductId(productId) });
         tag.AddProduct(new ProductId(productId));
 
-        this.productRepository.GetOne(productId).Returns(new Task<Product?>(() => product));
-        this.tagRepository.GetOne(tagId).Returns(new Task<Domain.Inventory.Tag?>(() => tag));
+        this.productRepository.GetOne(productId).Returns(product);
+        this.tagRepository.GetOne(tagId).Returns(tag);
         this.tagRepository.Save(Arg.Any<Domain.Inventory.Tag>()).Returns(Task.CompletedTask);
         this.productRepository.AddOrUpdate(Arg.Any<Product>()).Returns(Task.CompletedTask);
 
