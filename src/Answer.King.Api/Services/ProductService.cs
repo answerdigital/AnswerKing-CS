@@ -56,26 +56,16 @@ public class ProductService : IProductService
             createProduct.Price,
             new ProductCategory(category.Id, category.Name, category.Description));
 
-        foreach (var tagId in createProduct.Tags)
-        {
-            var tag = await this.Tags.GetOne(tagId);
-
-            if (tag!.Retired)
-            {
-                throw new ProductServiceException("One or more tags have been retired");
-            }
-        }
-
         await this.Products.AddOrUpdate(product);
         category.AddProduct(new ProductId(product.Id));
 
         await this.Categories.Save(category);
 
-        var tags = await this.AssociateProductAndTags(product, createProduct.Tags);
-
         try
         {
             this.Tags.BeginTransaction();
+
+            var tags = await this.AssociateProductAndTags(product, createProduct.Tags);
 
             foreach (var tag in tags)
             {
@@ -234,8 +224,8 @@ public class ProductService : IProductService
 
             try
             {
-                product.AddTag(new TagId(tagId));
                 tag.AddProduct(new ProductId(product.Id));
+                product.AddTag(new TagId(tagId));
             }
             catch (Exception ex) when (ex is ProductLifecycleException or TagLifecycleException)
             {
