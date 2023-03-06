@@ -5,7 +5,7 @@
   traceId: {Scrubbed},
   errors: {
     category: [
-      One or more tags have been retired
+      Cannot add product to retired tag.
     ]
   }
 }

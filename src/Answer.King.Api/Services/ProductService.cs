@@ -56,6 +56,8 @@ public class ProductService : IProductService
             createProduct.Price,
             new ProductCategory(category.Id, category.Name, category.Description));
 
+        this.Products.BeginTransaction();
+
         await this.Products.AddOrUpdate(product);
         category.AddProduct(new ProductId(product.Id));
 
@@ -77,8 +79,11 @@ public class ProductService : IProductService
         catch
         {
             this.Tags.RollbackTransaction();
+            this.Products.RollbackTransaction();
             throw;
         }
+
+        this.Products.CommitTransaction();
 
         return product;
     }
