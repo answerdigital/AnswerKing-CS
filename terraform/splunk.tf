@@ -14,7 +14,7 @@ variable "splunk_project_owner" {
 }
 
 module "splunk_vpc_subnet" {
-  source               = "github.com/answerdigital/terraform-modules/modules/aws/vpc?ref=v1.1.1"
+  source               = "git::https://github.com/answerdigital/terraform-modules//Terraform_modules/vpc_subnets?ref=v1.0.0"
   owner                = var.splunk_project_owner
   project_name         = var.splunk_project_name
   enable_vpc_flow_logs = true
@@ -63,7 +63,7 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 module "ec2_instance_setup" {
-  source                 = "github.com/answerdigital/terraform-modules//modules/aws/ec2?ref=v1.1.1"
+  source                 = "git::https://github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/ec2_instance?ref=v1.0.0"
   project_name           = "answerking-splunk-instance"
   owner                  = "answerking"
   ami_id                 = data.aws_ami.amazon_linux_2.id
