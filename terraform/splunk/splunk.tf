@@ -17,7 +17,8 @@ module "splunk_vpc_subnet" {
   source               = "git::https://github.com/answerdigital/terraform-modules//Terraform_modules/vpc_subnets?ref=v1.0.0"
   owner                = var.splunk_project_owner
   project_name         = var.splunk_project_name
-  enable_vpc_flow_logs = true
+  azs = ["eu-west-2a"]
+  #enable_vpc_flow_logs = true
 }
 
 data "aws_ami" "amazon_linux_2" {
@@ -67,7 +68,7 @@ module "ec2_instance_setup" {
   project_name           = "answerking-splunk-instance"
   owner                  = "answerking"
   ami_id                 = data.aws_ami.amazon_linux_2.id
-  availability_zone      = "eu-west-1"
+  availability_zone      = "eu-west-2a"
   subnet_id              = module.splunk_vpc_subnet.public_subnet_ids[0]
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   needs_elastic_ip       = true
@@ -83,6 +84,6 @@ sudo systemctl enable docker.service
 sudo systemctl start docker.service
 
 sudo docker pull splunk/splunk:latest
-sudo docker run -d -p 80:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={secret password here}" --name splunk splunk/splunk:latest
+sudo docker run -d -p 80:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={password}" --name splunk splunk/splunk:latest
 EOF
 }
