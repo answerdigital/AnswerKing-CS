@@ -1,24 +1,8 @@
-# Just putting everything in on file for now, will move around afterwards
-
-# variables
-variable "splunk_project_name" {
-    type = string
-    description = "Splunk Project Name"
-    default = "answerking-splunk-instance"
-}
-
-variable "splunk_project_owner" {
-    type = string
-    description = "Splunk Resource Owner"
-    default = "answerking"
-}
-
 module "splunk_vpc_subnet" {
-  source               = "git::https://github.com/answerdigital/terraform-modules//Terraform_modules/vpc_subnets?ref=v1.0.0"
-  owner                = var.splunk_project_owner
-  project_name         = var.splunk_project_name
-  azs = ["eu-west-2a"]
-  #enable_vpc_flow_logs = true
+  source       = "git::https://github.com/answerdigital/terraform-modules//Terraform_modules/vpc_subnets?ref=v1.0.0"
+  owner        = var.splunk_project_owner
+  project_name = var.splunk_project_name
+  azs          = ["eu-west-2a"]
 }
 
 data "aws_ami" "amazon_linux_2" {
@@ -34,7 +18,7 @@ data "aws_ami" "amazon_linux_2" {
 resource "aws_security_group" "ec2_sg" {
   name        = "${var.splunk_project_name}-ec2_sg"
   description = "Security group for ec2_sg"
-  vpc_id       = module.splunk_vpc_subnet.vpc_id
+  vpc_id      = module.splunk_vpc_subnet.vpc_id
 
   ingress {
     from_port   = 80
@@ -46,7 +30,7 @@ resource "aws_security_group" "ec2_sg" {
   ingress {
     from_port   = 443
     to_port     = 443
-    protocol   = "tcp"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -65,8 +49,8 @@ resource "aws_security_group" "ec2_sg" {
 
 module "ec2_instance_setup" {
   source                 = "git::https://github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/ec2_instance?ref=v1.0.0"
-  project_name           = "answerking-splunk-instance"
-  owner                  = "answerking"
+  project_name           = var.splunk_project_name
+  owner                  = var.splunk_project_owner
   ami_id                 = data.aws_ami.amazon_linux_2.id
   availability_zone      = "eu-west-2a"
   subnet_id              = module.splunk_vpc_subnet.public_subnet_ids[0]

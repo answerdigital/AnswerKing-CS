@@ -3,8 +3,6 @@ provider "aws" {
   skip_credentials_validation = true
 }
 
-provider "docker" {}
-
 terraform {
   required_version = "~> 1.3"
 
