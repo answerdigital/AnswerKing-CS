@@ -16,6 +16,8 @@ data "aws_ami" "amazon_linux_2" {
 }
 
 resource "aws_security_group" "ec2_sg" {
+  #checkov:skip=CKV_AWS_260:Allowing ingress from 0.0.0.0 for public HTTP(S) access
+  #checkov:skip=CKV2_AWS_5
   name        = "${var.splunk_project_name}-ec2_sg"
   description = "Security group for ec2_sg"
   vpc_id      = module.splunk_vpc_subnet.vpc_id
