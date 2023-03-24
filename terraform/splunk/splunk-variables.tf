@@ -9,3 +9,9 @@ variable "splunk_project_owner" {
     description = "Splunk Resource Owner"
     default = "answerking"
 }
+
+variable "splunk_domain_name" {
+    type = string
+    description = "Splunk Domain Name"
+    default = "splunk.answerking.co.uk"
+}
