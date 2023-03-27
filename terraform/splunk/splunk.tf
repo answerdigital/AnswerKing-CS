@@ -72,16 +72,16 @@ EOF
 # route 53
 
 resource "aws_route53_record" "splunk" {
-  zone_id        = aws_route53_zone.hosted_zone.zone_id
-  name           = var.splunk_domain_name
+  zone_id        = "Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id
+  name           = var.splunk_domain_name #"answerking.co.uk"
   type           = "A"
   ttl            = 300
   records        = [module.ec2_instance_setup.instance_public_ip_address] #[aws_lb.lb.dns_name]
 }
 
-resource "aws_route53_zone" "hosted_zone" {
-  name = var.splunk_domain_name
-}
+#resource "aws_route53_zone" "hosted_zone" {
+#  name = var.splunk_domain_name
+#}
 
 # Elastic IP
 
