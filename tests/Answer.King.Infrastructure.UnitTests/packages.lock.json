@@ -38,11 +38,11 @@
       },
       "Verify": {
         "type": "Direct",
-        "requested": "[19.11.1, )",
-        "resolved": "19.11.1",
-        "contentHash": "RX+wBsNW8GS3jwOyTXzJLLMMJOCIee6mSrLNkC409Fs9JZhWKBQ+tLiVFVd0h3W2Wi7FL1A5CZpxMpg6gtPuEA==",
+        "requested": "[19.11.2, )",
+        "resolved": "19.11.2",
+        "contentHash": "gZ1Q/Oj8CLzHAAZkr1j0+XeLrDprBorA6aNCJ48eyRXY3CysJtYctK8qj+YhVm8N1Rlb+UYAWZKSprxn2KR0xg==",
         "dependencies": {
-          "Argon": "0.5.0",
+          "Argon": "0.5.1",
           "DiffEngine": "11.2.0",
           "EmptyFiles": "4.3.0",
           "SimpleInfoName": "2.1.1"
@@ -79,8 +79,8 @@
       },
       "Argon": {
         "type": "Transitive",
-        "resolved": "0.5.0",
-        "contentHash": "57yiWJe8l5bQHPjXpkeM+KsJvQjj04+32FiLqTl/4KNv/y5ZGCkLKiHSzbKatL7Bg4VCL7rTkOM6sgGdwRpXUQ=="
+        "resolved": "0.5.1",
+        "contentHash": "4qOctLu0cmACJT59OZ9YqRMfk7DAWZCldyrUe1CIohSddeRp3Ykcnh4vW5UnNTwWHOyVobdL/dLl19wrsAVL1g=="
       },
       "Castle.Core": {
         "type": "Transitive",
