@@ -88,10 +88,9 @@ resource "aws_route53_record" "splunk" {
 resource "aws_eip" "lb_eip" {
   #checkov:skip=CKV2_AWS_19:IP is being used for load balancer
   vpc = true
-  count = "2"
 
   tags = {
-    Name  = "${var.splunk_project_name}-eip-${count.index}"
+    Name  = "${var.splunk_project_name}-eip"
     Owner = var.splunk_project_owner
   }
 }
@@ -142,13 +141,21 @@ resource "aws_lb" "lb" {
   load_balancer_type                      = "network"
   ip_address_type                         = "ipv4"
 
-  dynamic "subnet_mapping" {
-    for_each = module.splunk_vpc_subnet.public_subnet_ids
-    content {
-      subnet_id     = "${subnet_mapping.value}"
-      allocation_id = "${aws_eip.lb_eip[subnet_mapping.key].id}"
-    }
+  subnet_mapping {
+    subnet_id = "${module.splunk_vpc_subnet.public_subnet_ids[0]}"
+    allocation_id = "${aws_eip.lb_eip.id}"
   }
+
+  #subnet_id = module.splunk_vpc_subnet.value
+  #allocation_id = aws_eip.lb_eip[module.splunk_vpc_subnet.key].id
+  
+  #dynamic "subnet_mapping" {
+  #  for_each = module.splunk_vpc_subnet.public_subnet_ids
+  #  content {
+  #    subnet_id     = "${subnet_mapping.value}"
+  #    allocation_id = "${aws_eip.lb_eip[subnet_mapping.key].id}"
+  #  }
+  #}
 
   tags = {
     Name  = "${var.splunk_project_name}-lb"
