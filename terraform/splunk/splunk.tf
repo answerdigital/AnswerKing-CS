@@ -3,6 +3,8 @@ module "splunk_vpc_subnet" {
   owner        = var.splunk_project_owner
   project_name = var.splunk_project_name
   azs          = ["eu-west-2a"]
+  num_public_subnets = 1
+  num_private_subnets = 0
 }
 
 data "aws_ami" "amazon_linux_2" {
@@ -166,7 +168,7 @@ resource "aws_lb_target_group" "target_group" {
   name        = "${var.splunk_project_name}-lb-tg"
   port        = 443
   protocol    = "TCP"
-  target_type = "alb"
+  target_type = "ip"
   vpc_id      = module.splunk_vpc_subnet.vpc_id
 
   tags = {
@@ -179,14 +181,14 @@ resource "aws_lb_target_group" "target_group" {
   }
 }
 
-#resource "aws_acm_certificate" "cert" {
-#  domain_name       = var.splunk_domain_name
-#  validation_method = "DNS"
-#
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
+resource "aws_acm_certificate" "cert" {
+  domain_name       = var.splunk_domain_name
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "aws_lb_listener" "lb_listener" {
   load_balancer_arn = aws_lb.lb.id
@@ -201,8 +203,10 @@ resource "aws_lb_listener" "lb_listener" {
 
 resource "aws_lb_listener" "lb_listener_443" {
   load_balancer_arn = aws_lb.lb.id
+  certificate_arn   = aws_acm_certificate.cert.arn
   port              = "443"
-  protocol          = "TCP"
+  protocol          = "TLS"
+  alpn_policy       = "HTTP2Preferred"
 
   default_action {
     type             = "forward"
