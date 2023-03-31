@@ -61,7 +61,8 @@ module "ec2_instance_setup" {
   ami_id                 = data.aws_ami.amazon_linux_2.id
   availability_zone      = "eu-west-2a"
   subnet_id              = module.splunk_vpc_subnet.public_subnet_ids[0]
-  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  #vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  vpc_security_group_ids = [aws_security_group.lb_sg.id]
   needs_elastic_ip       = false #true
   user_data = <<EOF
 #!/bin/bash -xe
@@ -81,12 +82,26 @@ EOF
 
 # route 53
 
+/*
 resource "aws_route53_record" "splunk" {
   zone_id        = "Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id #"Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id
   name           = var.splunk_domain_name #"answerking.co.uk"
   type           = "A"
   ttl            = 300
   records        = [aws_eip.lb_eip.public_ip]#[module.ec2_instance_setup.instance_public_ip_address] #[aws_lb.lb.dns_name]
+}
+*/
+
+resource "aws_route53_record" "splunk" {
+  zone_id = "Z0072706JT6B6N2J7Z9H"
+  name    = var.splunk_domain_name
+  type    = "CNAME"
+  set_identifier = "public_ip"
+  ttl = "60"
+  records = [aws_lb.lb.dns_name]
+  geolocation_routing_policy {
+    country = "GB"
+  }
 }
 
 #resource "aws_route53_record" "splunk" {
