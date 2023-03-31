@@ -40,6 +40,14 @@ resource "aws_security_group" "ec2_sg" {
     description = "All traffic"
   }
 
+  ingress {    
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "HTTPS"
+  }
+
   tags = {
     Name  = "${var.splunk_project_name}-ec2-sg"
     Owner = var.splunk_project_owner
@@ -67,23 +75,54 @@ sudo systemctl enable docker.service
 sudo systemctl start docker.service
 
 sudo docker pull splunk/splunk:latest
-sudo docker run -d -p 80:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={password}" --name splunk splunk/splunk:latest
+sudo docker run -d -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={password}" --name splunk splunk/splunk:latest
 EOF
 }
 
 # route 53
 
 resource "aws_route53_record" "splunk" {
-  zone_id        = "Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id
+  zone_id        = "Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id #"Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id
   name           = var.splunk_domain_name #"answerking.co.uk"
   type           = "A"
   ttl            = 300
-  records        = [module.ec2_instance_setup.instance_public_ip_address] #[aws_lb.lb.dns_name]
+  records        = [aws_eip.lb_eip.public_ip]#[module.ec2_instance_setup.instance_public_ip_address] #[aws_lb.lb.dns_name]
 }
 
-#resource "aws_route53_zone" "hosted_zone" {
-#  name = var.splunk_domain_name
+#resource "aws_route53_record" "splunk" {
+#  for_each = {
+#    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+#      name   = dvo.resource_record_name
+#      record = dvo.resource_record_value
+#      type   = dvo.resource_record_type
+#    }
+#  }
+
+#  allow_overwrite = true
+#  name            = each.value.name
+#  records         = [each.value.record]
+#  ttl             = 60
+#  type            = each.value.type
+#  zone_id         = "Z0072706JT6B6N2J7Z9H"
 #}
+
+#resource "aws_route53_zone" "hosted_zone" {
+#  name = "answerking.co.uk" #var.splunk_domain_name
+#}
+
+resource "aws_acm_certificate" "cert" {
+  domain_name       = var.splunk_domain_name
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate_validation" "validate" {
+  certificate_arn         = aws_acm_certificate.cert.arn
+  #validation_record_fqdns = [for record in aws_route53_record.splunk : record.fqdn] #[aws_route53_record.splunk.fqdn]
+}
 
 # Elastic IP
 
@@ -166,7 +205,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "target_group" {
   name        = "${var.splunk_project_name}-lb-tg"
-  port        = 443
+  port        = 8000 #443
   protocol    = "TCP"
   target_type = "ip"
   vpc_id      = module.splunk_vpc_subnet.vpc_id
@@ -178,15 +217,6 @@ resource "aws_lb_target_group" "target_group" {
   lifecycle {
     create_before_destroy = true
     ignore_changes = [name]
-  }
-}
-
-resource "aws_acm_certificate" "cert" {
-  domain_name       = var.splunk_domain_name
-  validation_method = "DNS"
-
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -203,7 +233,7 @@ resource "aws_lb_listener" "lb_listener" {
 
 resource "aws_lb_listener" "lb_listener_443" {
   load_balancer_arn = aws_lb.lb.id
-  certificate_arn   = aws_acm_certificate.cert.arn
+  certificate_arn   = aws_acm_certificate_validation.validate.certificate_arn #aws_acm_certificate.cert.arn
   port              = "443"
   protocol          = "TLS"
   alpn_policy       = "HTTP2Preferred"
@@ -212,4 +242,8 @@ resource "aws_lb_listener" "lb_listener_443" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.id
   }
+
+  #depends_on = [
+  #  aws_acm_certificate.cert
+  #]
 }

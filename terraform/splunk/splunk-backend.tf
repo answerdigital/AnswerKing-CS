@@ -1,12 +1,14 @@
-#terraform {
-#  backend "s3" {
-#    bucket          = "answerking-splunk-terraform"
-#    key             = "answerking-splunk-terraform.tfstate"
-#    region          = "eu-west-2"
-#    dynamodb_table  = "answerking-splunk-terraform-state"
-#  }
-#}
-
+/*
+terraform {
+  backend "s3" {
+    bucket          = "answerking-splunk-terraform"
+    key             = "answerking-splunk-terraform.tfstate"
+    region          = "eu-west-2"
+    dynamodb_table  = "answerking-splunk-terraform-state"
+  }
+}
+*/
+/*
 resource "aws_s3_bucket" "terraform_backend_bucket" {
   bucket = "answerking-splunk-terraform"
 
@@ -47,3 +49,4 @@ resource "aws_dynamodb_table" "terraform_backend_state" {
    type = "S"
  }
 }
+*/
