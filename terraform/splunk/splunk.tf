@@ -57,18 +57,17 @@ module "ec2_instance_setup" {
   needs_elastic_ip       = false
   user_data_replace_on_change = true
   user_data = <<EOF
-    #!/bin/bash -xe
+    #!/bin/bash
+    set -ex
     #logs all user_data commands into a user-data.log file
     exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
-    sudo yum update -y
-    sudo yum upgrade -y
-    sudo yum install docker -y
-    sudo systemctl enable docker.service
-    sudo systemctl start docker.service
+    sudo yum update -y && yum upgrade -y
+    sudo amazon-linux-extras install docker -y
+    sudo service docker start
 
     sudo docker pull splunk/splunk:latest
-    sudo docker run -d -p 8000:8000 -p 8089:8089 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={password}" --name splunk splunk/splunk:latest
+    sudo docker run -d -p 8000:8000 -p 8089:8089 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=password" --name splunk splunk/splunk:latest
     EOF
 }
 
