@@ -2,8 +2,7 @@ module "splunk_vpc_subnet" {
   source       = "git::https://github.com/answerdigital/terraform-modules//Terraform_modules/vpc_subnets?ref=v1.0.0"
   owner        = var.splunk_project_owner
   project_name = var.splunk_project_name
-  azs          = ["eu-west-2a"]
-  num_public_subnets = 1
+  num_public_subnets = 2
   num_private_subnets = 0
 }
 
@@ -40,14 +39,6 @@ resource "aws_security_group" "ec2_sg" {
     description = "All traffic"
   }
 
-  ingress {    
-    from_port   = 8000
-    to_port     = 8000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HTTPS"
-  }
-
   tags = {
     Name  = "${var.splunk_project_name}-ec2-sg"
     Owner = var.splunk_project_owner
@@ -55,78 +46,40 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 module "ec2_instance_setup" {
-  source                 = "git::https://github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/ec2_instance?ref=v1.0.0"
+  #source                 = "git::https://github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/ec2_instance?ref=v1.0.0"
+  source                 = "./ec2"
   project_name           = var.splunk_project_name
   owner                  = var.splunk_project_owner
   ami_id                 = data.aws_ami.amazon_linux_2.id
-  availability_zone      = "eu-west-2a"
+  availability_zone      = module.splunk_vpc_subnet.az_zones[0]
   subnet_id              = module.splunk_vpc_subnet.public_subnet_ids[0]
-  #vpc_security_group_ids = [aws_security_group.ec2_sg.id]
-  vpc_security_group_ids = [aws_security_group.lb_sg.id]
-  needs_elastic_ip       = false #true
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  needs_elastic_ip       = false
+  user_data_replace_on_change = true
   user_data = <<EOF
-#!/bin/bash -xe
-#logs all user_data commands into a user-data.log file
-exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+    #!/bin/bash -xe
+    #logs all user_data commands into a user-data.log file
+    exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
-sudo yum update -y
-sudo yum upgrade -y
-sudo yum install docker -y
-sudo systemctl enable docker.service
-sudo systemctl start docker.service
+    sudo yum update -y
+    sudo yum upgrade -y
+    sudo yum install docker -y
+    sudo systemctl enable docker.service
+    sudo systemctl start docker.service
 
-sudo docker pull splunk/splunk:latest
-sudo docker run -d -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={password}" --name splunk splunk/splunk:latest
-EOF
+    sudo docker pull splunk/splunk:latest
+    sudo docker run -d -p 8000:8000 -p 8089:8089 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD={password}" --name splunk splunk/splunk:latest
+    EOF
 }
 
-# route 53
+# Route53
 
-/*
-resource "aws_route53_record" "splunk" {
-  zone_id        = "Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id #"Z0072706JT6B6N2J7Z9H" #data.aws_route53_zone.hosted_zone.zone_id
-  name           = var.splunk_domain_name #"answerking.co.uk"
-  type           = "A"
-  ttl            = 300
-  records        = [aws_eip.lb_eip.public_ip]#[module.ec2_instance_setup.instance_public_ip_address] #[aws_lb.lb.dns_name]
+data "aws_route53_zone" "hosted_zone" {
+  name = var.dns_base_domain_name
 }
-*/
-
-resource "aws_route53_record" "splunk" {
-  zone_id = "Z0072706JT6B6N2J7Z9H"
-  name    = var.splunk_domain_name
-  type    = "CNAME"
-  set_identifier = "public_ip"
-  ttl = "60"
-  records = [aws_lb.lb.dns_name]
-  geolocation_routing_policy {
-    country = "GB"
-  }
-}
-
-#resource "aws_route53_record" "splunk" {
-#  for_each = {
-#    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
-#      name   = dvo.resource_record_name
-#      record = dvo.resource_record_value
-#      type   = dvo.resource_record_type
-#    }
-#  }
-
-#  allow_overwrite = true
-#  name            = each.value.name
-#  records         = [each.value.record]
-#  ttl             = 60
-#  type            = each.value.type
-#  zone_id         = "Z0072706JT6B6N2J7Z9H"
-#}
-
-#resource "aws_route53_zone" "hosted_zone" {
-#  name = "answerking.co.uk" #var.splunk_domain_name
-#}
 
 resource "aws_acm_certificate" "cert" {
-  domain_name       = var.splunk_domain_name
+  domain_name       = var.dns_splunk_domain_name
   validation_method = "DNS"
 
   lifecycle {
@@ -134,23 +87,18 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
-resource "aws_acm_certificate_validation" "validate" {
-  certificate_arn         = aws_acm_certificate.cert.arn
-  #validation_record_fqdns = [for record in aws_route53_record.splunk : record.fqdn] #[aws_route53_record.splunk.fqdn]
-}
+resource "aws_route53_record" "splunk" {
+  zone_id        = data.aws_route53_zone.hosted_zone.zone_id
+  name           = var.dns_splunk_domain_name
+  type           = "CNAME"
+  set_identifier = "public_ip"
+  ttl            = "60"
+  records        = [aws_lb.lb.dns_name]
 
-# Elastic IP
-
-resource "aws_eip" "lb_eip" {
-  #checkov:skip=CKV2_AWS_19:IP is being used for load balancer
-  vpc = true
-
-  tags = {
-    Name  = "${var.splunk_project_name}-eip"
-    Owner = var.splunk_project_owner
+  geolocation_routing_policy {
+    country = "GB"
   }
 }
-
 
 # Load balancer
 
@@ -192,26 +140,12 @@ resource "aws_security_group" "lb_sg" {
 }
 
 resource "aws_lb" "lb" {
-  name                                    = "${var.splunk_project_name}-lb"
-  internal                                = false
-  load_balancer_type                      = "network"
-  ip_address_type                         = "ipv4"
-
-  subnet_mapping {
-    subnet_id = "${module.splunk_vpc_subnet.public_subnet_ids[0]}"
-    allocation_id = "${aws_eip.lb_eip.id}"
-  }
-
-  #subnet_id = module.splunk_vpc_subnet.value
-  #allocation_id = aws_eip.lb_eip[module.splunk_vpc_subnet.key].id
-  
-  #dynamic "subnet_mapping" {
-  #  for_each = module.splunk_vpc_subnet.public_subnet_ids
-  #  content {
-  #    subnet_id     = "${subnet_mapping.value}"
-  #    allocation_id = "${aws_eip.lb_eip[subnet_mapping.key].id}"
-  #  }
-  #}
+  name                       = "${var.splunk_project_name}-lb"
+  internal                   = false
+  load_balancer_type         = "application"
+  subnets                    = module.splunk_vpc_subnet.public_subnet_ids
+  drop_invalid_header_fields = true
+  security_groups            = [aws_security_group.lb_sg.id]
 
   tags = {
     Name  = "${var.splunk_project_name}-lb"
@@ -219,11 +153,23 @@ resource "aws_lb" "lb" {
 }
 
 resource "aws_lb_target_group" "target_group" {
-  name        = "${var.splunk_project_name}-lb-tg"
-  port        = 8000 #443
-  protocol    = "TCP"
-  target_type = "ip"
+  name        = "${var.splunk_project_name}-tg-${substr(uuid(), 0, 2)}"
+  port        = 8000
+  protocol    = "HTTP"
+  target_type = "instance"
   vpc_id      = module.splunk_vpc_subnet.vpc_id
+
+  health_check {
+      path                = "/services/server/info"
+      protocol            = "HTTP"
+      port                = 8089
+      matcher             = "200"
+      interval            = 15
+      timeout             = 3
+      healthy_threshold   = 2
+      unhealthy_threshold = 2
+    }
+
 
   tags = {
     Name  = "${var.splunk_project_name}-lb-target-group"
@@ -231,34 +177,45 @@ resource "aws_lb_target_group" "target_group" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes = [name]
+    ignore_changes        = [name]
   }
 }
 
-resource "aws_lb_listener" "lb_listener" {
-  load_balancer_arn = aws_lb.lb.id
+resource "aws_lb_target_group_attachment" "target_group_attachment_ec2" {
+  target_group_arn = aws_lb_target_group.target_group.arn
+  target_id        = module.ec2_instance_setup.ec2_id
+  port             = 8000
+}
+
+resource "aws_lb_listener" "lb_listener_http" {
+  load_balancer_arn = aws_lb.lb.arn
   port              = "80"
-  protocol          = "TCP"
+  protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.id
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
 
-resource "aws_lb_listener" "lb_listener_443" {
-  load_balancer_arn = aws_lb.lb.id
-  certificate_arn   = aws_acm_certificate_validation.validate.certificate_arn #aws_acm_certificate.cert.arn
+resource "aws_lb_listener" "lb_listener_https" {
+  load_balancer_arn = aws_lb.lb.arn
   port              = "443"
-  protocol          = "TLS"
-  alpn_policy       = "HTTP2Preferred"
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.cert.arn
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.id
   }
 
-  #depends_on = [
-  #  aws_acm_certificate.cert
-  #]
+  tags = {
+    Name  = "${var.splunk_project_name}-lb-listener"
+    Owner = var.splunk_project_owner
+  }
 }

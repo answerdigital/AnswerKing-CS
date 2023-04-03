@@ -7,6 +7,7 @@ terraform {
   }
 }
 
+/*
 resource "aws_s3_bucket" "terraform_backend_bucket" {
   bucket = "answerking-splunk-terraform"
 
@@ -47,3 +48,4 @@ resource "aws_dynamodb_table" "terraform_backend_state" {
    type = "S"
  }
 }
+*/
