@@ -24,9 +24,9 @@ resource "aws_security_group" "ec2_sg" {
   vpc_id      = module.splunk_vpc_subnet.vpc_id
 
   ingress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
+    from_port       = 8000
+    to_port         = 8089
+    protocol        = "tcp"
     security_groups = [aws_security_group.lb_sg.id]
     description     = "Application Load Balancer"
   }
