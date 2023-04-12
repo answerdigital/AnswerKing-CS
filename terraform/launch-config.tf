@@ -27,6 +27,7 @@ data "template_file" "user_data" {
 resource "aws_launch_configuration" "ecs_launch_config" {
     #checkov:skip=CKV_AWS_79:TODO: Disable the Instance Metadata Service or enable it with proper configuration (v2)
     #checkov:skip=CKV_AWS_8:TODO: Encrypt volume in future security ticket
+    #checkov:skip=CKV_AWS_315:TODO: Look into aws autoscaling if necessary
     image_id             = data.aws_ami.ecs_ami.id
     iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
     security_groups      = [aws_security_group.ecs_sg.id]
