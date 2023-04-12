@@ -143,6 +143,7 @@ resource "aws_lb" "lb" {
   subnets                    = module.splunk_vpc_subnet.public_subnet_ids
   drop_invalid_header_fields = true
   security_groups            = [aws_security_group.lb_sg.id]
+  enable_deletion_protection = true
 
   access_logs {
     bucket  = aws_s3_bucket.elb_logs.bucket
