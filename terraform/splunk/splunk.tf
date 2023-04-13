@@ -56,6 +56,7 @@ module "ec2_instance_setup" {
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   needs_elastic_ip       = false
   user_data_replace_on_change = true
+  associate_public_ip_address = false
   user_data = <<EOF
 #!/bin/bash
 set -ex
