@@ -233,6 +233,10 @@ resource "aws_s3_bucket" "elb_logs" {
   #checkov:skip=CKV2_AWS_61: lifecycle configuration not needed
   #checkov:skip=CKV_AWS_18: access logging not neeeded for this bucket
   bucket = "${var.splunk_project_name}-lb-logs"
+  
+  versioning {
+    enabled    = true
+  }
 
   tags = {
     Name  = "${var.splunk_project_name}-lb-logs"
