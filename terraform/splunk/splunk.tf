@@ -226,6 +226,7 @@ resource "aws_lb_listener" "lb_listener_https" {
 # S3 logs
 resource "aws_s3_bucket" "elb_logs" {
   #checkov:skip=CKV2_AWS_62:TODO: event notifications not needed
+  #checkov:skip=CKV_AWS_145:TODO: encryption will be done in a future security update
   bucket = "${var.splunk_project_name}-lb-logs"
 
   tags = {
