@@ -227,6 +227,9 @@ resource "aws_lb_listener" "lb_listener_https" {
 resource "aws_s3_bucket" "elb_logs" {
   #checkov:skip=CKV2_AWS_62:TODO: event notifications not needed
   #checkov:skip=CKV_AWS_145:TODO: encryption will be done in a future security update
+  #checkov:skip=CKV_AWS_144: cross-region replication not needed
+  #checkov:skip=CKV2_AWS_61: lifecycle configuration not needed
+  #checov:skip=CKV_AWS_18: access logging not neeeded for this bucket
   bucket = "${var.splunk_project_name}-lb-logs"
 
   tags = {
