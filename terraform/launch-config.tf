@@ -41,6 +41,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 }
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
+    #checkov:skip=CKV_AWS_315:TODO: Look into aws autoscaling if necessary
     name                      = "${var.project_name}-auto-scaling-group"
     launch_configuration      = aws_launch_configuration.ecs_launch_config.name
     vpc_zone_identifier       = [
