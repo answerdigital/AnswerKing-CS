@@ -126,16 +126,16 @@
       },
       "AWSSDK.CloudWatchLogs": {
         "type": "Transitive",
-        "resolved": "3.7.104.40",
-        "contentHash": "KDl4kHFiTkjGwtU31dgUbhS/ouYRHk/qftZZs+SR3rnR4lQFduvRYN/zWUUppti6MC1XT6uA7JTbE7UzEqjrkQ==",
+        "resolved": "3.7.104.57",
+        "contentHash": "jo5MY34lIChTuiQy9WbKeYHhrKRb9noM+/2GYlC8BLFpuQNPK8Dlx2EzACtEDOjQpnEet6dC/hU20n8KGg4LcQ==",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.106.4, 4.0.0)"
+          "AWSSDK.Core": "[3.7.106.21, 4.0.0)"
         }
       },
       "AWSSDK.Core": {
         "type": "Transitive",
-        "resolved": "3.7.106.4",
-        "contentHash": "U+U7j0k5NxXXjjD9yxsVN5MjRpYlTSMyaDjLqwJaaeoFhycdkJ81t3Baret6VBwIGMmYpjAerk79vLAhvwU5Wg=="
+        "resolved": "3.7.106.21",
+        "contentHash": "NXeMfOWp1GeKod9tfbhPGtcAw6vj5b+cOocJcL5TOVfZ4QpTj+Wkjr4p0j5Q594nhTmXjXWYxU1MRzIOpn2LOg=="
       },
       "AWSSDK.Extensions.NETCore.Setup": {
         "type": "Transitive",
@@ -1760,7 +1760,7 @@
         "dependencies": {
           "AWS.Logger.AspNetCore": "[3.3.0, )",
           "AWS.Logger.SeriLog": "[3.2.0, )",
-          "AWSSDK.CloudWatchLogs": "[3.7.104.40, )",
+          "AWSSDK.CloudWatchLogs": "[3.7.104.57, )",
           "AWSSDK.Extensions.NETCore.Setup": "[3.7.5, )",
           "Answer.King.Domain": "[1.0.0, )",
           "Answer.King.Infrastructure": "[1.0.0, )",
