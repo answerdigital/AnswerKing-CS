@@ -46,8 +46,7 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 module "ec2_instance_setup" {
-  #source                 = "git::https://github.com/AnswerConsulting/AnswerKing-Infrastructure.git//Terraform_modules/ec2_instance?ref=v1.0.0"
-  source                 = "./ec2"
+  source                 = "git::https://github.com/answerdigital/terraform-modules//modules/aws/ec2?ref=v2.1.0"
   project_name           = var.splunk_project_name
   owner                  = var.splunk_project_owner
   ami_id                 = data.aws_ami.amazon_linux_2.id
@@ -187,7 +186,7 @@ resource "aws_lb_target_group" "target_group" {
 
 resource "aws_lb_target_group_attachment" "target_group_attachment_ec2" {
   target_group_arn = aws_lb_target_group.target_group.arn
-  target_id        = module.ec2_instance_setup.ec2_id
+  target_id        = module.ec2_instance_setup.instance_id
   port             = 8000
 }
 
@@ -232,15 +231,19 @@ resource "aws_s3_bucket" "elb_logs" {
   #checkov:skip=CKV_AWS_144: cross-region replication not needed
   #checkov:skip=CKV2_AWS_61: lifecycle configuration not needed
   #checkov:skip=CKV_AWS_18: access logging not neeeded for this bucket
-  bucket = "${var.splunk_project_name}-lb-logs"
-  
-  versioning {
-    enabled    = true
-  }
+  bucket = "${var.splunk_project_name}-lb-logs"    
 
   tags = {
     Name  = "${var.splunk_project_name}-lb-logs"
     Owner = var.splunk_project_owner
+  }
+}
+
+resource "aws_s3_bucket_versioning" "version" {
+  bucket = aws_s3_bucket.elb_logs.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
