@@ -46,7 +46,7 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 module "ec2_instance_setup" {
-  source                 = "git::https://github.com/answerdigital/terraform-modules//modules/aws/ec2?ref=v2.1.0"
+  source                 = "git::https://github.com/answerdigital/terraform-modules//modules/aws/ec2?ref=v2"
   project_name           = var.splunk_project_name
   owner                  = var.splunk_project_owner
   ami_id                 = data.aws_ami.amazon_linux_2.id
